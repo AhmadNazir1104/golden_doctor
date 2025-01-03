@@ -6,6 +6,7 @@ import 'package:golden_doctor/ali_test.dart';
 import 'package:golden_doctor/graph_ql/config.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_routes.dart';
+import 'package:golden_doctor/utils/app_theme.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 import 'package:golden_doctor/views/splash_screen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -37,9 +38,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final graphqlconnection = GraphQlHelper();
+     final graphqlconnection = GraphQlHelper();
 
-    return ScreenUtilInit(
+    return     ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
         return GraphQLProvider(
@@ -48,10 +49,65 @@ class MyApp extends ConsumerWidget {
             routerConfig: appRouter,
             debugShowCheckedModeBanner: false,
             title: AppConstant.appName,
+            theme: myTheme(context),
+            // builder: (context, child) {
+            //   return UpgradeAlert(
+            //     navigatorKey: appRouter.routerDelegate.navigatorKey,
+            //     upgrader: Upgrader(
+
+            //         // debugDisplayAlways: true,
+            //         // minAppVersion: "[Minimum supported app version: 1.2.3]",
+            //         ),
+            //     child: child ??
+            //         Scaffold(
+            //             body: Center(
+            //                 child: Text(
+            //           "upgrade...",
+            //           style: AppTextStyles.largeHeading,
+            //         ))),
+            //   );
+            // },
           ),
         );
       },
     );
+ 
+    
+    
+    
+    // MaterialApp(
+    //   home:
+    //       // SplashScreen()
+    //       Scaffold(
+    //     appBar: AppBar(
+    //       title: const Text('ahmad'),
+    //       actions: [
+    //         PopupMenuButton<Language>(
+    //           icon: const Icon(Icons.language),
+    //           onSelected: (Language language) =>
+    //               ref.read(languageProvider.notifier).state = language,
+    //           itemBuilder: (context) => [
+    //             const PopupMenuItem(
+    //                 value: Language.english, child: Text('English')),
+    //             const PopupMenuItem(
+    //                 value: Language.arabic, child: Text('Arabic')),
+    //             const PopupMenuItem(
+    //                 value: Language.italian, child: Text('Italian')),
+    //             const PopupMenuItem(
+    //                 value: Language.hindi, child: Text('Hindi')),
+    //             const PopupMenuItem(value: Language.urdu, child: Text('Urdu')),
+    //           ],
+    //         ),
+    //       ],
+    //     ),
+    //     body: const Padding(
+    //       padding: EdgeInsets.all(16.0),
+    //       child: LanguageForm(),
+    //       // child: SplashScreen(),
+    //     ),
+    //   ),
+    // );
+ 
   }
 }
 
