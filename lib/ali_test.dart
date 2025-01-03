@@ -12,9 +12,6 @@ import 'view_models/language_provider.dart';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedLanguage = ref.watch(languageProvider);
-    // final languageText = getLanguageText(selectedLanguage);
-
-    // Check if the selected language is right-to-left
     final isRtl = selectedLanguage == Language.arabic ||
         selectedLanguage == Language.urdu;
     
