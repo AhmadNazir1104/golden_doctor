@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879855623897",
+    "project_id": "golden-doctors",
+    "storage_bucket": "golden-doctors.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879855623897:android:20c3cfbeb5bbb98581e8c8",
+        "android_client_info": {
+          "package_name": "com.example.golden_doctor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5aW_fZYEmDdAbGB0HKw9o6ZaMPZMK-Pw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

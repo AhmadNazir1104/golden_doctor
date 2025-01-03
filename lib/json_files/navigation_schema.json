@@ -1,0 +1,136 @@
+{
+    "Notes": [
+        "This is the data structure for the collection/navigation  with sub-collections",
+        "Each collection/navigation can have sub-collections and each sub-collection can also have its own sub-collections and so on.",
+        "This is a recursive data structure.",
+        "The Real data set will contain the list of this model."
+    ],
+    "data":[
+    {
+        "doc_id": "",
+        "position": "",
+        "has_sub_collection": "",
+        "title": "Men",
+        "graphql_id": "",
+        "image_src": "",
+        "filter_list": "",
+        "sub-collection": [
+            {
+                "doc_id": "",
+                "position": "",
+                "has_sub_collection": "",
+                "title": "",
+                "graphql_id": "",
+                "image_src": "",
+                "filter_list": "",
+                "sub-collections": [
+                    {
+                        "doc_id": "",
+                        "position": "",
+                        "has_sub_collection": "",
+                        "title": "",
+                        "graphql_id": "",
+                        "image_src": "",
+                        "filter_list": "",
+                        "sub-collections": [
+                            {
+                                "doc_id": "",
+                                "position": "",
+                                "has_sub_collection": "",
+                                "title": "",
+                                "graphql_id": "",
+                                "image_src": "",
+                                "filter_list": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "doc_id": "",
+        "position": "",
+        "has_sub_collection": "",
+        "title": "Women",
+        "graphql_id": "",
+        "image_src": "",
+        "filter_list": "",
+        "sub-collection": [
+            {
+                "doc_id": "",
+                "position": "",
+                "has_sub_collection": "",
+                "title": "",
+                "graphql_id": "",
+                "image_src": "",
+                "filter_list": "",
+                "sub-collections": [
+                    {
+                        "doc_id": "",
+                        "position": "",
+                        "has_sub_collection": "",
+                        "title": "",
+                        "graphql_id": "",
+                        "image_src": "",
+                        "filter_list": "",
+                        "sub-collections": [
+                            {
+                                "doc_id": "",
+                                "position": "",
+                                "has_sub_collection": "",
+                                "title": "",
+                                "graphql_id": "",
+                                "image_src": "",
+                                "filter_list": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "doc_id": "",
+        "position": "",
+        "has_sub_collection": "",
+        "title": "Junior",
+        "graphql_id": "",
+        "image_src": "",
+        "filter_list": "",
+        "sub-collection": [
+            {
+                "doc_id": "",
+                "position": "",
+                "has_sub_collection": "",
+                "title": "",
+                "graphql_id": "",
+                "image_src": "",
+                "filter_list": "",
+                "sub-collections": [
+                    {
+                        "doc_id": "",
+                        "position": "",
+                        "has_sub_collection": "",
+                        "title": "",
+                        "graphql_id": "",
+                        "image_src": "",
+                        "filter_list": "",
+                        "sub-collections": [
+                            {
+                                "doc_id": "",
+                                "position": "",
+                                "has_sub_collection": "",
+                                "title": "",
+                                "graphql_id": "",
+                                "image_src": "",
+                                "filter_list": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    ]
+}
