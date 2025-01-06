@@ -14,7 +14,7 @@ class AppTextStyles {
   static double body2Size = 14.0;
   static double body3Size = 12.0;
 
-  static FontWeight headline1Weight = FontWeight.w600;
+  static FontWeight headline1Weight = FontWeight.w700;
   static FontWeight headline2Weight = FontWeight.w600;
   static FontWeight headline3Weight = FontWeight.w600;
   static FontWeight body1Weight = FontWeight.w500;
@@ -58,6 +58,26 @@ class AppTextStyles {
       );
 
   static TextStyle get body3 => GoogleFonts.getFont(
+        fontFamily,
+        fontSize: body3Size,
+        fontWeight: body3Weight,
+        color: AppColors.black1C,
+      );
+  static TextStyle get lable1 => GoogleFonts.getFont(
+        fontFamily,
+        fontSize: body1Size,
+        fontWeight: body1Weight,
+        color: AppColors.grey70,
+      );
+
+  static TextStyle get lable2 => GoogleFonts.getFont(
+        fontFamily,
+        fontSize: body2Size,
+        fontWeight: body2Weight,
+        color: AppColors.grey70,
+      );
+
+  static TextStyle get lable3 => GoogleFonts.getFont(
         fontFamily,
         fontSize: body3Size,
         fontWeight: body3Weight,
