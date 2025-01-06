@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
-import 'package:golden_doctor/widgets/product_widget/product_widget.dart';
+import 'package:golden_doctor/resources/widgets/product_widget/product_widget.dart';
 
 class ProductCaruselWidget extends StatelessWidget {
   final String productCaruselName;

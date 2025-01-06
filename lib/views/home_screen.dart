@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
-import 'package:golden_doctor/widgets/home_widgets/brand_widget.dart';
-import 'package:golden_doctor/widgets/home_widgets/category_carousel_widget.dart';
-import 'package:golden_doctor/widgets/home_widgets/create_your_set_widget.dart';
-import 'package:golden_doctor/widgets/home_widgets/product_carusel_widget.dart';
-import 'package:golden_doctor/widgets/home_widgets/single_banner_widget.dart';
+import 'package:golden_doctor/resources/widgets/home_widgets/brand_widget.dart';
+import 'package:golden_doctor/resources/widgets/home_widgets/category_carousel_widget.dart';
+import 'package:golden_doctor/resources/widgets/home_widgets/create_your_set_widget.dart';
+import 'package:golden_doctor/resources/widgets/home_widgets/product_carusel_widget.dart';
+import 'package:golden_doctor/resources/widgets/home_widgets/single_banner_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

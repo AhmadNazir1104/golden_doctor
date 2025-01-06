@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/utils/app_keys.dart';
 import 'package:golden_doctor/utils/app_textfield_controllers.dart';
 import 'package:golden_doctor/view_models/authentication_view_model.dart';
-import 'package:golden_doctor/widgets/universal_widget/app_button.dart';
-import 'package:golden_doctor/widgets/universal_widget/app_textfield.dart';
+import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
+import 'package:golden_doctor/resources/widgets/universal_widget/app_textfield.dart';
 
 class SignupScreen extends ConsumerWidget {
   const SignupScreen({super.key});

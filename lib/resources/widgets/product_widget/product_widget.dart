@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
-import 'package:golden_doctor/widgets/product_widget/product_bottom_sheet_widget.dart';
+import 'package:golden_doctor/resources/widgets/product_widget/product_bottom_sheet_widget.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({super.key});
