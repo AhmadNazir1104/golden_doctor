@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
-import 'package:golden_doctor/widgets/universaL_widget/product_widget.dart';
+import 'package:golden_doctor/utils/app_images.dart';
+import 'package:golden_doctor/widgets/product_widget/product_widget.dart';
 
 class ProductCaruselWidget extends StatelessWidget {
   final String productCaruselName;
@@ -37,7 +40,7 @@ class ProductCaruselWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 305,
+            height: 320,
             child: ListView.builder(
               // shrinkWrap: true,
               // physics: NeverScrollableScrollPhysics(),

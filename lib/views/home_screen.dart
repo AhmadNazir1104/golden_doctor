@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 import 'package:golden_doctor/widgets/home_widgets/brand_widget.dart';
+import 'package:golden_doctor/widgets/home_widgets/category_carousel_widget.dart';
+import 'package:golden_doctor/widgets/home_widgets/create_your_set_widget.dart';
 import 'package:golden_doctor/widgets/home_widgets/product_carusel_widget.dart';
 import 'package:golden_doctor/widgets/home_widgets/single_banner_widget.dart';
 
@@ -36,9 +38,25 @@ class HomeScreen extends ConsumerWidget {
               ///////////////////////////////// Brand Widget  /////////////////////////////////
               BrandWidget(imageVal: ''),
               ///////////////////////////////// Product Carusel Widget  /////////////////////////////////
-              ProductCaruselWidget(productCaruselName: 'Popular Product', productCaruselList: 'productCaruselList'),
-              ///////////////////////////////// Single Banner Widget  /////////////////////////////////
+              ProductCaruselWidget(
+                  productCaruselName: 'Popular Product',
+                  productCaruselList: 'productCaruselList'),
+              ///////////////////////////////// Category Carusel Widget  /////////////////////////////////
+              CategoryCarouselWidget(
+                categoryName: 'Popular Category',
+              ),
+              ///////////////////////////////// Product Carusel Widget  /////////////////////////////////
+              ProductCaruselWidget(
+                  productCaruselName: 'New Arrivals',
+                  productCaruselList: 'productCaruselList'),
+              ///////////////////////////////// Create Your Set Widget  /////////////////////////////////
 
+              CreateYourSetWidget(setname: 'Create your set'),
+              ///////////////////////////////// Product Carusel Widget  /////////////////////////////////
+              ProductCaruselWidget(
+                  productCaruselName: 'Accessories',
+                  productCaruselList: 'productCaruselList'),
+              ///////////////////////////////// Single Banner Widget  /////////////////////////////////
               Padding(
                 padding: EdgeInsets.only(bottom: 36.h),
                 child: SingleBannerWidget(
@@ -47,6 +65,10 @@ class HomeScreen extends ConsumerWidget {
                   width: 375.w,
                 ),
               ),
+              ///////////////////////////////// Product Carusel Widget  /////////////////////////////////
+              ProductCaruselWidget(
+                  productCaruselName: 'Accessories',
+                  productCaruselList: 'productCaruselList'),
             ],
           ),
         ),

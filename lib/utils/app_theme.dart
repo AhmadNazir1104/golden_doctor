@@ -34,7 +34,7 @@ ThemeData myTheme(BuildContext context) {
         ),
     primaryIconTheme: IconThemeData(color: AppColors.black2022, size: 24.h),
     iconTheme: const IconThemeData(color: AppColors.black2022),
-    textTheme: GoogleFonts.poppinsTextTheme(
+    textTheme: GoogleFonts.ralewayTextTheme(
       Theme.of(context).textTheme,
     )
         .apply(
@@ -77,7 +77,7 @@ ThemeData myTheme(BuildContext context) {
               color: AppColors.myScaffold,
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
-              fontFamily: "Poppins",
+              fontFamily: "Raleway",
             ),
           )),
     ),

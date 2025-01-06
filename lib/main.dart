@@ -6,6 +6,7 @@ import 'package:golden_doctor/ali_test.dart';
 import 'package:golden_doctor/graph_ql/config.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_routes.dart';
+import 'package:golden_doctor/utils/app_theme.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 import 'package:golden_doctor/views/splash_screen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -14,13 +15,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await ShearedprefService.initialize();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: 'AIzaSyB5aW_fZYEmDdAbGB0HKw9o6ZaMPZMK-Pw',
-    appId: '1:879855623897:android:20c3cfbeb5bbb98581e8c8',
-    messagingSenderId: 'messagingSenderId',
-    projectId: 'golden-doctors',
-    storageBucket: "golden-doctors.firebasestorage.app",
-  ));
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyB5aW_fZYEmDdAbGB0HKw9o6ZaMPZMK-Pw',
+      appId: '1:879855623897:android:20c3cfbeb5bbb98581e8c8',
+      messagingSenderId: 'messagingSenderId',
+      projectId: 'golden-doctors',
+      storageBucket: "golden-doctors.firebasestorage.app",
+    ),
+  );
   // await HiveService.hiveinitialize();
   // // await TodoSaverService.init();
   // await Firebase.initializeApp();
@@ -48,14 +50,13 @@ class MyApp extends ConsumerWidget {
             routerConfig: appRouter,
             debugShowCheckedModeBanner: false,
             title: AppConstant.appName,
+            theme: myTheme(context),
           ),
         );
       },
     );
   }
 }
-
-
 
 class LanguageForm extends ConsumerWidget {
   const LanguageForm({super.key});
