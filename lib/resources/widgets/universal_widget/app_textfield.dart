@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
+import 'package:golden_doctor/utils/app_fonts.dart';
 
 final obscureProvider = StateProvider<bool>((ref) => true);
 
@@ -24,6 +25,8 @@ class AppTextfields {
         keyboardType: textInputType ?? TextInputType.text,
         textInputAction: textInputAction ?? TextInputAction.next,
         showCursor: true,
+        cursorHeight: 16,
+        style: AppTextStyles.body2,
         decoration: InputDecoration(
           // contentPadding: const EdgeInsets.symmetric(
           //   vertical: 10,
@@ -42,10 +45,11 @@ class AppTextfields {
           // prefixIconConstraints:
           //     const BoxConstraints(maxHeight: 24, maxWidth: 40, minWidth: 40),
           labelText: lable,
-          labelStyle: TextStyle(color: AppColors.grey),
+          // labelStyle: TextStyle(color: AppColors.grey),
           // prefix: Icon(icon),
+          labelStyle: TextStyle(color: AppColors.grey, fontSize: 12),
           floatingLabelStyle:
-              TextStyle(color: AppColors.myPrimary, fontSize: 13),
+              TextStyle(color: AppColors.myPrimary, fontSize: 12),
         ),
         validator:
             // StringValidationCallback("")
@@ -71,11 +75,15 @@ class AppTextfields {
       builder: (context, ref, child) {
         bool obscureText = ref.watch(obscureProvider);
         return Padding(
-          padding: EdgeInsets.only(bottom: appPaddingNormal),
+          padding: EdgeInsets.only(
+            bottom: appPaddingNormal,
+          ),
           child: TextFormField(
             controller: controller,
             obscureText: obscureText,
             keyboardType: TextInputType.visiblePassword,
+            cursorHeight: 16,
+            style: AppTextStyles.body2,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             onEditingComplete: () => TextInput.finishAutofillContext(),
             textInputAction: textInputAction ?? TextInputAction.next,
@@ -103,9 +111,9 @@ class AppTextfields {
               // ),
               labelText: lable,
 
-              labelStyle: TextStyle(color: AppColors.grey, fontSize: 13),
+              labelStyle: TextStyle(color: AppColors.grey, fontSize: 12),
               floatingLabelStyle:
-                  TextStyle(color: AppColors.myPrimary, fontSize: 13),
+                  TextStyle(color: AppColors.myPrimary, fontSize: 12),
               prefixIcon: Icon(Icons.lock_outline),
               suffixIcon: IconButton(
                   onPressed: () {
