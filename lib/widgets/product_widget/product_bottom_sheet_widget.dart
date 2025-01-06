@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
-import 'package:collection/collection.dart';
+// import 'package:collection/collection.dart';
 
 var list = [
   {
@@ -18,10 +18,10 @@ class ProductBottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = "black";
-    var code = list.firstWhereOrNull((e){
-      return e["title"] == color;
-    });
+    // var color = "black";
+    // var code = list.firstWhereOrNull((e){
+    //   return e["title"] == color;
+    // });
     return 
     // code== null?
     // Text(color):
