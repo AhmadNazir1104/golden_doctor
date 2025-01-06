@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/ali_test.dart';
 import 'package:golden_doctor/graph_ql/config.dart';
+import 'package:golden_doctor/resources/services/hive.dart';
+import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_routes.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
@@ -12,7 +14,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await ShearedprefService.initialize();
+  await ShearedprefService.initialize();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
     apiKey: 'AIzaSyB5aW_fZYEmDdAbGB0HKw9o6ZaMPZMK-Pw',
@@ -21,7 +23,7 @@ Future<void> main() async {
     projectId: 'golden-doctors',
     storageBucket: "golden-doctors.firebasestorage.app",
   ));
-  // await HiveService.hiveinitialize();
+  await HiveService.hiveinitialize();
   // // await TodoSaverService.init();
   // await Firebase.initializeApp();
   // await Upgrader.clearSavedSettings(); // REMOVE this for release builds

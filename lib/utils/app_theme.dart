@@ -34,7 +34,7 @@ ThemeData myTheme(BuildContext context) {
         ),
     primaryIconTheme: IconThemeData(color: AppColors.black2022, size: 24.h),
     iconTheme: const IconThemeData(color: AppColors.black2022),
-    textTheme: GoogleFonts.poppinsTextTheme(
+    textTheme: GoogleFonts.ralewayTextTheme(
       Theme.of(context).textTheme,
     )
         .apply(
@@ -49,6 +49,9 @@ ThemeData myTheme(BuildContext context) {
           bodyLarge: AppTextStyles.body1,
           bodyMedium: AppTextStyles.body2,
           bodySmall: AppTextStyles.body3,
+          labelLarge: AppTextStyles.lable1,
+          labelMedium: AppTextStyles.lable2,
+          labelSmall: AppTextStyles.lable3,
         ),
     // ).apply(bodyColor: AppColors.dark2232, fontSizeDelta: 2.5.sp),
     // .apply(bodyColor: kContentColorLightTheme),
@@ -77,7 +80,7 @@ ThemeData myTheme(BuildContext context) {
               color: AppColors.myScaffold,
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
-              fontFamily: "Poppins",
+              fontFamily: "Raleway",
             ),
           )),
     ),
