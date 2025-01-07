@@ -43,20 +43,20 @@ class ForgetPasswordScreen extends ConsumerWidget {
                   children: [
                     // SizedBox(height: 152.h, width: 25),
                     //=====================logo===========================//
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        // color: AppColors.dark2232,
-                        height: 350.h,
-                        // child: Lottie.asset(
-                        //   AppImages.forgetPassword,
-                        // ),
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.center,
+                    //   child: SizedBox(
+                    //     // color: AppColors.dark2232,
+                    //     height: 350.h,
+                    //     // child: Lottie.asset(
+                    //     //   AppImages.forgetPassword,
+                    //     // ),
+                    //   ),
+                    // ),
                     // const Spacer(),
                     //=====================Text========================//
                     Padding(
-                      padding: EdgeInsets.only(top: 15.h),
+                      padding: EdgeInsets.only(top: 50.h),
                       child: Text(
                         "Enter the email address associated with your account.",
                         textAlign: TextAlign.center,
@@ -86,7 +86,7 @@ class ForgetPasswordScreen extends ConsumerWidget {
                       child: AppTextfields.myTextField(
                           controller:
                               AppTextfieldControllers.forgetPasswordEmail,
-                          lable: "Enter Email",
+                          lable: "Enter email",
                           icon: Icons.email_outlined),
                     ),
 
@@ -123,6 +123,7 @@ class ForgetPasswordScreen extends ConsumerWidget {
                               ),
                             ),
                           ),
+                    // Spacer(),
                   ],
                 ),
               ),

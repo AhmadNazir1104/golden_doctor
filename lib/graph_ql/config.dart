@@ -4,10 +4,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class GraphQlHelper {
   static HttpLink httpLink = HttpLink(
     // 'https://ethnicpk.myshopify.com/api/2024-01/graphql',       // Ethnic
-    'https://outfitterspk.myshopify.com/api/2023-04/graphql',       //  Outfitter
+    'https://scrubser.myshopify.com/api/2025-01/graphql', //  screber
     defaultHeaders: <String, String>{
       // 'X-Shopify-Storefront-Access-Token': '959eddd47869314e620a6d1e3d05f6f4',          // Ethnic
-      'X-Shopify-Storefront-Access-Token': '661d092e6652cc3554a719370241dcb5',   //outfitter
+      'X-Shopify-Storefront-Access-Token':
+          '1acbba2f06475c4427254dd8372b60e7', //scruber
       // 'X-Shopify-Storefront-Access-Token': '75e049669db9a451ebba44c7a193b3f1',
       'Accept': 'application/json'
     },

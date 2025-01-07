@@ -111,7 +111,7 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                         text: "Forget Password?",
                         // textStyle: Theme.of(context).textTheme.labelMedium,
                         onPressed: () {
-                          context.pushReplacement('/forgetPasswordScreen');
+                          context.push('/forgetPasswordScreen');
                         },
                       ),
                     ),
