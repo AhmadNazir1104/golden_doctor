@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import 'error_handling.dart';
 
 class ApiBaseHelper {
-  final String _baseUrl = 'https://outfitterspk.myshopify.com/api/2023-04/graphql';
+  final String _baseUrl = 'https://scrubser.myshopify.com/api/2025-01/graphql';
   final headers = {
-    'X-Shopify-Storefront-Access-Token': '661d092e6652cc3554a719370241dcb5',
+    'X-Shopify-Storefront-Access-Token': '1acbba2f06475c4427254dd8372b60e7',
     'Content-Type': 'application/json'
   };
   Future<dynamic> get({required String url}) async {
