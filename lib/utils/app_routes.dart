@@ -3,7 +3,6 @@ import 'package:golden_doctor/views/authentication/forget_password.dart';
 import 'package:golden_doctor/views/authentication/login_screen.dart';
 import 'package:golden_doctor/views/authentication/signup_screen.dart';
 import 'package:golden_doctor/views/home_screen.dart';
-import 'package:golden_doctor/views/splash_screen.dart';
 
 // GoRouter configuration
 final appRouter = GoRouter(
