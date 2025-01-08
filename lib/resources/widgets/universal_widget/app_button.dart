@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
+import 'package:golden_doctor/utils/app_fonts.dart';
 
 enum ButtonRoundedSide { none, leftSide, rightSide, bothSide }
 
@@ -8,6 +9,7 @@ class AppButtons {
   static Widget myprimaryButton({
     required VoidCallback onPressed,
     required String text,
+    Color? textColor,
     double? height,
     Color color = AppColors.myPrimary,
     ButtonRoundedSide buttonSideCurve = ButtonRoundedSide.bothSide,
@@ -37,8 +39,8 @@ class AppButtons {
           )),
       child: Text(
         text,
-        style: const TextStyle(
-          color: AppColors.myScaffold,
+        style: AppTextStyles.headline3.copyWith(
+          color: textColor?? AppColors.myScaffold,
           fontWeight: FontWeight.w700,
         ),
       ),

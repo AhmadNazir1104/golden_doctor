@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_keys.dart';
 import 'package:golden_doctor/utils/app_textfield_controllers.dart';
 import 'package:golden_doctor/view_models/authentication_view_model.dart';
@@ -49,9 +50,8 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                       padding: const EdgeInsets.only(bottom: 30),
                       child: Text(
                         'Welcome Back, Shopioholic!',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineLarge, //AppTextStyles.largeHeading,
+                        style: AppTextStyles
+                            .headline1, //AppTextStyles.largeHeading,
                       ),
                     ),
 
@@ -59,7 +59,7 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'We are thrilled to have you back! Log in to Shopio and shop till you drop.',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: AppTextStyles.body2,
                       ),
                     ),
 
@@ -136,7 +136,7 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                       children: [
                         Text(
                           'Don`t have an account?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: AppTextStyles.body2,
                           // TextStyle(color: Colors.grey[400], fontSize: 12),
                         ),
                         AppButtons.myTextButton(
@@ -159,7 +159,7 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                             children: [
                               TextSpan(
                                 text: 'By continuing, I agree to ',
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: AppTextStyles.body3,
                               ),
                               WidgetSpan(
                                 child: InkWell(
@@ -168,18 +168,16 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                                   },
                                   child: Text(
                                     'Terms of Conditions ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(fontWeight: FontWeight.w700
-                                            // decoration: TextDecoration.underline,
-                                            ),
+                                    style: AppTextStyles.body3.copyWith(
+                                        fontWeight: FontWeight.w700
+                                        // decoration: TextDecoration.underline,
+                                        ),
                                   ),
                                 ),
                               ),
                               TextSpan(
                                 text: 'and\n',
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: AppTextStyles.body3,
                               ),
                               WidgetSpan(
                                 child: InkWell(
@@ -188,12 +186,10 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                                   },
                                   child: Text(
                                     'Privacy of Policy ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(fontWeight: FontWeight.w700
-                                            // decoration: TextDecoration.underline,
-                                            ),
+                                    style: AppTextStyles.body3.copyWith(
+                                        fontWeight: FontWeight.w700
+                                        // decoration: TextDecoration.underline,
+                                        ),
                                   ),
                                 ),
                               ),

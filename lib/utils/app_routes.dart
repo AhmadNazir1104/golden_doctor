@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/views/authentication/forget_password.dart';
 import 'package:golden_doctor/views/authentication/login_screen.dart';
 import 'package:golden_doctor/views/authentication/signup_screen.dart';
+import 'package:golden_doctor/views/set_builder_screen.dart/set_builder_screen.dart';
+import 'package:golden_doctor/views/welcome_screen.dart';
 
 // GoRouter configuration
 final appRouter = GoRouter(
@@ -13,7 +15,11 @@ final appRouter = GoRouter(
     // ),
     GoRoute(
       path: '/',
-      builder: (context, state) => const SignInScreen(),
+      builder: (context, state) => const WelcomeScreen(),
+    ),
+    GoRoute(
+      path: '/setBuilderScreen',
+      builder: (context, state) => const SetBuilderScreen(),
     ),
     GoRoute(
       path: '/signinScreen',
