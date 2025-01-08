@@ -5,6 +5,7 @@ double appPaddingLarge = 24.0;
 
 class AppConstant {
   static const String appName = 'SCRUBER';
+  static String selectedColor = '';
 
   static const List<String> brandList = [
     AppImages.brandImage1,
@@ -24,5 +25,25 @@ class AppConstant {
     AppImages.women1Image,
     AppImages.women2,
     AppImages.women3,
+  ];
+
+  static const List<String> colorList = [
+    'black',
+    'green',
+    'white',
+    'yellow',
+    'orange',
+    'read',
+  ];
+  static const List<String> sizesList = [
+    'XXL',
+    'XL',
+    'M',
+    'S',
+    'XS',
+    'L',
+    'XL',
+    '2XL',
+    
   ];
 }

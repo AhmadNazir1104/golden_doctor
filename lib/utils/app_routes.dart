@@ -1,14 +1,21 @@
 import 'package:go_router/go_router.dart';
+// import 'package:golden_doctor/ali_test.dart';
 import 'package:golden_doctor/views/authentication/forget_password.dart';
 import 'package:golden_doctor/views/authentication/login_screen.dart';
 import 'package:golden_doctor/views/authentication/signup_screen.dart';
 import 'package:golden_doctor/views/set_builder_screen.dart/set_builder_screen.dart';
 import 'package:golden_doctor/views/welcome_screen.dart';
+import 'package:golden_doctor/views/home_screen.dart';
+import 'package:golden_doctor/views/splash_screen.dart';
 
 // GoRouter configuration
 final appRouter = GoRouter(
   initialLocation: "/",
   routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const SplashScreen(),
+    ),
     // GoRoute(
     //   path: '/',
     //   builder: (context, state) => const HomeScreen(),
@@ -21,6 +28,10 @@ final appRouter = GoRouter(
       path: '/setBuilderScreen',
       builder: (context, state) => const SetBuilderScreen(),
     ),
+    // GoRoute(
+    //   path: '/',
+    //   builder: (context, state) => const SignInScreen(),
+    // ),
     GoRoute(
       path: '/signinScreen',
       builder: (context, state) => const SignInScreen(),
@@ -33,10 +44,13 @@ final appRouter = GoRouter(
       path: '/forgetPasswordScreen',
       builder: (context, state) => const ForgetPasswordScreen(),
     ),
+
+    /////////////////////////////////////// For Testing Purpose ///////////////////////////////////////
     // GoRoute(
-    //   path: '/introScreen',
-    //   builder: (context, state) => const IntroScreen(),
+    //   path: '/',
+    //   builder: (context, state) => const AliTest(),
     // ),
+    
     // GoRoute(
     //   path: '/nav_barScreen',
     //   builder: (context, state) => const MyBottomBar(),

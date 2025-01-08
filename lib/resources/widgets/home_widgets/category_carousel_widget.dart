@@ -9,7 +9,8 @@ class CategoryCarouselWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return 
+    SizedBox(
       child: Padding(
         padding: EdgeInsets.only(bottom: 36.h),
         child: Column(
