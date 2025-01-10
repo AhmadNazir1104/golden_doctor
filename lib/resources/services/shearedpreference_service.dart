@@ -15,6 +15,24 @@ class ShearedprefService {
     }
   }
 
+//////////////////////////  Check Language /////////////////////////////////
+
+  //set  Selected Language
+  static Future<void> setLanguage(String value) async {
+    if (!_initialized) {
+      await initialize();
+    }
+    await shearedPrefs.setString('selectedLanguage', value);
+  }
+
+  //get Selected Language
+  static String? getLanguage() {
+    if (!_initialized) {
+      throw Exception("ShearedprefService is not initialized");
+    }
+    return shearedPrefs.getString('selectedLanguage');
+  }
+
   //set  user Logged
   static Future<void> setUserLoggedIn(bool value) async {
     if (!_initialized) {

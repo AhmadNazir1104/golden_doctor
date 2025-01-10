@@ -16,23 +16,37 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ShearedprefService.initialize();
+
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: 'AIzaSyB5aW_fZYEmDdAbGB0HKw9o6ZaMPZMK-Pw',
-    appId: '1:879855623897:android:20c3cfbeb5bbb98581e8c8',
-    messagingSenderId: 'messagingSenderId',
-    projectId: 'golden-doctors',
-    storageBucket: "golden-doctors.firebasestorage.app",
-  ));
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyB5aW_fZYEmDdAbGB0HKw9o6ZaMPZMK-Pw',
+      appId: '1:879855623897:android:20c3cfbeb5bbb98581e8c8',
+      messagingSenderId: 'messagingSenderId',
+      projectId: 'golden-doctors',
+      storageBucket: "golden-doctors.firebasestorage.app",
+    ),
+  );
   await HiveService.hiveinitialize();
   // // await TodoSaverService.init();
   // await Firebase.initializeApp();
-  // await Upgrader.clearSavedSettings(); // REMOVE this for release builds
+  // await Upgrader.clearSavedSettings();
+  // REMOVE this for release builds
   runApp(
     const ProviderScope(
       child: MyApp(),
     ),
   );
+}
+
+checkLanguageFun() {
+  AppConstant.selectedLanguage = ShearedprefService.getLanguage();
+  if (AppConstant.selectedLanguage == null) {
+    ShearedprefService.setLanguage('EN');
+    AppConstant.selectedLanguage = 'EN';
+  } else {
+    AppConstant.selectedLanguage = ShearedprefService.getLanguage();
+    print("Selected Language == ${AppConstant.selectedLanguage}");
+  }
 }
 
 class MyApp extends ConsumerWidget {

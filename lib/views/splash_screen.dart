@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/models/language/language_model.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
+import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/view_models/fonts_view_model.dart';
-import 'package:golden_doctor/views/font_test_screen.dart';
 
 LanguageModel? selectedLanguage;
 
@@ -47,78 +48,220 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final fontSettingsAsync = ref.watch(fontSettingsProvider);
     print('getLanguageAsync');
     final getLanguageAsync = ref.watch(getLanguageProvider);
+    print('getTranslationAsync');
+    final getTranslationAsync = ref.watch(getTranslationProvider);
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          getLanguageAsync.when(
-            data: (languages) {
-              return DropdownButton<LanguageModel>(
-                value: selectedLanguage,
-                hint: Text("Select a Language"),
-                items: languages.map((language) {
-                  return DropdownMenuItem<LanguageModel>(
-                    value: language,
-                    child: Row(
-                      children: [
-                        Image.network(
-                          language.iconSrc,
-                          width: 24,
-                          height: 24,
-                          fit: BoxFit.cover,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              AppImages.doctorImage,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding:
+              EdgeInsets.only(top: 60.h, bottom: 60.h, left: 15.w, right: 15.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 55.h,
+                    width: 55.w,
+                    child: Image(
+                      image: AssetImage(
+                        AppImages.logoImage,
+                      ),
+                    ),
+                  ),
+                  getLanguageAsync.when(
+                    data: (languages) {
+                      return DropdownButton<LanguageModel>(
+                        iconEnabledColor: AppColors.myScaffold,
+                        iconDisabledColor: AppColors.myScaffold,
+                        underline: SizedBox(),
+                        padding: EdgeInsets.all(0),
+                        value: selectedLanguage,
+                        hint: Text(
+                          "Select a Language",
+                          style: AppTextStyles.headline2
+                              .copyWith(color: AppColors.myScaffold),
                         ),
-                        const SizedBox(width: 10),
-                        Text(language.title),
+                        items: languages.map((language) {
+                          return DropdownMenuItem<LanguageModel>(
+                            value: language,
+                            child: Row(
+                              children: [
+                                Image.network(
+                                  language.iconSrc,
+                                  width: 24,
+                                  height: 24,
+                                  fit: BoxFit.cover,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  language.title,
+                                  style: AppTextStyles.headline2
+                                      .copyWith(color: AppColors.myScaffold),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (LanguageModel? newLanguage) {
+                          setState(() {
+                            selectedLanguage = newLanguage;
+                          });
+                          print('Selected Language: ${newLanguage?.title}');
+                        },
+                      );
+                    },
+                    loading: () => CircularProgressIndicator(),
+                    error: (err, stack) => Text('Error: $err'),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 254.w,
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Master the Game of ',
+                        style: AppTextStyles.lable2.copyWith(
+                          color: AppColors.myScaffold,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        children: [
+                          WidgetSpan(
+                            child: Text(
+                              "Today’s Fashion",
+                              style: AppTextStyles.body1.copyWith(
+                                color: AppColors.myScaffold,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Scrubser  here. Anytime. Anywhere.",
+                    style: AppTextStyles.body3.copyWith(
+                      color: AppColors.myScaffold,
+                    ),
+                  ),
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 2.w),
+                    margin: EdgeInsets.only(top: 60.h),
+                    decoration: BoxDecoration(
+                      color: AppColors.myScaffold,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(),
+                        Text(
+                          "Get Started",
+                          style: AppTextStyles.body2.copyWith(
+                            color: AppColors.myPrimary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Container(
+                          height: 41.h,
+                          width: 46.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.myPrimary,
+                            borderRadius: BorderRadius.circular(3.8.r),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: AppColors.myScaffold,
+                            ),
+                          ),
+                        )
                       ],
                     ),
-                  );
-                }).toList(),
-                onChanged: (LanguageModel? newLanguage) {
-                  setState(() {
-                    selectedLanguage = newLanguage;
-                  });
-                  print('Selected Language: ${newLanguage?.title}');
-                },
-              );
-            },
-            loading: () => CircularProgressIndicator(),
-            error: (err, stack) => Text('Error: $err'),
+                  ),
+                ],
+              ),
+              // fontSettingsAsync.when(
+              //   data: (fontSettings) {
+              //     // Navigate to home screen once data is loaded
+              //     AppTextStyles.updateFontStyles(
+              //       family: fontSettings.fontFamily,
+              //       // h1Size: double.parse(fontSettings.headline1Size.toString()),
+              //       // h2Size: double.parse(fontSettings.headline2Size.toString()),
+              //       // b1Size: double.parse(fontSettings.body1Size.toString()),
+              //       // b2Size: double.parse(fontSettings.body2Size.toString()),
+              //       // b3Size: double.parse(fontSettings.body3Size.toString()),
+              //       // h1Weight: fontWeightFromInt(fontSettings.headline1Weight),
+              //       // h2Weight: fontWeightFromInt(fontSettings.headline2Weight),
+              //       // b1Weight: fontWeightFromInt(fontSettings.body1Weight),
+              //       // b2Weight: fontWeightFromInt(fontSettings.body2Weight),
+              //       // b3Weight: fontWeightFromInt(fontSettings.body3Weight),
+              //     );
+              //     // Future.microtask(() => Navigator.push(
+              //     //     context,
+              //     //     MaterialPageRoute(
+              //     //       builder: (context) => const MainScreen(),
+              //     //     )));
+              //     return Container(
+              //       height: 25,
+              //       color: AppColors.black2022,
+              //     );
+              //   },
+              //   loading: () => const Center(child: CircularProgressIndicator()),
+              //   error: (error, stack) {
+              //     print("Error: $error");
+              //     print("Stack trace: $stack");
+              //     return const Center(
+              //         child: Text('Error loading font settings'));
+              //   },
+              // ),
+              SizedBox(
+                height: 400,
+                child: getTranslationAsync.when(
+                  data: (translations) {
+                    return ListView.builder(
+                      itemCount: homePageTranslations.length,
+                      itemBuilder: (context, index) {
+                        final translation = homePageTranslations[index];
+                        return ListTile(
+                          title: Text(translation.baseContent),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Translated: ${translation.translatedContent}'),
+                              Text('Locale: ${translation.locale}'),
+                              Text('Type: ${translation.type}'),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  loading: () => CircularProgressIndicator(),
+                  error: (err, stack) => Text('Error: $err'),
+                ),
+              )
+            ],
           ),
-
-          // fontSettingsAsync.when(
-          //   data: (fontSettings) {
-          //     // Navigate to home screen once data is loaded
-          //     AppTextStyles.updateFontStyles(
-          //       family: fontSettings.fontFamily,
-          //       // h1Size: double.parse(fontSettings.headline1Size.toString()),
-          //       // h2Size: double.parse(fontSettings.headline2Size.toString()),
-          //       // b1Size: double.parse(fontSettings.body1Size.toString()),
-          //       // b2Size: double.parse(fontSettings.body2Size.toString()),
-          //       // b3Size: double.parse(fontSettings.body3Size.toString()),
-          //       // h1Weight: fontWeightFromInt(fontSettings.headline1Weight),
-          //       // h2Weight: fontWeightFromInt(fontSettings.headline2Weight),
-          //       // b1Weight: fontWeightFromInt(fontSettings.body1Weight),
-          //       // b2Weight: fontWeightFromInt(fontSettings.body2Weight),
-          //       // b3Weight: fontWeightFromInt(fontSettings.body3Weight),
-          //     );
-          //     Future.microtask(() => Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => const MainScreen(),
-          //         )));
-          //     return Container(
-          //       color: AppColors.black2022,
-          //     );
-          //   },
-          //   loading: () => const Center(child: CircularProgressIndicator()),
-          //   error: (error, stack) {
-          //     print("Error: $error");
-          //     print("Stack trace: $stack");
-          //     return const Center(child: Text('Error loading font settings'));
-          //   },
-          // ),
-        ],
+        ),
       ),
     );
   }
