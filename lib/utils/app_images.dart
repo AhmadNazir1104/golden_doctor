@@ -20,4 +20,5 @@ static const backgroundImage = "assets/app_images/backgroundImage.png";
   static const brandImage2 = "assets/app_images/brandImage2.png";
   static const brandImage3 = "assets/app_images/brandImage3.png";
   static const brandImage4 = "assets/app_images/brandImage4.png";
+  static const splashScreenImage = "assets/app_images/splashScreenImage.png";
 }

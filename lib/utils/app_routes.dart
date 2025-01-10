@@ -15,18 +15,18 @@ import 'package:golden_doctor/views/welcome_screen.dart';
 final appRouter = GoRouter(
   initialLocation: "/",
   routes: [
-    // GoRoute(
-    //   path: '/',
-    //   builder: (context, state) => const SplashScreen(),
-    // ),
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const SplashScreen(),
+    ),
     // GoRoute(
     //   path: '/',
     //   builder: (context, state) => const HomeScreen(),
     // ),
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const WelcomeScreen(),
-    ),
+    // GoRoute(
+    //   path: '/',
+    //   builder: (context, state) => const WelcomeScreen(),
+    // ),
     GoRoute(
       path: '/setBuilderScreen',
       builder: (context, state) => const SetBuilderScreen(),
