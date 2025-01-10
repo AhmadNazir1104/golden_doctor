@@ -12,15 +12,15 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 145.w,
+      // width: 145.w,
       // height: 390,
-      margin: EdgeInsets.only(left: 10.w),
+      // margin: EdgeInsets.only(left: 10.w),
       decoration: BoxDecoration(
-        // border: Border.all(
+          // border: Border.all(
           // color: AppColors.black1C.withOpacity(0.5),
           // width: 0.5,
-        // ),
-      ),
+          // ),
+          ),
       child: Column(
         children: [
           Container(
@@ -34,32 +34,35 @@ class ProductWidget extends StatelessWidget {
                 // ----Image---
                 Container(
                   width: double.infinity,
-                  height: 202.h,
+                  // height: 202.h,
                   decoration: BoxDecoration(
                     color: AppColors.greyCA,
                   ),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.fill,
-                    imageUrl:
-                        'https://pixlr.com/images/generator/photo-generator.webp',
-                    // height: 200.h,
-                    placeholder: (context, url) => SizedBox(
-                      width: double.infinity,
-                      height: 202.h,
-                      child: Center(
-                        child: Image(
-                          image: AssetImage(
-                            AppImages.doctorImage,
+                  child: AspectRatio(
+                    aspectRatio: 6 / 7,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fill,
+                      imageUrl:
+                          'https://pixlr.com/images/generator/photo-generator.webp',
+                      // height: 200.h,
+                      placeholder: (context, url) => SizedBox(
+                        width: double.infinity,
+                        height: 202.h,
+                        child: Center(
+                          child: Image(
+                            image: AssetImage(
+                              AppImages.doctorImage,
+                            ),
+                            width: double.infinity,
+                            height: 202.h,
+                            opacity: AlwaysStoppedAnimation(0.3),
+                            fit: BoxFit.contain,
                           ),
-                          width: double.infinity,
-                          height: 202.h,
-                          opacity: AlwaysStoppedAnimation(0.3),
-                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
 
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   ),
                 ),
                 // ----button----
@@ -86,10 +89,17 @@ class ProductWidget extends StatelessWidget {
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
+                            clipBehavior: Clip.antiAlias,
                             builder: (context) => ProductBottomSheetWidget(),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(16)),
+                              borderRadius: 
+                              // BorderRadius.only(
+                              //   topLeft: Radius.circular(0),
+                              //   topRight: Radius.circular(20),
+                              // ),
+
+                                BorderRadius.vertical(
+                                    top: Radius.circular(16)),
                             ),
                           );
                         },

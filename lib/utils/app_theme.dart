@@ -34,6 +34,9 @@ ThemeData myTheme(BuildContext context) {
         ),
     primaryIconTheme: IconThemeData(color: AppColors.black2022, size: 24.h),
     iconTheme: const IconThemeData(color: AppColors.black2022),
+    dividerColor: AppColors.greyBE,
+    dividerTheme:
+        Theme.of(context).dividerTheme.copyWith(color: AppColors.greyBE),
     textTheme: GoogleFonts.ralewayTextTheme(
       Theme.of(context).textTheme,
     )
@@ -42,7 +45,6 @@ ThemeData myTheme(BuildContext context) {
           fontSizeDelta: 2.5.sp,
         )
         .copyWith(
-          
           headlineLarge: AppTextStyles.headline1,
           headlineMedium: AppTextStyles.headline1,
           headlineSmall: AppTextStyles.headline1,

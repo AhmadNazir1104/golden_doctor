@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_keys.dart';
 import 'package:golden_doctor/utils/app_textfield_controllers.dart';
 import 'package:golden_doctor/view_models/authentication_view_model.dart';
@@ -60,17 +61,14 @@ class ForgetPasswordScreen extends ConsumerWidget {
                       child: Text(
                         "Enter the email address associated with your account.",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium, // AppTextStyles.normalBody,
+                        style: AppTextStyles.body2, // AppTextStyles.normalBody,
                       ),
                     ),
 
                     Text(
                       'We will email you a link to restart your password.',
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelSmall, //TextStyle(fontSize: 12, color: Colors.grey[400]),
+                      style: AppTextStyles
+                          .lable3, //TextStyle(fontSize: 12, color: Colors.grey[400]),
                     ),
                     const SizedBox(height: 10),
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_keys.dart';
 import 'package:golden_doctor/utils/app_textfield_controllers.dart';
 import 'package:golden_doctor/view_models/authentication_view_model.dart';
@@ -34,16 +35,15 @@ class SignupScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(bottom: 30),
                       child: Text(
                         'Welcome!',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineLarge, //AppTextStyles.largeHeading,
+                        style: AppTextStyles
+                            .headline1, //AppTextStyles.largeHeading,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'We are thrilled to have you back! Log in to Shopio and shop till you drop.',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: AppTextStyles.body2,
                       ),
                     ),
 
@@ -54,7 +54,7 @@ class SignupScreen extends ConsumerWidget {
                           horizontal: 8, vertical: 30),
                       child: Column(
                         children: [
-                                                  AppTextfields.myTextField(
+                          AppTextfields.myTextField(
                               controller: AppTextfieldControllers.signUpEmail,
                               lable: "Enter your email",
                               icon: Icons.email_outlined),
@@ -78,7 +78,7 @@ class SignupScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Already have an account?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: AppTextStyles.body2,
                           // TextStyle(color: Colors.grey[400], fontSize: 12),
                         ),
                         AppButtons.myTextButton(
@@ -134,7 +134,7 @@ class SignupScreen extends ConsumerWidget {
                             children: [
                               TextSpan(
                                 text: 'By continuing, I agree to ',
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: AppTextStyles.body3,
                               ),
                               WidgetSpan(
                                 child: InkWell(
@@ -143,18 +143,16 @@ class SignupScreen extends ConsumerWidget {
                                   },
                                   child: Text(
                                     'Terms of Conditions ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(fontWeight: FontWeight.w700
-                                            // decoration: TextDecoration.underline,
-                                            ),
+                                    style: AppTextStyles.body3.copyWith(
+                                        fontWeight: FontWeight.w700
+                                        // decoration: TextDecoration.underline,
+                                        ),
                                   ),
                                 ),
                               ),
                               TextSpan(
                                 text: 'and\n',
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: AppTextStyles.body3,
                               ),
                               WidgetSpan(
                                 child: InkWell(
@@ -163,12 +161,10 @@ class SignupScreen extends ConsumerWidget {
                                   },
                                   child: Text(
                                     'Privacy of Policy ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(fontWeight: FontWeight.w700
-                                            // decoration: TextDecoration.underline,
-                                            ),
+                                    style: AppTextStyles.body3.copyWith(
+                                        fontWeight: FontWeight.w700
+                                        // decoration: TextDecoration.underline,
+                                        ),
                                   ),
                                 ),
                               ),

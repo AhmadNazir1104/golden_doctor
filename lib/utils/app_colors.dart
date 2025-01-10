@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class AppColors<Colors> {
   static const Color myScaffold = Color(0xffFAFAFA);
   static const Color buttonColor = Color(0xFF000000);
@@ -13,8 +14,10 @@ class AppColors<Colors> {
   static const Color grey94 = Color(0xff949494);
   static const Color grey9c = Color(0xff9C9C9C);
   static const Color greyCA = Color(0xffCACACA);
+  static const Color greyBE = Color(0xffBEBEBE);
   static const Color greyF2 = Color(0xffF2F1EF);
   static const Color yallow = Color(0xFF00C817);
   
   static const Color redFB71 = Color(0xffC20E0F);
+  static const Color blueC50 = Color(0xff3D2C50);
 }
