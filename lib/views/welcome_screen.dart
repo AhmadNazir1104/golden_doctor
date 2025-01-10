@@ -85,7 +85,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             AppButtons.myTextButton(
               text: "Continue as a Guest",
               onPressed: () {
-                context.go("/setBuilderScreen");
+                context.go("/collectionScreen");
               },
               context: context,
               textStyle: AppTextStyles.body3.copyWith(

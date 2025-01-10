@@ -54,7 +54,7 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                             .headline1, //AppTextStyles.largeHeading,
                       ),
                     ),
-
+    
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
@@ -62,7 +62,7 @@ class _LoginScreenState extends ConsumerState<SignInScreen> {
                         style: AppTextStyles.body2,
                       ),
                     ),
-
+    
                     // Padding(
                     //   padding: const EdgeInsets.only(bottom: 3),
                     //   child: Text.rich(

@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:golden_doctor/resources/widgets/product_widget/color_palette_Widget.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
+import 'package:golden_doctor/resources/widgets/universal_widget/selectable_textbox.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
+import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 
 class SetBuilderScreen extends StatelessWidget {
@@ -9,22 +13,49 @@ class SetBuilderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List col = [
+      "black",
+      "red",
+      "green",
+      "orange",
+      "yello",
+    ];
+
+    List fittype = [
+      "Regular",
+      "Petite",
+    ];
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Image.asset("assets/app_images/horizantelLogo.png", height: 32),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search_rounded),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(CupertinoIcons.barcode_viewfinder),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           spacing: 30.h,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // -------- images ----------
                 Container(
                   color: AppColors.greyF2,
-                  // height: 633.h,
+                  height: 683.h,
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: Column(
+                      mainAxisSize: MainAxisSize.max,
                       spacing: 20.h,
                       children: [
                         Stack(
@@ -127,6 +158,17 @@ class SetBuilderScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView.builder(
+                                  itemCount: col.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return ColorPaletteWidget(
+                                      colorName: col[index],
+                                    );
+                                  }),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(right: 20),
                               child: AppButtons.myprimaryButton(
@@ -155,16 +197,42 @@ class SetBuilderScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView.builder(
+                                itemCount: col.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return SelectableTextBox(
+                                    text: AppConstant.sizesList[index],
+                                    isSelected: index == 0 ? true : false,
+                                  );
+                                },
+                              ),
+                            ),
                             Row(
                               children: [
                                 Text(
-                                  "SET TYPE  ",
+                                  "SIZE TYPE  ",
                                   style: AppTextStyles.headline3.copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 Text("Regular", style: AppTextStyles.lable3),
                               ],
+                            ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView.builder(
+                                itemCount: fittype.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return SelectableTextBox(
+                                    text: fittype[index],
+                                    isSelected: index == 0 ? true : false,
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -205,6 +273,17 @@ class SetBuilderScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView.builder(
+                                  itemCount: col.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return ColorPaletteWidget(
+                                      colorName: col[index],
+                                    );
+                                  }),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(right: 20),
                               child: AppButtons.myprimaryButton(
@@ -213,6 +292,19 @@ class SetBuilderScreen extends StatelessWidget {
                                 text: "What’s My size",
                                 color: AppColors.greyF2,
                                 textColor: AppColors.black1C,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView.builder(
+                                itemCount: col.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return SelectableTextBox(
+                                    text: AppConstant.sizesList[index],
+                                    isSelected: index == 0 ? true : false,
+                                  );
+                                },
                               ),
                             ),
                             Row(
@@ -236,13 +328,26 @@ class SetBuilderScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "SET TYPE  ",
+                                  "SIZE TYPE  ",
                                   style: AppTextStyles.headline3.copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 Text("Regular", style: AppTextStyles.lable3),
                               ],
+                            ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView.builder(
+                                itemCount: fittype.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return SelectableTextBox(
+                                    text: fittype[index],
+                                    isSelected: index == 0 ? true : false,
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),

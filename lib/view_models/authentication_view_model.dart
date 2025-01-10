@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -56,7 +57,7 @@ class ApiClass extends ChangeNotifier {
         firstName: firstName,
         lastName: lastName);
     var response = await apiBaseHelper.post(url: '', data: body);
-    print(response);
+    // print(response);
     if (response['data']['customerCreate']["customerUserErrors"].toString() ==
         "[]") {
       // print(await response.stream.bytesToString());
@@ -69,8 +70,10 @@ class ApiClass extends ChangeNotifier {
       // context.pushReplacement('/loginScreen');
       login(context, email, passsword);
     } else {
-      print("Error1");
-      print(response);
+      if (kDebugMode) {
+        print("Error1");
+        print(response);
+      }
       Fluttertoast.showToast(
         msg: response['data']['customerCreate']["customerUserErrors"][0]
                 ["message"]
@@ -119,7 +122,9 @@ class ApiClass extends ChangeNotifier {
       setUserLoginStatus(true);
       context.go("/nav_barScreen");
     } else {
-      print("Error");
+      if (kDebugMode) {
+        print("Error");
+      }
       log('Error ===== Error');
       Fluttertoast.showToast(
         msg: response['data']['customerAccessTokenCreate']["customerUserErrors"]
@@ -156,13 +161,17 @@ class ApiClass extends ChangeNotifier {
     String body = profileQuery(token: token);
     Map<String, dynamic> response =
         await apiBaseHelper.post(url: '', data: body);
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response["data"]["customer"].toString() != "null") {
       Map<String, dynamic> accessToken = response['data']['customer'];
       profileModel = ProfileModel.fromJson(accessToken);
       addboleanValue(false);
     } else {
-      print("Error");
+      if (kDebugMode) {
+        print("Error");
+      }
       addboleanValue(false);
     }
   }
@@ -184,10 +193,12 @@ class ApiClass extends ChangeNotifier {
     String body = reSetPasswordQuery(email: "email");
     Map<String, dynamic> response =
         await apiBaseHelper.post(url: '', data: body);
-    print(response);
-    print("1: ${response['data']['customerRecover'].toString()}");
-    print("2: ${response['data']['errors'].toString()}");
-    print("3: ${response['data']['customerUserErrors'].toString()}");
+    if (kDebugMode) {
+      print(response);
+      print("1: ${response['data']['customerRecover'].toString()}");
+      print("2: ${response['data']['errors'].toString()}");
+      print("3: ${response['data']['customerUserErrors'].toString()}");
+    }
     if (response['data']['customerRecover'].toString() == "null") {
       Fluttertoast.showToast(msg: response['errors'][0]['message']);
       // profileModel = ProfileModel.fromJson(accessToken);

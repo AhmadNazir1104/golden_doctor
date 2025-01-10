@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ var list = [
     "code": "0xffFFA500",
   },
   {
-    "title": "read",
+    "title": "red",
     "code": "0xffC20E0F",
   },
   {
@@ -53,10 +54,10 @@ class ColorPaletteWidget extends StatelessWidget {
         ? GestureDetector(
             onTap: () {
               AppConstant.selectedColor = colorName;
-              print(AppConstant.selectedColor);
+              // print(AppConstant.selectedColor);
             },
             child: Container(
-              margin: EdgeInsets.only(left: 12.w),
+              margin: EdgeInsets.only(right: 12.w),
 
               // height: 20.h, // Ensure consistent height
               width: 70.w, // Ensure consistent width
@@ -85,10 +86,12 @@ class ColorPaletteWidget extends StatelessWidget {
         : InkWell(
             onTap: () {
               AppConstant.selectedColor = colorName;
-              print(AppConstant.selectedColor);
+              if (kDebugMode) {
+                print(AppConstant.selectedColor);
+              }
             },
             child: Padding(
-              padding: EdgeInsets.only(left: 12.w),
+              padding: EdgeInsets.only(right: 12.w),
               child: Container(
                 height: 35.h,
                 width: 35.w,
@@ -121,6 +124,7 @@ class ColorPaletteWidget extends StatelessWidget {
                         ? Icon(
                             Icons.check,
                             color: AppColors.myScaffold,
+                            size: 12,
                           )
                         : SizedBox(),
                   ),
