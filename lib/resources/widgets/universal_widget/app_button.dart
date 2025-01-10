@@ -40,7 +40,7 @@ class AppButtons {
       child: Text(
         text,
         style: AppTextStyles.headline3.copyWith(
-          color: textColor?? AppColors.myScaffold,
+          color: textColor ?? AppColors.myScaffold,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -107,6 +107,7 @@ class AppButtons {
     required BuildContext context,
     required String text,
     required VoidCallback onPressed,
+    ButtonRoundedSide buttonSideCurve = ButtonRoundedSide.bothSide,
   }) {
     return OutlinedButton(
       onPressed: onPressed,
@@ -114,7 +115,17 @@ class AppButtons {
         minimumSize: Size(343.w, 41.h),
         // padding: EdgeInsets.symmetric(vertical: 15.h),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(0),
+          borderRadius: buttonSideCurve == ButtonRoundedSide.bothSide
+              ? BorderRadius.circular(5)
+              : buttonSideCurve == ButtonRoundedSide.none
+                  ? BorderRadius.circular(0)
+                  : buttonSideCurve == ButtonRoundedSide.leftSide
+                      ? const BorderRadius.only(
+                          bottomLeft: Radius.circular(5),
+                          topLeft: Radius.circular(5))
+                      : const BorderRadius.only(
+                          bottomRight: Radius.circular(5),
+                          topRight: Radius.circular(5)),
           side: BorderSide(
             color: AppColors.myPrimary,
             width: 1,
