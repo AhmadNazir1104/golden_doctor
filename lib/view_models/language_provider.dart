@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_doctor/languages/arabic_language.dart';
 import 'package:golden_doctor/languages/english_language.dart';
-import 'package:golden_doctor/languages/hindi_language.dart';
-import 'package:golden_doctor/languages/italian_language.dart';
-import 'package:golden_doctor/languages/urdu_language.dart';
+// import 'package:golden_doctor/languages/hindi_language.dart';
+// import 'package:golden_doctor/languages/italian_language.dart';
+// import 'package:golden_doctor/languages/urdu_language.dart';
 import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
-import 'package:golden_doctor/views/splash_screen.dart';
+// import 'package:golden_doctor/views/splash_screen.dart';
 
 // Define the supported languages
 enum Language { english, arabic, italian, hindi, urdu }

@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_images.dart';
-import 'package:golden_doctor/view_models/language_provider.dart';
+// import 'package:golden_doctor/view_models/language_provider.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/brand_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/category_carousel_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/create_your_set_widget.dart';
@@ -14,16 +17,35 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedLanguage = ref.watch(languageProvider);
+    // final selectedLanguage = ref.watch(languageProvider);
 
     // Check if the selected language is right-to-left
-    final isRtl = selectedLanguage == Language.arabic ||
-        selectedLanguage == Language.urdu;
-    return Scaffold(
-      appBar: AppBar(),
-      body: Directionality(
-        textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-        child: SingleChildScrollView(
+    // final isRtl = selectedLanguage == Language.arabic ||
+    //     selectedLanguage == Language.urdu;
+    return Directionality(
+      textDirection: AppConstant.selectedLanguage == 'EN'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
+      //  isRtl ? TextDirection.rtl : TextDirection.ltr,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Image.asset(AppImages.horizantelLogo, height: 32),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.search_rounded,
+              ),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(
+                CupertinoIcons.barcode_viewfinder,
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
           child: Column(
             children: [
               ///////////////////////////////// Single Banner  Widget  /////////////////////////////////
@@ -44,6 +66,9 @@ class HomeScreen extends ConsumerWidget {
               ///////////////////////////////// Category Carusel Widget  /////////////////////////////////
               CategoryCarouselWidget(
                 categoryName: 'Popular Category',
+                voidCallback: () {
+                  context.push('/collectionScreen');
+                },
               ),
               ///////////////////////////////// Product Carusel Widget  /////////////////////////////////
               ProductCaruselWidget(

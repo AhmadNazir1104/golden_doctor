@@ -12,8 +12,8 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 145.w,
-      // height: 390,
+      width: 145.w,
+      height: 390,
       // margin: EdgeInsets.only(left: 10.w),
       decoration: BoxDecoration(
           // border: Border.all(

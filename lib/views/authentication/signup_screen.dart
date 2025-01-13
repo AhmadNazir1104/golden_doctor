@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_keys.dart';
 import 'package:golden_doctor/utils/app_textfield_controllers.dart';
 import 'package:golden_doctor/view_models/authentication_view_model.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_textfield.dart';
+import 'package:golden_doctor/view_models/language_provider.dart';
 
 class SignupScreen extends ConsumerWidget {
   const SignupScreen({super.key});
@@ -17,168 +19,177 @@ class SignupScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool todos = ref.watch(apiServiceProvider).boleanValue;
-    return Scaffold(
-      appBar: AppBar(),
-      body: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 45, 20, 20),
-              child: Form(
-                key: AppAllKeys.signupFormKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //=====================logo===========================//
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: Text(
-                        'Welcome!',
-                        style: AppTextStyles
-                            .headline1, //AppTextStyles.largeHeading,
+    return Directionality(
+      textDirection: AppConstant.selectedLanguage == 'EN'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(),
+        body: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 45, 20, 20),
+                child: Form(
+                  key: AppAllKeys.signupFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //=====================logo===========================//
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: Text(
+                          'Welcome!'.tr,
+                          style: AppTextStyles
+                              .headline1, //AppTextStyles.largeHeading,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        'We are thrilled to have you back! Log in to Shopio and shop till you drop.',
-                        style: AppTextStyles.body2,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          'We are thrilled to have you back! Log in to Shopio and shop till you drop.'
+                              .tr,
+                          style: AppTextStyles.body2,
+                        ),
                       ),
-                    ),
 
-                    //===============Textfields====================//
+                      //===============Textfields====================//
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 30),
-                      child: Column(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 30),
+                        child: Column(
+                          children: [
+                            AppTextfields.myTextField(
+                                controller: AppTextfieldControllers.signUpEmail,
+                                lable: "Enter your email".tr,
+                                icon: Icons.email_outlined),
+                            AppTextfields.passwordFiled(
+                              lable: "Enter your password".tr,
+                              controller:
+                                  AppTextfieldControllers.signUpPassword,
+                            ),
+                            AppTextfields.passwordFiled(
+                              lable: "Confirm Password".tr,
+                              controller:
+                                  AppTextfieldControllers.signUpConfirmPassword,
+                              textInputAction: TextInputAction.done,
+                              // obscureText: isObscure,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // --------- Sign in button ---------
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AppTextfields.myTextField(
-                              controller: AppTextfieldControllers.signUpEmail,
-                              lable: "Enter your email",
-                              icon: Icons.email_outlined),
-                          AppTextfields.passwordFiled(
-                            lable: "Enter your password",
-                            controller: AppTextfieldControllers.signUpPassword,
+                          Text(
+                            'Already have an account?'.tr,
+                            style: AppTextStyles.body2,
+                            // TextStyle(color: Colors.grey[400], fontSize: 12),
                           ),
-                          AppTextfields.passwordFiled(
-                            lable: "Confirm Password",
-                            controller:
-                                AppTextfieldControllers.signUpConfirmPassword,
-                            textInputAction: TextInputAction.done,
-                            // obscureText: isObscure,
+                          AppButtons.myTextButton(
+                            context: context,
+                            text: "Sign In".tr,
+                            onPressed: () {
+                              context.pushReplacement('/signinScreen');
+                            },
                           ),
                         ],
                       ),
-                    ),
-                    // --------- Sign in button ---------
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Already have an account?',
-                          style: AppTextStyles.body2,
-                          // TextStyle(color: Colors.grey[400], fontSize: 12),
-                        ),
-                        AppButtons.myTextButton(
-                          context: context,
-                          text: "Sign In",
-                          onPressed: () {
-                            context.pushReplacement('/signinScreen');
-                          },
-                        ),
-                      ],
-                    ),
-                    //====================Next-button==============================//
-                    todos
-                        ? Center(child: const CircularProgressIndicator())
-                        : AppButtons.myprimaryButton(
-                            // context: context,
-                            buttonSideCurve: ButtonRoundedSide.bothSide,
-                            text: "Sign In",
-                            onPressed: () {
-                              if (AppAllKeys.signupFormKey.currentState!
-                                      .validate() &&
-                                  AppTextfieldControllers.signUpPassword.text ==
-                                      AppTextfieldControllers
-                                          .signUpConfirmPassword.text) {
-                                ref.read(apiServiceProvider.notifier).signUp(
-                                      context,
-                                      AppTextfieldControllers.signUpEmail.text,
-                                      AppTextfieldControllers
-                                          .signUpPassword.text,
-                                      AppTextfieldControllers
-                                          .signUpFirstName.text,
-                                      AppTextfieldControllers
-                                          .signUpLastName.text,
-                                    );
-                              } else {
-                                log("not validated");
-                                Fluttertoast.showToast(
-                                  msg: " Try Again ",
-                                );
-                                // AppTextfieldControllers.claerControllers();
-                              }
-                            },
-                          ),
+                      //====================Next-button==============================//
+                      todos
+                          ? Center(child: const CircularProgressIndicator())
+                          : AppButtons.myprimaryButton(
+                              // context: context,
+                              buttonSideCurve: ButtonRoundedSide.bothSide,
+                              text: "Sign In".tr,
+                              onPressed: () {
+                                if (AppAllKeys.signupFormKey.currentState!
+                                        .validate() &&
+                                    AppTextfieldControllers
+                                            .signUpPassword.text ==
+                                        AppTextfieldControllers
+                                            .signUpConfirmPassword.text) {
+                                  ref.read(apiServiceProvider.notifier).signUp(
+                                        context,
+                                        AppTextfieldControllers
+                                            .signUpEmail.text,
+                                        AppTextfieldControllers
+                                            .signUpPassword.text,
+                                        AppTextfieldControllers
+                                            .signUpFirstName.text,
+                                        AppTextfieldControllers
+                                            .signUpLastName.text,
+                                      );
+                                } else {
+                                  log("not validated");
+                                  Fluttertoast.showToast(
+                                    msg: " Try Again ".tr,
+                                  );
+                                  // AppTextfieldControllers.claerControllers();
+                                }
+                              },
+                            ),
 
-                    const Spacer(),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 3),
-                        child: Text.rich(
-                          textAlign: TextAlign.center,
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'By continuing, I agree to ',
-                                style: AppTextStyles.body3,
-                              ),
-                              WidgetSpan(
-                                child: InkWell(
-                                  onTap: () {
-                                    // context.pushReplacement('/signupScreen');
-                                  },
-                                  child: Text(
-                                    'Terms of Conditions ',
-                                    style: AppTextStyles.body3.copyWith(
-                                        fontWeight: FontWeight.w700
-                                        // decoration: TextDecoration.underline,
-                                        ),
+                      const Spacer(),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 3),
+                          child: Text.rich(
+                            textAlign: TextAlign.center,
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'By continuing, I agree to '.tr,
+                                  style: AppTextStyles.body3,
+                                ),
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () {
+                                      // context.pushReplacement('/signupScreen');
+                                    },
+                                    child: Text(
+                                      'Terms of Conditions '.tr,
+                                      style: AppTextStyles.body3.copyWith(
+                                          fontWeight: FontWeight.w700
+                                          // decoration: TextDecoration.underline,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              TextSpan(
-                                text: 'and\n',
-                                style: AppTextStyles.body3,
-                              ),
-                              WidgetSpan(
-                                child: InkWell(
-                                  onTap: () {
-                                    // context.pushReplacement('/signupScreen');
-                                  },
-                                  child: Text(
-                                    'Privacy of Policy ',
-                                    style: AppTextStyles.body3.copyWith(
-                                        fontWeight: FontWeight.w700
-                                        // decoration: TextDecoration.underline,
-                                        ),
+                                TextSpan(
+                                  text: 'and\n'.tr,
+                                  style: AppTextStyles.body3,
+                                ),
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () {
+                                      // context.pushReplacement('/signupScreen');
+                                    },
+                                    child: Text(
+                                      'Privacy of Policy '.tr,
+                                      style: AppTextStyles.body3.copyWith(
+                                          fontWeight: FontWeight.w700
+                                          // decoration: TextDecoration.underline,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

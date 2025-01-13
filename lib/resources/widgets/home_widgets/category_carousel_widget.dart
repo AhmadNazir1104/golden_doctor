@@ -5,12 +5,13 @@ import 'package:golden_doctor/utils/app_images.dart';
 
 class CategoryCarouselWidget extends StatelessWidget {
   final String categoryName;
-  const CategoryCarouselWidget({super.key, required this.categoryName});
+  final VoidCallback voidCallback;
+  const CategoryCarouselWidget(
+      {super.key, required this.categoryName, required this.voidCallback});
 
   @override
   Widget build(BuildContext context) {
-    return 
-    SizedBox(
+    return SizedBox(
       child: Padding(
         padding: EdgeInsets.only(bottom: 36.h),
         child: Column(
@@ -47,32 +48,35 @@ class CategoryCarouselWidget extends StatelessWidget {
                 itemCount: 4,
                 // scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.only(left: 0.w),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 190.h,
-                          // width: 168.w,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(4.r),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                AppImages.doctorImage,
+                  return InkWell(
+                    onTap: voidCallback,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0.w),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 190.h,
+                            // width: 168.w,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(4.r),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  AppImages.doctorImage,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 12.h),
-                        Text(
-                          'Women Scrubs',
-                          style: AppTextStyles.headline2,
-                        ),
-                      ],
+                          SizedBox(height: 12.h),
+                          Text(
+                            'Women Scrubs',
+                            style: AppTextStyles.headline2,
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/product_widget.dart';
+import 'package:golden_doctor/view_models/language_provider.dart';
 
 class ProductCaruselWidget extends StatelessWidget {
   final String productCaruselName;
@@ -30,7 +31,7 @@ class ProductCaruselWidget extends StatelessWidget {
                   style: AppTextStyles.headline2,
                 ),
                 Text(
-                  "See All",
+                  "See All".tr,
                   style: AppTextStyles.headline2.copyWith(),
                 ),
               ],

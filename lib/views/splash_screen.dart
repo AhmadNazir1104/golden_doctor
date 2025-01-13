@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/language/language_model.dart';
 import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
@@ -48,11 +49,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     print('fontSettingsAsync');
-    final fontSettingsAsync = ref.watch(fontSettingsProvider);
+    // final fontSettingsAsync =
+    ref.watch(fontSettingsProvider);
     print('getLanguageAsync');
     final getLanguageAsync = ref.watch(getLanguageProvider);
     print('getTranslationAsync');
-    final getTranslationAsync = ref.watch(getTranslationProvider);
+    // final getTranslationAsync =
+    ref.watch(getTranslationProvider);
     return Directionality(
       textDirection: AppConstant.selectedLanguage == 'EN'
           ? TextDirection.ltr
@@ -182,40 +185,46 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         color: AppColors.myScaffold,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.5.h, horizontal: 2.w),
-                      margin: EdgeInsets.only(top: 60.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.myScaffold,
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(),
-                          Text(
-                            "Get Started".tr,
-                            style: AppTextStyles.body2.copyWith(
-                              color: AppColors.myPrimary,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Container(
-                            height: 41.h,
-                            width: 46.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.myPrimary,
-                              borderRadius: BorderRadius.circular(3.8.r),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.myScaffold,
+                    InkWell(
+                      onTap: () {
+                        context.go('/wellcomeScreen');
+                      
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 1.5.h, horizontal: 2.w),
+                        margin: EdgeInsets.only(top: 60.h),
+                        decoration: BoxDecoration(
+                          color: AppColors.myScaffold,
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(),
+                            Text(
+                              "Get Started".tr,
+                              style: AppTextStyles.body2.copyWith(
+                                color: AppColors.myPrimary,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                          )
-                        ],
+                            Container(
+                              height: 41.h,
+                              width: 46.w,
+                              decoration: BoxDecoration(
+                                color: AppColors.myPrimary,
+                                borderRadius: BorderRadius.circular(3.8.r),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.arrow_forward,
+                                  color: AppColors.myScaffold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],

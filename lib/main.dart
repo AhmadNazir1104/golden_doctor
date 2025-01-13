@@ -2,15 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:golden_doctor/ali_test.dart';
+// import 'package:golden_doctor/ali_test.dart';
 import 'package:golden_doctor/graph_ql/config.dart';
 import 'package:golden_doctor/resources/services/hive.dart';
 import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_routes.dart';
 import 'package:golden_doctor/utils/app_theme.dart';
-import 'package:golden_doctor/view_models/language_provider.dart';
-import 'package:golden_doctor/views/splash_screen.dart';
+// import 'package:golden_doctor/view_models/language_provider.dart';
+// import 'package:golden_doctor/views/splash_screen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 Future<void> main() async {
