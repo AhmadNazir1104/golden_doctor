@@ -71,6 +71,64 @@ String fetchProductwithCollectionIdfn(String id, {String? cursor}) {
 //                 value
 //               }
 
+String fetchProductListByIDs(List<String> productIDs) {
+  return '''query getProductsByIds {
+  	nodes(ids:[${productIDs.iterator}]){ 
+    	... on Product {
+    		  title
+              tags
+              description
+              descriptionHtml
+              productType
+              publishedAt
+              onlineStoreUrl
+              options{
+              name
+              values
+            }
+              variants(first: 30) {
+                edges {
+                  node {
+                    id
+                    title
+                    image {
+                      src
+                    }
+                    price {
+                      amount
+                    }
+                    sku
+                    compareAtPrice{
+                      amount
+                    }
+                    availableForSale
+
+                    selectedOptions {
+                      name
+                      value
+                    }
+                  }
+                }
+              }
+              images(first: 30) {
+                edges {
+                  node {
+                    url
+                    altText
+                  }
+                }
+              }
+               metafields(identifiers:[{namespace:"custom",key:"fit"},{namespace: "custom", key: "product_description"}]) {
+                key
+                value
+              }
+              id
+  				}
+	}
+}
+''';
+}
+
 String fetchSignleProduct(String productID) {
   return '''query{
       product(id: "$productID") {
