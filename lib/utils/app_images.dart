@@ -21,4 +21,8 @@ static const backgroundImage = "assets/app_images/backgroundImage.png";
   static const brandImage3 = "assets/app_images/brandImage3.png";
   static const brandImage4 = "assets/app_images/brandImage4.png";
   static const splashScreenImage = "assets/app_images/splashScreenImage.png";
+  static const cartIcon = "assets/app_images/cartIcon.svg";
+  static const homeIcon = "assets/app_images/homeIcon.svg";
+  static const navigationIcon = "assets/app_images/navigationIcon.svg";
+  static const profileIcon = "assets/app_images/profileIcon.svg";
 }

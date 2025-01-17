@@ -1,4 +1,4 @@
-const Map<String, String> english = {
+ Map<String, String> english = {
   'formTitle': 'Multilingual Form',
   'enterText': 'Enter text here',
   'enterName': 'Enter your name',

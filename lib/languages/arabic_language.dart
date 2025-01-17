@@ -1,4 +1,4 @@
-const Map<String, String> arabic = {
+ Map<String, String> arabic = {
   'formTitle': 'نموذج لغة متعددة',
   'enterText': 'أدخل النص هنا',
   'enterName': 'أدخل اسمك',
@@ -66,4 +66,5 @@ const Map<String, String> arabic = {
 
     // Quick By
   "Quick By": "Quick By",
+  "ahmed":"dev"
 };

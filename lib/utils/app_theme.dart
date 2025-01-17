@@ -68,10 +68,12 @@ ThemeData myTheme(BuildContext context) {
       actionTextColor: AppColors.myPrimary,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: AppColors.myScaffold,
+      // backgroundColor: AppColors.myScaffold,
+       backgroundColor: AppColors.black1C,
       selectedItemColor: AppColors.black2022,
       unselectedItemColor: AppColors.grey9c,
-      selectedIconTheme: IconThemeData(color: AppColors.black2022),
+      // elevation: 0.0,
+      selectedIconTheme: IconThemeData(color: AppColors.myPrimary),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(

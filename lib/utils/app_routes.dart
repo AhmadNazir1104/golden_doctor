@@ -4,11 +4,14 @@ import 'package:golden_doctor/views/authentication/forget_password.dart';
 import 'package:golden_doctor/views/authentication/login_screen.dart';
 import 'package:golden_doctor/views/authentication/signup_screen.dart';
 import 'package:golden_doctor/views/home_screen.dart';
+import 'package:golden_doctor/views/navigation_screen/navigation_screen.dart';
 import 'package:golden_doctor/views/splash_screen.dart';
 import 'package:golden_doctor/views/collection_screen/collection_screen.dart';
 import 'package:golden_doctor/views/collection_screen/filter_screen.dart';
 import 'package:golden_doctor/views/set_builder_screen.dart/set_builder_screen.dart';
 import 'package:golden_doctor/views/welcome_screen.dart';
+
+import '../views/bottomnavigationbar/bottomnavbar_screen.dart';
 // import 'package:golden_doctor/views/home_screen.dart';
 // import 'package:golden_doctor/views/splash_screen.dart';
 
@@ -56,21 +59,22 @@ final appRouter = GoRouter(
     /////////////////////////////////////// For Testing Purpose ///////////////////////////////////////
     // GoRoute(
     //   path: '/',
-    //   builder: (context, state) => const AliTest(),
+    //   builder: (context, state) =>  AnimatedDashboard(),
     // ),
 
-    // GoRoute(
-    //   path: '/nav_barScreen',
-    //   builder: (context, state) => const MyBottomBar(),
-    // ),
+    GoRoute(
+      path: '/nav_barScreen',
+      // path: '/',
+      builder: (context, state) => const BottomnavbarScreen(),
+    ),
     // GoRoute(
     //   path: '/profile_screen',
     //   builder: (context, state) => const ProfileScreen(),
     // ),
-    // GoRoute(
-    //   path: '/wishlist_screen',
-    //   builder: (context, state) => const WishListScreen(),
-    // ),
+    GoRoute(
+      path: '/navigation_screen',
+      builder: (context, state) => const NavigationScreen(),
+    ),
     // GoRoute(
     //   path: '/cart_screen',
     //   builder: (context, state) {

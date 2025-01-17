@@ -48,6 +48,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+    // ref.read(getTranslationProvider.notifier).fetchNavigation();
+    // ref.watch(sectionsProvider);
     print('fontSettingsAsync');
     // final fontSettingsAsync =
     ref.watch(fontSettingsProvider);
@@ -187,8 +189,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        context.go('/wellcomeScreen');
-                      
+                        // context.go('/wellcomeScreen');
+                        context.go('/nav_barScreen');
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(

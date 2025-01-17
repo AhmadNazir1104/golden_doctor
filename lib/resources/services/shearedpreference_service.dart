@@ -43,12 +43,12 @@ class ShearedprefService {
 
   //get user Logged
   static bool getUserLoggedIn() {
-    bool is_login = false;
+    bool isLogin = false;
     if (!_initialized) {
       throw Exception("ShearedprefService is not initialized");
     }
-    is_login = shearedPrefs.getBool('userLoggedIn') ?? false;
-    return is_login;
+    isLogin = shearedPrefs.getBool('userLoggedIn') ?? false;
+    return isLogin;
   }
 
   //set  user Accestoken

@@ -20,6 +20,10 @@ extension Trans on String {
   String get tr {
     AppConstant.selectedLanguage = ShearedprefService.getLanguage();
     // add  gloable language selected variable in place of this static language value.
+    if(AppConstant.selectedLanguage! == "EN"){
+      print("did not open file");
+      return this;
+    }
     var translation = getLanguageTextfn(
       AppConstant.selectedLanguage!,
       // AppConstant.selectedLanguage == 'EN' ? Language.english : Language.arabic,
@@ -29,6 +33,7 @@ extension Trans on String {
 }
 
 Map<String, String> getLanguageTextfn(String language) {
+  print("opend a file");
   switch (language) {
     case "AR":
       return arabic;

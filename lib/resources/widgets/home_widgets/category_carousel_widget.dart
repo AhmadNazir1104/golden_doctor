@@ -1,13 +1,24 @@
+// import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/models/home_model/home_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
-import 'package:golden_doctor/utils/app_images.dart';
+// import 'package:golden_doctor/utils/app_images.dart';
+import 'package:golden_doctor/view_models/language_provider.dart';
 
+// ignore: must_be_immutable
 class CategoryCarouselWidget extends StatelessWidget {
-  final String categoryName;
-  final VoidCallback voidCallback;
-  const CategoryCarouselWidget(
-      {super.key, required this.categoryName, required this.voidCallback});
+  Section section;
+  // final String categoryName;
+  // final VoidCallback voidCallback;
+  CategoryCarouselWidget({
+    super.key,
+    required this.section,
+    // required this.categoryName,
+    // required this.voidCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +35,14 @@ class CategoryCarouselWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    categoryName,
+                    // section.title.toString().tr == ''
+                    //     ? 'NA'
+                    //     :
+                    section.title.toString(),
                     style: AppTextStyles.headline2,
                   ),
                   Text(
-                    "See All",
+                    "See All".tr,
                     style: AppTextStyles.headline2.copyWith(),
                   ),
                 ],
@@ -45,11 +59,25 @@ class CategoryCarouselWidget extends StatelessWidget {
                   mainAxisSpacing: 0.h,
                   childAspectRatio: 0.77,
                 ),
-                itemCount: 4,
+                itemCount: section.body!.length,
                 // scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
+                  Body singleCategory = section.body![index];
                   return InkWell(
-                    onTap: voidCallback,
+                    onTap: () {
+                      // log('singleCategory.objType ====== ${singleCategory.objType!.name}');
+                         context.push('/collectionScreen');
+                      // if (singleCategory.objType!.name == 'COLLECTIONS') {
+                      //   log('collections========');
+                      //   context.push('/collectionScreen');
+                      // } else if (singleCategory.objType!.name == 'product') {
+                      //   log('product========');
+                      // } else {
+                      //   log('other========');
+                      //   log('Obg type ==== ${singleCategory.objType!.name}');
+                      // }
+                    },
+                    // voidCallback,
                     child: Padding(
                       padding: EdgeInsets.only(left: 0.w),
                       child: Column(
@@ -63,16 +91,19 @@ class CategoryCarouselWidget extends StatelessWidget {
                               color: Colors.grey,
                               borderRadius: BorderRadius.circular(4.r),
                               image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  AppImages.doctorImage,
-                                ),
-                              ),
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                      singleCategory.desktopImg.toString())
+
+                                  // AssetImage(
+                                  //   AppImages.doctorImage,
+                                  // ),
+                                  ),
                             ),
                           ),
                           SizedBox(height: 12.h),
                           Text(
-                            'Women Scrubs',
+                            singleCategory.objName.toString(),
                             style: AppTextStyles.headline2,
                           ),
                         ],

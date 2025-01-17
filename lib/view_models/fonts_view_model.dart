@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:golden_doctor/languages/arabic_language.dart';
+import 'package:golden_doctor/languages/english_language.dart';
 import 'package:golden_doctor/models/fonts_model.dart';
 import 'package:golden_doctor/models/language/language_model.dart';
 import 'package:golden_doctor/models/traqnslation_model/translation_model.dart';
@@ -82,55 +87,91 @@ final getLanguageProvider = FutureProvider<List<LanguageModel>>((ref) async {
 });
 
 //////////////////////////////////////////////////////////////////       Translation  Provider    /////////////////////////////////////////////////////////////////
-final getTranslationProvider = FutureProvider<void>((ref) async {
+final getTranslationProvider = FutureProvider.autoDispose<void>((ref) async {
+  log('Fetching Translation ===== 1');
   try {
     final doc = await FirebaseFirestore.instance
         .collection('translations')
         .doc('translations')
         .get();
 
-    print('document data ==== ${doc.data()}');
+    // log('document data ==== ${doc.data()}');
     if (doc.exists && doc.data() != null) {
       final data = doc.data()!;
       final translations = (data['translations'] as List)
           .map((translation) => TranslationModel.fromMap(translation))
           .toList();
-
-      // Clear the lists to avoid duplicates
-      homePageTranslations.clear();
-      filtersTranslations.clear();
-      navigationTranslations.clear();
-      staticPagesTranslations.clear();
-      otherTranslations.clear();
-
-      // Populate lists based on type
+      log('translations has data === ');
+      // Update English and Arabic translations based on locale
       for (var translation in translations) {
-        switch (translation.type) {
-          case 'home-page':
-            homePageTranslations.add(translation);
-            break;
-          case 'filters':
-            filtersTranslations.add(translation);
-            break;
-          case 'navigation':
-            navigationTranslations.add(translation);
-            break;
-          case 'static-page':
-            staticPagesTranslations.add(translation);
-            break;
-          default:
-            otherTranslations.add(translation);
-            break;
-        }
+             // Update the English map with the dynamic content
+        english[translation.baseContent] = translation.baseContent;
+        // Update the Arabic map with the dynamic content
+        arabic[translation.baseContent] = translation.translatedContent;
+        // if (translation.locale == 'EN') {
+        //   // Update the English map with the dynamic content
+        //   english[translation.baseContent] = translation.baseContent;
+        //   // log('Translation added to English: ${translation.baseContent} -> ${translation.translatedContent}');
+        //   // log('translations in  EN === ');
+        // } else if (translation.locale == 'AR') {
+        //   // Update the Arabic map with the dynamic content
+        //   arabic[translation.baseContent] = translation.translatedContent;
+        //   //  log('Translation added to Arabic: ${translation.baseContent} -> ${translation.translatedContent}');
+        // }
       }
+
+      // Print the updated maps
+      print("Updated English Translations:========================================");
+      print('English ==== $english');
+      print('English Length === ${english.length}');
+      print("Updated Arabic Translations:========================================");
+      print('Arabic ==== ${(json.encode(arabic))}');
+      print('English Length === ${arabic.length}');
     } else {
       throw Exception("Document does not exist or has no data");
     }
+    // if (doc.exists && doc.data() != null) {
+    //   final data = doc.data()!;
+    //   final translations = (data['translations'] as List)
+    //       .map((translation) => TranslationModel.fromMap(translation))
+    //       .toList();
+
+    //   // Clear the lists to avoid duplicates
+    //   homePageTranslations.clear();
+    //   filtersTranslations.clear();
+    //   navigationTranslations.clear();
+    //   staticPagesTranslations.clear();
+    //   otherTranslations.clear();
+
+    //   // Populate lists based on type
+    //   for (var translation in translations) {
+    //     switch (translation.type) {
+    //       case 'home-page':
+    //         homePageTranslations.add(translation);
+    //         break;
+    //       case 'filters':
+    //         filtersTranslations.add(translation);
+    //         break;
+    //       case 'navigation':
+    //         navigationTranslations.add(translation);
+    //         break;
+    //       case 'static-page':
+    //         staticPagesTranslations.add(translation);
+    //         break;
+    //       default:
+    //         otherTranslations.add(translation);
+    //         break;
+    //     }
+    //   }
+    // } else {
+    //   throw Exception("Document does not exist or has no data");
+    // }
   } catch (e) {
     print('Error fetching languages: $e');
     rethrow;
   }
 });
+
 // final getLanguageProvider = FutureProvider((ref) async {
 //   try {
 //     final doc = await FirebaseFirestore.instance
