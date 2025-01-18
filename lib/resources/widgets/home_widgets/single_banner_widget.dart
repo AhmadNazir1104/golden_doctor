@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/home_model/home_model.dart';
-import 'package:golden_doctor/utils/app_images.dart';
 
 // ignore: must_be_immutable
 class SingleBannerWidget extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/home_model/home_model.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/maching_pair_widget.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
@@ -35,7 +36,9 @@ class HomeScreen extends ConsumerWidget {
               icon: const Icon(
                 Icons.search_rounded,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.push('/embroidery_screen');
+              },
             ),
             IconButton(
               icon: Icon(
