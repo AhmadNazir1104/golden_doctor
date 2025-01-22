@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/home_model/home_model.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/maching_pair_widget.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
+import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/category_carousel_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/product_carusel_widget.dart';
@@ -51,7 +52,11 @@ class HomeScreen extends ConsumerWidget {
         body: sectionsState.when(
           data: (sectionsModel) {
             if (sectionsModel == null || sectionsModel.sections!.isEmpty) {
-              return const Center(child: Text("No sections available"));
+              return Center(
+                  child: Text(
+                "No sections available",
+                style: AppTextStyles.body1,
+              ));
             }
             return ListView.builder(
               itemCount: sectionsModel.sections!.length,
@@ -62,7 +67,11 @@ class HomeScreen extends ConsumerWidget {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(child: Text("Error: $error")),
+          error: (error, stack) => Center(
+              child: Text(
+            "Error: $error",
+            style: AppTextStyles.body1,
+          )),
         ),
         // SingleChildScrollView(
         //   child: Column(
@@ -169,7 +178,11 @@ class HomeScreen extends ConsumerWidget {
       // _buildProductsCarousel(section.body);
 
       default:
-        return const SizedBox.shrink();
+        return Center(
+            child: Text(
+          "No sections available",
+          style: AppTextStyles.body1,
+        ));
     }
   }
 }

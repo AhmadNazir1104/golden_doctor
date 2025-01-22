@@ -8,6 +8,8 @@ import 'package:golden_doctor/view_models/navigation_view_model/navigation_view_
 import 'package:golden_doctor/views/home_screen.dart';
 import 'package:golden_doctor/views/navigation_screen/navigation_screen.dart';
 
+import '../cart_screen/cart_screen.dart';
+
 class BottomnavbarScreen extends ConsumerStatefulWidget {
   const BottomnavbarScreen({super.key});
   @override
@@ -20,7 +22,7 @@ class _BottomnavbarScreenState extends ConsumerState<BottomnavbarScreen> {
   List widgetOptions = [
     const HomeScreen(),
     const NavigationScreen(),
-    Text('Add to cart'),
+    CartScreen(),
     const Text('seeting'),
   ];
 
@@ -44,7 +46,7 @@ class _BottomnavbarScreenState extends ConsumerState<BottomnavbarScreen> {
   @override
   Widget build(BuildContext context) {
     ref.read(sectionsProvider.notifier).fetchSections();
-     ref.read(navigationprovider.notifier).fetchNavigation();
+    ref.read(navigationprovider.notifier).fetchNavigation();
 //  ref.watch(sectionsProvider);
     // final sectionsState = ref.watch(sectionsProvider);
     return Scaffold(

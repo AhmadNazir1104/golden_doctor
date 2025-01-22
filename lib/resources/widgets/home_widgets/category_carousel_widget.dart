@@ -66,7 +66,7 @@ class CategoryCarouselWidget extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       // log('singleCategory.objType ====== ${singleCategory.objType!.name}');
-                         context.push('/collectionScreen');
+                      context.push('/collectionScreen');
                       // if (singleCategory.objType!.name == 'COLLECTIONS') {
                       //   log('collections========');
                       //   context.push('/collectionScreen');
@@ -102,9 +102,15 @@ class CategoryCarouselWidget extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 12.h),
-                          Text(
-                            singleCategory.objName.toString(),
-                            style: AppTextStyles.headline2,
+                          SizedBox(
+                            // height: 10,
+                            child: Text(
+                              singleCategory.objName!.substring(0, 15),
+                              overflow: TextOverflow.ellipsis,
+                              // singleCategory.objName.toString(),
+                              maxLines: 2,
+                              style: AppTextStyles.headline2.copyWith(),
+                            ),
                           ),
                         ],
                       ),

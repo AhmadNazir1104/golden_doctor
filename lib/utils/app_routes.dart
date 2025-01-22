@@ -60,7 +60,7 @@ final appRouter = GoRouter(
     /////////////////////////////////////// For Testing Purpose ///////////////////////////////////////
     // GoRoute(
     //   path: '/',
-    //   builder: (context, state) =>  AnimatedDashboard(),
+    //   builder: (context, state) =>  AliTest(),
     // ),
 
     GoRoute(

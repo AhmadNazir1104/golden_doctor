@@ -13,6 +13,12 @@ class AppTextfieldControllers {
   static final TextEditingController homeSearch = TextEditingController();
   static final TextEditingController forgetPasswordEmail =
       TextEditingController();
+
+
+      static final TextEditingController embroideryfirstTextFieldControler  =
+      TextEditingController();
+    static final TextEditingController embroiderysecondTextFieldControler =
+      TextEditingController();   
   static claerControllers() {
     signInEmail.clear();
     signInPassword.clear();

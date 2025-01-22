@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+// import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import 'error_handling.dart';
@@ -12,13 +12,14 @@ class ApiBaseHelper {
     'X-Shopify-Storefront-Access-Token': '1acbba2f06475c4427254dd8372b60e7',
     'Content-Type': 'application/json'
   };
-  Future<dynamic> get({required String url}) async {
-    dynamic responseJson;
+  Future<http.Response> get({required String url}) async {
+    http.Response responseJson;
     try {
-      // final response = await http.get(_baseUrl + url);
-      Dio dio = Dio();
-      final response = await dio.get(_baseUrl + url);
-      responseJson = _returnResponse(response.data);
+      final response = await http.get(Uri.parse(_baseUrl + url));
+      // Dio dio = Dio();
+      // final response = await dio.get(_baseUrl + url);
+      // responseJson = _returnResponse(response); 
+      responseJson = response;
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }
@@ -56,31 +57,32 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> update({required String url, dynamic data}) async {
-    dynamic responseJson;
-    try {
-      // final response = await http.get(_baseUrl + url);
-      Dio dio = Dio();
-      final response = await dio.put(_baseUrl + url, data: data);
-      responseJson = _returnResponse(response.data);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    }
-    return responseJson;
-  }
+  // Future<http.Response> update({required String url, dynamic data}) async {
+  //   http.Response responseJson;
+  //   try {
+  //     final response = await http.get(_baseUrl + url);
+  //     // Dio dio = Dio();
+  //     // final response = await dio.put(_baseUrl + url, data: data);
+  //     // responseJson = _returnResponse(response.data);
+  //     return responseJson;
+  //   } on SocketException {
+  //     throw FetchDataException('No Internet connection');
+  //   }
+  //   return responseJson;
+  // }
 
-  Future<dynamic> delete(String url, dynamic data) async {
-    dynamic responseJson;
-    try {
-      // final response = await http.get(_baseUrl + url);
-      Dio dio = Dio();
-      final response = await dio.delete(_baseUrl + url, data: data);
-      responseJson = _returnResponse(response.data);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    }
-    return responseJson;
-  }
+  // Future<dynamic> delete(String url, dynamic data) async {
+  //   dynamic responseJson;
+  //   try {
+  //     // final response = await http.get(_baseUrl + url);
+  //     Dio dio = Dio();
+  //     final response = await dio.delete(_baseUrl + url, data: data);
+  //     responseJson = _returnResponse(response.data);
+  //   } on SocketException {
+  //     throw FetchDataException('No Internet connection');
+  //   }
+  //   return responseJson;
+  // }
 
   // dynamic _returnResponse(HttpResponse response) {
   dynamic _returnResponse(http.StreamedResponse response) {
