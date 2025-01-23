@@ -52,7 +52,7 @@ class FilterScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<String> localFilterWatch = ref.watch(filterProviderLocal);
     final localFilterRead = ref.read(filterProviderLocal.notifier);
-    final filterproviderRead = ref.read(filterProvider.notifier);
+    // final filterproviderRead = ref.read(filterProvider.notifier);
     return Directionality(
       textDirection: AppConstant.selectedLanguage == 'EN'
           ? TextDirection.ltr

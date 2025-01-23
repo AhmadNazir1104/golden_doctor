@@ -179,10 +179,11 @@ class HomeScreen extends ConsumerWidget {
 
       default:
         return Center(
-            child: Text(
-          "No sections available",
-          style: AppTextStyles.body1,
-        ));
+          child: Text(
+            "No sections available",
+            style: AppTextStyles.body1,
+          ),
+        );
     }
   }
 }

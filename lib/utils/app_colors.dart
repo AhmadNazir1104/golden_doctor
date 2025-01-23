@@ -16,6 +16,7 @@ class AppColors<Colors> {
   static const Color greyCA = Color(0xffCACACA);
   static const Color greyBE = Color(0xffBEBEBE);
   static const Color greyF2 = Color(0xffF2F1EF);
+  static const Color greyDE = Color(0xffEDEDED);
   static const Color yallow = Color(0xFF00C817);
   
   static const Color redFB71 = Color(0xffC20E0F);

@@ -8,10 +8,11 @@ import 'package:golden_doctor/view_models/language_provider.dart';
 class ProductCaruselWidget extends StatelessWidget {
   final String productCaruselName;
   final String productCaruselList;
-  const ProductCaruselWidget(
-      {super.key,
-      required this.productCaruselName,
-      required this.productCaruselList});
+  const ProductCaruselWidget({
+    super.key,
+    required this.productCaruselName,
+    required this.productCaruselList,
+  });
 
   @override
   Widget build(BuildContext context) {
