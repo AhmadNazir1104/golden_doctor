@@ -39,14 +39,16 @@ class HomeScreen extends ConsumerWidget {
                 Icons.search_rounded,
               ),
               onPressed: () {
-                context.push('/embroidery_screen');
+                context.push('/search_screen');
               },
             ),
             IconButton(
               icon: Icon(
                 CupertinoIcons.barcode_viewfinder,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.push('/embroidery_screen');
+              },
             ),
           ],
         ),
@@ -171,8 +173,8 @@ class HomeScreen extends ConsumerWidget {
         );
       case 'products_carousel':
         return ProductCaruselWidget(
-            productCaruselName: 'New Arrivals',
-            productCaruselList: 'productCaruselList');
+          section: section,
+        );
       case 'brand_section':
         return BrandWidget(section: section);
       default:
