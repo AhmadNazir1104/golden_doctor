@@ -268,12 +268,12 @@ class Body {
       };
 }
 
-enum ObjType { COLLECTIONS, PRODUCT, STATIC_PAGE }
+enum ObjType { collections, products, staticPage }
 
 final objTypeValues = EnumValues({
-  "collections": ObjType.COLLECTIONS,
-  "product": ObjType.PRODUCT,
-  "static-page": ObjType.STATIC_PAGE
+  "collections": ObjType.collections,
+  "product": ObjType.products,
+  "static-page": ObjType.staticPage
 });
 
 class EnumValues<T> {

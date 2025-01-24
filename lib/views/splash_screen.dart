@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,12 +51,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Widget build(BuildContext context) {
     // ref.read(getTranslationProvider.notifier).fetchNavigation();
     // ref.watch(sectionsProvider);
-    print('fontSettingsAsync');
+    // print('fontSettingsAsync');
     // final fontSettingsAsync =
     ref.watch(fontSettingsProvider);
-    print('getLanguageAsync');
+    // print('getLanguageAsync');
     final getLanguageAsync = ref.watch(getLanguageProvider);
-    print('getTranslationAsync');
+    // print('getTranslationAsync');
     // final getTranslationAsync =
     ref.watch(getTranslationProvider);
     return Directionality(
@@ -138,7 +139,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                           }).toList(),
                           onChanged: (LanguageModel? newLanguage) {
                             setState(() {
-                              print('Selected Language: ${newLanguage?.title}');
+                              if (kDebugMode) {
+                                print('Selected Language: ${newLanguage?.title}');
+                              }
                               selectedLanguage = newLanguage;
                               ShearedprefService.setLanguage(
                                   selectedLanguage!.label.toString());

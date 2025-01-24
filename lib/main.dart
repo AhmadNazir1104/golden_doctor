@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,7 +47,9 @@ checkLanguageFun() {
     AppConstant.selectedLanguage = 'EN';
   } else {
     AppConstant.selectedLanguage = ShearedprefService.getLanguage();
-    print("Selected Language == ${AppConstant.selectedLanguage}");
+    if (kDebugMode) {
+      print("Selected Language == ${AppConstant.selectedLanguage}");
+    }
   }
 }
 

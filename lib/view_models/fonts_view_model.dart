@@ -29,7 +29,7 @@ final fontSettingsProvider = FutureProvider<FontSettings>((ref) async {
       print('document data ==== ${doc.data()}');
     }
     if (doc.exists && doc.data() != null) {
-      print('data======');
+      // print('data======');
       FontSettings vreb = FontSettings.fromMap(doc.data()!);
       AppTextStyles.updateFontStyles(
         family: vreb.fontFamily,
@@ -104,7 +104,7 @@ final getTranslationProvider = FutureProvider.autoDispose<void>((ref) async {
       log('translations has data === ');
       // Update English and Arabic translations based on locale
       for (var translation in translations) {
-             // Update the English map with the dynamic content
+        // Update the English map with the dynamic content
         english[translation.baseContent] = translation.baseContent;
         // Update the Arabic map with the dynamic content
         arabic[translation.baseContent] = translation.translatedContent;
@@ -121,12 +121,16 @@ final getTranslationProvider = FutureProvider.autoDispose<void>((ref) async {
       }
 
       // Print the updated maps
-      print("Updated English Translations:========================================");
-      print('English ==== $english');
-      print('English Length === ${english.length}');
-      print("Updated Arabic Translations:========================================");
-      print('Arabic ==== ${(json.encode(arabic))}');
-      print('English Length === ${arabic.length}');
+      if (kDebugMode) {
+        print(
+            "Updated English Translations:========================================");
+        print('English ==== $english');
+        print('English Length === ${english.length}');
+        print(
+            "Updated Arabic Translations:========================================");
+        print('Arabic ==== ${(json.encode(arabic))}');
+        print('English Length === ${arabic.length}');
+      }
     } else {
       throw Exception("Document does not exist or has no data");
     }
@@ -167,7 +171,9 @@ final getTranslationProvider = FutureProvider.autoDispose<void>((ref) async {
     //   throw Exception("Document does not exist or has no data");
     // }
   } catch (e) {
-    print('Error fetching languages: $e');
+    if (kDebugMode) {
+      print('Error fetching languages: $e');
+    }
     rethrow;
   }
 });

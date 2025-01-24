@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:golden_doctor/models/home_model/home_model.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 
 class BrandWidget extends StatelessWidget {
-  final String imageVal;
+  // final String imageVal;
+  final Section section;
   const BrandWidget({
     super.key,
-    required this.imageVal,
+    required this.section,
   });
-
   @override
   Widget build(BuildContext context) {
     return 

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_doctor/languages/arabic_language.dart';
 import 'package:golden_doctor/languages/english_language.dart';
@@ -21,7 +22,9 @@ extension Trans on String {
     AppConstant.selectedLanguage = ShearedprefService.getLanguage();
     // add  gloable language selected variable in place of this static language value.
     if(AppConstant.selectedLanguage! == "EN"){
-      print("did not open file");
+      if (kDebugMode) {
+        print("did not open file");
+      }
       return this;
     }
     var translation = getLanguageTextfn(
@@ -33,7 +36,9 @@ extension Trans on String {
 }
 
 Map<String, String> getLanguageTextfn(String language) {
-  print("opend a file");
+  if (kDebugMode) {
+    print("opend a file");
+  }
   switch (language) {
     case "AR":
       return arabic;

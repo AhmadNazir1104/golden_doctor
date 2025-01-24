@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/home_model/home_model.dart';
+import 'package:golden_doctor/resources/widgets/home_widgets/brand_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/maching_pair_widget.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
@@ -165,9 +166,6 @@ class HomeScreen extends ConsumerWidget {
         return Padding(
           padding: EdgeInsets.only(bottom: 36.h),
           child: SingleBannerWidget(
-            // image: AppImages.promotionBanner,
-            // height: 155.h,
-            // width: 375.w,
             section: section,
           ),
         );
@@ -175,8 +173,8 @@ class HomeScreen extends ConsumerWidget {
         return ProductCaruselWidget(
             productCaruselName: 'New Arrivals',
             productCaruselList: 'productCaruselList');
-      // _buildProductsCarousel(section.body);
-
+      case 'brand_section':
+        return BrandWidget(section: section);
       default:
         return Center(
           child: Text(

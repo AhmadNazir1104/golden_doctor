@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:golden_doctor/resources/widgets/product_widget/color_palette_Widget.dart';
+import 'package:golden_doctor/resources/widgets/product_widget/color_palette_widget.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/selectable_textbox.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
