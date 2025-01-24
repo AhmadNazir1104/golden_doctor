@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:golden_doctor/utils/app_constant.dart';
+import 'package:golden_doctor/models/home_model/home_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/product_widget.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 
+// ignore: must_be_immutable
 class ProductCaruselWidget extends StatelessWidget {
-  final String productCaruselName;
-  final String productCaruselList;
-  const ProductCaruselWidget({
+  Section section;
+  ProductCaruselWidget({
     super.key,
-    required this.productCaruselName,
-    required this.productCaruselList,
+    required this.section,
   });
 
   @override
@@ -28,7 +27,7 @@ class ProductCaruselWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  productCaruselName,
+                  section.title!,
                   style: AppTextStyles.headline2,
                 ),
                 Text(
@@ -43,7 +42,8 @@ class ProductCaruselWidget extends StatelessWidget {
             child: ListView.builder(
               // shrinkWrap: true,
               // physics: NeverScrollableScrollPhysics(),
-              itemCount: AppConstant.brandList.length,
+              // itemCount: AppConstant.brandList.length,
+              itemCount: section.body!.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return ProductWidget();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
+import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 
@@ -24,7 +25,9 @@ class CartCardWidget extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15.w),
+            padding: AppConstant.selectedLanguage == 'EN'
+                ? EdgeInsets.only(left: 15.w)
+                : EdgeInsets.only(right: 15.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

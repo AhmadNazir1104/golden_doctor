@@ -6,6 +6,7 @@ import 'package:golden_doctor/views/authentication/signup_screen.dart';
 import 'package:golden_doctor/views/home_screen.dart';
 import 'package:golden_doctor/views/navigation_screen/navigation_screen.dart';
 import 'package:golden_doctor/views/product_detail_pages/embroidery_screen.dart';
+import 'package:golden_doctor/views/search_screen/search_screen.dart';
 import 'package:golden_doctor/views/splash_screen.dart';
 import 'package:golden_doctor/views/collection_screen/collection_screen.dart';
 import 'package:golden_doctor/views/collection_screen/filter_screen.dart';
@@ -75,6 +76,11 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/navigation_screen',
       builder: (context, state) => const NavigationScreen(),
+    ),
+
+    GoRoute(
+      path: '/search_screen',
+      builder: (context, state) => SearchProducts(),
     ),
     // GoRoute(
     //   path: '/cart_screen',

@@ -4,79 +4,85 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/resources/widgets/cart_widgets/cart_card_widget.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
+import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Bag (1 Item)',
-          style: AppTextStyles.body2,
+    return Directionality(
+      textDirection: AppConstant.selectedLanguage == 'EN'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Bag (1 Item)',
+            style: AppTextStyles.body2,
+          ),
         ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CartCardWidget(),
-            Expanded(child: SizedBox()),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 21.h),
-                  child: SizedBox(
-                    width: 51.w,
-                    child: Divider(
-                      thickness: 2,
-                      color: Colors.grey,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CartCardWidget(),
+              Expanded(child: SizedBox()),
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 21.h),
+                    child: SizedBox(
+                      width: 51.w,
+                      child: Divider(
+                        thickness: 2,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 21.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'Subtotal',
-                          style: AppTextStyles.body2.copyWith(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 21.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            text: 'Subtotal',
+                            style: AppTextStyles.body2.copyWith(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ' (3 Items)',
+                                style: AppTextStyles.body3.copyWith(
+                                  color: AppColors.grey70,
+                                ),
+                              )
+                            ],
                           ),
-                          children: [
-                            TextSpan(
-                              text: ' (3 Items)',
-                              style: AppTextStyles.body3.copyWith(
-                                color: AppColors.grey70,
-                              ),
-                            )
-                          ],
                         ),
-                      ),
-                      Text(
-                        'SAR 350',
-                        style: AppTextStyles.body2,
-                      ),
-                    ],
+                        Text(
+                          'SAR 350',
+                          style: AppTextStyles.body2,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 21.h),
-                  child: Divider(),
-                ),
-                AppButtons.myprimaryButton(
-                  onPressed: () {},
-                  text: 'Checkout',
-                )
-              ],
-            )
-          ],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 21.h),
+                    child: Divider(),
+                  ),
+                  AppButtons.myprimaryButton(
+                    onPressed: () {},
+                    text: 'Checkout',
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
