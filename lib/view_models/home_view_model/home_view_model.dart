@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:golden_doctor/models/home_model/home_model.dart';
 
-class SectionsNotifier extends StateNotifier<AsyncValue<HomeModel?>> {
+class SectionsNotifier extends StateNotifier<AsyncValue<MainResponse?>> {
   SectionsNotifier() : super(const AsyncValue.loading());
 
   Future<void> fetchSections() async {
@@ -26,9 +26,10 @@ class SectionsNotifier extends StateNotifier<AsyncValue<HomeModel?>> {
 
         final data = doc.data()!;
         log('data ===== $data');
-        final sectionsModel = HomeModel.fromJson(data);
-        log('sectionsModel  ===== ${sectionsModel.sections![0].title}');
-        state = AsyncValue.data(sectionsModel);
+        // final sectionsModel = HomeModel.fromJson(data);
+        MainResponse response = MainResponse.fromJson(data);
+        log('sectionsModel  ===== ${response.sections[0]}');
+        state = AsyncValue.data(response);
       } else {
         throw Exception("Document does not exist or has no data");
       }
@@ -40,7 +41,7 @@ class SectionsNotifier extends StateNotifier<AsyncValue<HomeModel?>> {
 
 // Create a provider for the SectionsNotifier
 final sectionsProvider =
-    StateNotifierProvider<SectionsNotifier, AsyncValue<HomeModel?>>(
+    StateNotifierProvider<SectionsNotifier, AsyncValue<MainResponse?>>(
   (ref) => SectionsNotifier(),
 );
 

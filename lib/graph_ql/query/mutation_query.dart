@@ -48,7 +48,22 @@ String fetchProductwithCollectionIdfn(String id, {String? cursor}) {
                   }
                 }
               }
-               metafields(identifiers:[{namespace:"custom",key:"fit"},{namespace: "custom", key: "product_description"}]) {
+               metafields(identifiers:[
+                  {
+                      namespace: "custom", 
+                      key: "product_recomandation"
+                },
+                 {
+                      namespace: "custom", 
+                      key: "you_may_also_like"
+                },
+                {
+                      namespace: "custom", 
+                      key: "embroidery_product"
+                },
+             
+                ]
+                ){
                 key
                 value
               }
