@@ -81,7 +81,7 @@ class AppTextStyles {
         fontFamily,
         fontSize: body3Size,
         fontWeight: body3Weight,
-        color: AppColors.grey70,
+        color: AppColors.grey9c,
       );
 
   // Update method to set font values from Firebase data

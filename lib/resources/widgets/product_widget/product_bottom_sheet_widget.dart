@@ -15,13 +15,7 @@ var list = [
     "code": "0xff2345f",
   },
 ];
-
-class ProductBottomSheetWidget extends StatelessWidget {
-  const ProductBottomSheetWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    List col = [
+List col = [
       "black",
       "red",
       "green",
@@ -38,10 +32,12 @@ class ProductBottomSheetWidget extends StatelessWidget {
       "Regular",
       "Petite",
     ];
-    // var color = "black";
-    // var code = list.firstWhereOrNull((e){
-    //   return e["title"] == color;
-    // });
+class ProductBottomSheetWidget extends StatelessWidget {
+  const ProductBottomSheetWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+   
     return
         // code== null?
         // Text(color):

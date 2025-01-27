@@ -54,7 +54,8 @@ class CollectionScreen extends ConsumerWidget {
                 itemCount: 10,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 9 / 18, //170 / 350,
+                  mainAxisExtent: 370.h,
+                  // childAspectRatio: 9 / 18, //170 / 350,
                   crossAxisSpacing: 10.w,
                   mainAxisSpacing: 10.h,
                   // mainAxisExtent: 290,
