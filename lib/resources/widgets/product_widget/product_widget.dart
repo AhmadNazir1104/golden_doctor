@@ -1,19 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/product_bottom_sheet_widget.dart';
 
 class ProductWidget extends StatelessWidget {
-  const ProductWidget({super.key});
+  final ProductNode singleProduct;
+  const ProductWidget({
+    super.key,
+    required this.singleProduct,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 145.w,
-      height: 390,
+      height: 395,
       // margin: EdgeInsets.only(left: 10.w),
       decoration: BoxDecoration(
           // border: Border.all(
@@ -42,8 +47,8 @@ class ProductWidget extends StatelessWidget {
                     aspectRatio: 6 / 7,
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
-                      imageUrl:
-                          'https://pixlr.com/images/generator/photo-generator.webp',
+                      imageUrl: singleProduct.variants.edges[0].node.image.url,
+                      // 'https://pixlr.com/images/generator/photo-generator.webp',
                       // height: 200.h,
                       placeholder: (context, url) => SizedBox(
                         width: double.infinity,
@@ -92,14 +97,14 @@ class ProductWidget extends StatelessWidget {
                             clipBehavior: Clip.antiAlias,
                             builder: (context) => ProductBottomSheetWidget(),
                             shape: RoundedRectangleBorder(
-                              borderRadius: 
-                              // BorderRadius.only(
-                              //   topLeft: Radius.circular(0),
-                              //   topRight: Radius.circular(20),
-                              // ),
+                              borderRadius:
+                                  // BorderRadius.only(
+                                  //   topLeft: Radius.circular(0),
+                                  //   topRight: Radius.circular(20),
+                                  // ),
 
-                                BorderRadius.vertical(
-                                    top: Radius.circular(16)),
+                                  BorderRadius.vertical(
+                                      top: Radius.circular(16)),
                             ),
                           );
                         },
@@ -147,7 +152,7 @@ class ProductWidget extends StatelessWidget {
               SizedBox(
                 width: 100.w,
                 child: Text(
-                  "Infinity Women's Split Neck Top…",
+                  singleProduct.title,
                   style: AppTextStyles.body2.copyWith(fontSize: 12.sp),
                 ),
               ),

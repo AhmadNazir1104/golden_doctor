@@ -57,7 +57,9 @@ class ProductCaruselWidget extends StatelessWidget {
               //  section.body!.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-                return ProductWidget();
+                return 
+                Text('data');
+                // ProductWidget();
               },
             ),
           ),

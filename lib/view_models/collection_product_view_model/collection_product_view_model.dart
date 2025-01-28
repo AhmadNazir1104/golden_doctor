@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_doctor/graph_ql/config.dart';
@@ -8,7 +6,7 @@ import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class ProductNotifier extends ChangeNotifier {
-  List<ProductsEdge> productList = [];
+  List<ProductEdge> productList = [];
   Data? collectionProducts;
 
   bool isLoading = false;
@@ -17,7 +15,7 @@ class ProductNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addProducts(List<ProductsEdge> newProducts) {
+  void addProducts(List<ProductEdge> newProducts) {
     // productList = [];
     productList = [...productList, ...newProducts];
   }
@@ -26,10 +24,8 @@ class ProductNotifier extends ChangeNotifier {
     print("Fetch Function");
     print("Old pro ${productList.length}");
     if (type == "Initial Fetch" && productList.isNotEmpty) {
-      log('in the Initial Fetch');
       return;
     } else if (type == "Fetch More") {
-      log('in the Fetch More');
       if (collectionProducts!.collection.products.pageInfo.hasNextPage) {
         // setIsLoading();
         GraphQlHelper graphQlHelper = new GraphQlHelper();
@@ -46,16 +42,12 @@ class ProductNotifier extends ChangeNotifier {
           ),
         );
         if (result.hasException) {
-          log('GraphQL has Exception');
           // setIsLoading();
           print("GraphQL has Exception");
           print(result.exception!.graphqlErrors);
         } else {
-          log('new pro');
-          log('New Products ======== ${result.data!}');
           collectionProducts = Data.fromJson(result.data!);
-
-          List<ProductsEdge> allProducts = await makeVariantsAsProducts(
+          List<ProductEdge> allProducts = await makeVariantsAsProducts(
               collectionProducts!.collection.products.edges);
           print("new pro ${allProducts.length}");
           addProducts(allProducts);
@@ -66,7 +58,6 @@ class ProductNotifier extends ChangeNotifier {
         }
       }
     } else {
-             log('GraphQL has Exception else -----');
       setIsLoading();
       GraphQlHelper graphQlHelper = new GraphQlHelper();
       QueryResult result = await graphQlHelper.client.value.query(
@@ -80,7 +71,6 @@ class ProductNotifier extends ChangeNotifier {
         ),
       );
       if (result.hasException) {
-               log('result.hasException');
         setIsLoading();
         print("GraphQL has Exception");
         print(result.exception!.graphqlErrors);
@@ -88,7 +78,7 @@ class ProductNotifier extends ChangeNotifier {
         print(result.data!["collection"]["products"]["edges"][0]["node"]
             ["metafields"]);
         collectionProducts = Data.fromJson(result.data!);
-        List<ProductsEdge> allProducts = await makeVariantsAsProducts(
+        List<ProductEdge> allProducts = await makeVariantsAsProducts(
             collectionProducts!.collection.products.edges);
         print("new pro ${allProducts.length}");
         addProducts(allProducts);
@@ -149,27 +139,27 @@ final collectionsProductsProvider =
 // }
 
 /// The original function adapted for `compute`
-Future<List<ProductsEdge>> makeVariantsAsProducts(
-    List<ProductsEdge> productsEdges) async {
+Future<List<ProductEdge>> makeVariantsAsProducts(
+    List<ProductEdge> productsEdges) async {
   // Use `compute` to run the computation in a separate isolate
   return await compute(_makeVariantsAsProductsIsolate, productsEdges);
 }
 
 /// The isolate function
-List<ProductsEdge> _makeVariantsAsProductsIsolate(
-    List<ProductsEdge> productsEdges) {
-  List<ProductsEdge> allProducts = [];
+List<ProductEdge> _makeVariantsAsProductsIsolate(
+    List<ProductEdge> productsEdges) {
+  List<ProductEdge> allProducts = [];
   for (var product in productsEdges) {
     var tempProduct = product;
-    if (tempProduct.node.options[0].values.length > 1) {
-      for (var value in tempProduct.node.options[0].values) {
+    if (tempProduct.node.options[0].optionValues.length > 1) {
+      for (var value in tempProduct.node.options[0].optionValues) {
         // check if image is available for particular color variant and its quantity is available.
-        if (tempProduct.node.images.edges.any((e) => e.node.altText == value) &&
+        if (tempProduct.node.images.edges.any((e) => e.node.altText == value.name) &&
             tempProduct.node.variants.edges.any((e) =>
                 e.node.availableForSale == true &&
-                e.node.selectedOptions[0].value == value)) {
-          tempProduct.node.variantColor = value;
-          PurpleNode purpleNode = PurpleNode(
+                e.node.selectedOptions[0].value == value.name)) {
+          tempProduct.node.variantColor = value.name;
+          ProductNode purpleNode = ProductNode(
             gid: product.node.gid,
             productQuantity: product.node.productQuantity,
             title: product.node.title,
@@ -184,17 +174,17 @@ List<ProductsEdge> _makeVariantsAsProductsIsolate(
             id: product.node.id,
             options: product.node.options,
             fitMetafield: product.node.fitMetafield,
-            variantColor: value,
+            variantColor: value.name,
           );
           allProducts.add(
-            ProductsEdge(cursor: product.cursor, node: purpleNode),
+            ProductEdge(cursor: product.cursor, node: purpleNode),
           );
         }
       }
     } else {
       if (tempProduct.node.variants.edges
           .any((e) => e.node.availableForSale == true)) {
-        tempProduct.node.variantColor = tempProduct.node.options[0].values[0];
+        tempProduct.node.variantColor = tempProduct.node.options[0].name  ;
         allProducts.add(tempProduct);
       }
     }

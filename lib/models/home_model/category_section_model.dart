@@ -1,7 +1,9 @@
 import 'package:golden_doctor/models/home_model/home_model.dart';
 
 class CategoriesCarouselSection implements BaseSection {
+  @override
   final String type;
+  @override
   final String title;
   final List<Category> body;
 

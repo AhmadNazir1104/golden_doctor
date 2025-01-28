@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,20 +39,36 @@ class BrandWidget extends StatelessWidget {
                 Brand singleBrand = section.body[index];
                 return InkWell(
                   onTap: () {
-                    if (singleBrand.objType == 'collections') {
-                      log('collections========');
                       context.push(
-                        "/collection_product_screen",
-                        extra: {
-                          "collectionID": singleBrand.objId,
-                          "collectionName": singleBrand.objName,
-                        },
-                      );
-                    } else if (singleBrand.objType == 'product') {
-                      log('product========');
-                    } else {
-                      log('product========');
-                    }
+                      "/collection_product_screen",
+                      extra: {
+                        "collectionID": singleBrand.objId,
+                        "collectionName": singleBrand.objName,
+                      },
+                    );
+                    // if (singleBrand.objType == 'collections') {
+                    //   log('collections========');
+                    //   context.push(
+                    //     "/collection_product_screen",
+                    //     extra: {
+                    //       "collectionID": singleBrand.objId,
+                    //       "collectionName": singleBrand.objName,
+                    //     },
+                    //   );
+                    // } else if (singleBrand.objType == 'product') {
+                    //   log('product========');
+                    // } else if (singleBrand.objType == 'brands') {
+                    //   log('brands========');
+                    //    context.push(
+                    //     "/collection_product_screen",
+                    //     extra: {
+                    //       "collectionID": singleBrand.objId,
+                    //       "collectionName": singleBrand.objName,
+                    //     },
+                    //   );
+                    // } else {
+                    //   log('product========');
+                    // }
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 8.w),

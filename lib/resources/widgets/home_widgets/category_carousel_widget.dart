@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/home_model/category_section_model.dart';
-import 'package:golden_doctor/models/home_model/home_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 // import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
@@ -66,14 +65,14 @@ class CategoryCarouselWidget extends StatelessWidget {
                 itemCount: section.body.length,
                 // scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  dynamic singleCategory = section.body[index];
+                  Category singleCategory = section.body[index];
                   return InkWell(
                     onTap: () {
-                      // log('singleCategory.objType ====== ${singleCategory.objType!.name}');
                       // context.push('/collectionScreen');
 
                       if (singleCategory.objType == 'collections') {
                         log('collections========');
+                        log('singleCategory.objId ====== ${singleCategory.objId}');
                         context.push(
                           "/collection_product_screen",
                           extra: {
@@ -124,7 +123,7 @@ class CategoryCarouselWidget extends StatelessWidget {
                           SizedBox(
                             // height: 10,
                             child: Text(
-                              singleCategory.objName!.substring(0, 15),
+                              singleCategory.objName.substring(0, 15),
                               overflow: TextOverflow.ellipsis,
                               // singleCategory.objName.toString(),
                               maxLines: 2,

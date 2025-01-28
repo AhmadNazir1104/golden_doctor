@@ -301,9 +301,9 @@ class _SearchProductsState extends State<SearchProducts> {
                                 // log("1111111111111 s${resData}");
                                 // log("-------1-------");
 
-                                List<ProductsEdge> productsEdges =
-                                    List<ProductsEdge>.from(responseList
-                                        .map((x) => ProductsEdge.fromJson(x)));
+                                List<ProductEdge> productsEdges =
+                                    List<ProductEdge>.from(responseList
+                                        .map((x) => ProductEdge.fromJson(x)));
                                 // ProductsEdge.fromJson(resData['products']['edges'] as Map<String, dynamic>));
 
                                 // as List<ProductsEdge>;
@@ -351,7 +351,8 @@ class _SearchProductsState extends State<SearchProducts> {
                                                         //     productsEdges[index]
                                                         //         .node;
                                                         // single
-                                                        return ProductWidget();
+                                                        return  Text('data');
+                                                        // ProductWidget(singleProduct: null,);
                                                         //  ProductCard(
                                                         //   purpleNode:
                                                         //       singleProductNode,
