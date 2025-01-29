@@ -163,6 +163,7 @@ List<ProductEdge> _makeVariantsAsProductsIsolate(
             gid: product.node.gid,
             productQuantity: product.node.productQuantity,
             title: product.node.title,
+            vendor: product.node.vendor,
             tags: product.node.tags,
             description: product.node.description,
             descriptionHtml: product.node.descriptionHtml,
@@ -173,7 +174,9 @@ List<ProductEdge> _makeVariantsAsProductsIsolate(
             images: product.node.images,
             id: product.node.id,
             options: product.node.options,
-            fitMetafield: product.node.fitMetafield,
+            emborideryMetafield:product.node.emborideryMetafield,
+            productRecomandationMetafield:product.node.productRecomandationMetafield,
+            youMayAlsoLikeMetafield:product.node.youMayAlsoLikeMetafield,
             variantColor: value.name,
           );
           allProducts.add(

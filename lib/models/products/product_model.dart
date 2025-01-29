@@ -132,6 +132,7 @@ class ProductNode {
   final String gid;
   final String? productQuantity;
   final String title;
+  final String? vendor;
   final List<String> tags;
   final String description;
   final String descriptionHtml;
@@ -142,8 +143,9 @@ class ProductNode {
   final Images images;
   final String id;
   final List<Options> options;
-  final String? fitMetafield;
-  final String? descriptionMetafield;
+  final String? emborideryMetafield;
+  final String? productRecomandationMetafield;
+  final String? youMayAlsoLikeMetafield;
 
   String? variantColor;
 
@@ -151,6 +153,7 @@ class ProductNode {
     required this.gid,
     required this.productQuantity,
     required this.title,
+    required this.vendor,
     required this.tags,
     required this.description,
     required this.descriptionHtml,
@@ -161,15 +164,17 @@ class ProductNode {
     required this.images,
     required this.id,
     required this.options,
-    this.fitMetafield,
+    this.emborideryMetafield,
     this.variantColor,
-    this.descriptionMetafield,
+    this.productRecomandationMetafield,
+    this.youMayAlsoLikeMetafield,
   });
 
   factory ProductNode.fromJson(Map<String, dynamic> json) => ProductNode(
         gid: json["gid"] ?? "N/A",
         productQuantity: json['quantityAvailable'] ?? "N/A",
         title: json["title"] ?? "N/A",
+        vendor: json["vendor"] ?? "N/A",
         tags: List<String>.from(json["tags"].map((x) => x)),
         description: json["description"] ?? "N/A",
         descriptionHtml: json["descriptionHtml"] ?? "N/A",
@@ -181,14 +186,17 @@ class ProductNode {
         id: json["id"] ?? "N/A",
         options:
             List<Options>.from(json["options"].map((x) => Options.fromJson(x))),
-        fitMetafield: _getValueForKey(items: json["metafields"], key: "fit"),
-        descriptionMetafield: _getValueForKey(
-            items: json["metafields"], key: "product_description"),
+        emborideryMetafield: _getValueForKey(items: json["metafields"], key: "embroidery_product"),
+        productRecomandationMetafield: _getValueForKey(
+            items: json["metafields"], key: "product_recomandation"),
+        youMayAlsoLikeMetafield: _getValueForKey(
+            items: json["metafields"], key: "you_may_also_like"),
       );
 
   Map<String, dynamic> toJson() => {
         "gid": gid,
         "title": title,
+        "vendor": vendor,
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "description": description,
         "descriptionHtml": descriptionHtml,

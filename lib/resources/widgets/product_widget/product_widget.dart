@@ -135,17 +135,19 @@ class ProductWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 57.w,
+                width: 77.w,
                 height: 31.h,
                 margin: EdgeInsets.only(top: 7.h, bottom: 12.h),
+                // padding: EdgeInsets.symmetric(vertical: 7.h, horizontal: 5.w),
                 decoration: BoxDecoration(
                   color: AppColors.greyCA,
                   borderRadius: BorderRadius.circular(70.r),
                 ),
                 child: Center(
                   child: Text(
-                    'Infinity',
-                    style: AppTextStyles.body2,
+                    singleProduct.vendor!,
+                    style: AppTextStyles.body2
+                        .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -168,7 +170,12 @@ class ProductWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 5.w),
                       // width: 125.w,
                       child: Text(
-                        "06 Colors",
+                        singleProduct.variantColor!.length > 4
+                            ? singleProduct.variantColor!.substring(0, 5)
+                            : singleProduct.variantColor!,
+                        // "06 Colors",
+                        // maxLines: 2,
+                        // overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.body3.copyWith(fontSize: 12.sp),
                       ),
                     ),
@@ -179,7 +186,7 @@ class ProductWidget extends StatelessWidget {
                 padding: EdgeInsets.only(top: 5.h),
                 // width: 125.w,
                 child: Text(
-                  "SAR 350",
+                  singleProduct.variants.edges[0].node.price.amount.toString(),
                   style: AppTextStyles.headline2.copyWith(
                     fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
