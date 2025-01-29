@@ -47,4 +47,6 @@ class AppConstant {
     '2XL',
     
   ];
+
+  
 }

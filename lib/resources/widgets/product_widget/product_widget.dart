@@ -56,7 +56,7 @@ class ProductWidget extends StatelessWidget {
                         child: Center(
                           child: Image(
                             image: AssetImage(
-                              AppImages.doctorImage,
+                              AppImages.logoImage,
                             ),
                             width: double.infinity,
                             height: 202.h,
@@ -95,7 +95,9 @@ class ProductWidget extends StatelessWidget {
                           showModalBottomSheet(
                             context: context,
                             clipBehavior: Clip.antiAlias,
-                            builder: (context) => ProductBottomSheetWidget(),
+                            builder: (context) => ProductBottomSheetWidget(
+                              singleProduct: singleProduct,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius:
                                   // BorderRadius.only(

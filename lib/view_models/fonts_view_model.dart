@@ -8,6 +8,7 @@ import 'package:golden_doctor/languages/arabic_language.dart';
 import 'package:golden_doctor/languages/english_language.dart';
 import 'package:golden_doctor/models/fonts_model.dart';
 import 'package:golden_doctor/models/language/language_model.dart';
+import 'package:golden_doctor/models/products_colors_model.dart';
 import 'package:golden_doctor/models/traqnslation_model/translation_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 
@@ -16,6 +17,7 @@ List<TranslationModel> filtersTranslations = [];
 List<TranslationModel> navigationTranslations = [];
 List<TranslationModel> staticPagesTranslations = [];
 List<TranslationModel> otherTranslations = [];
+List<ColorPalette> colorPallete = [];
 
 //////////////////////////////////////////////////////////////////       Font Seeting  Provider    /////////////////////////////////////////////////////////////////
 final fontSettingsProvider = FutureProvider<FontSettings>((ref) async {
@@ -121,16 +123,16 @@ final getTranslationProvider = FutureProvider.autoDispose<void>((ref) async {
       }
 
       // Print the updated maps
-      if (kDebugMode) {
-        print(
-            "Updated English Translations:========================================");
-        print('English ==== $english');
-        print('English Length === ${english.length}');
-        print(
-            "Updated Arabic Translations:========================================");
-        print('Arabic ==== ${(json.encode(arabic))}');
-        print('English Length === ${arabic.length}');
-      }
+      // if (kDebugMode) {
+      //   print(
+      //       "Updated English Translations:========================================");
+      //   print('English ==== $english');
+      //   print('English Length === ${english.length}');
+      //   print(
+      //       "Updated Arabic Translations:========================================");
+      //   print('Arabic ==== ${(json.encode(arabic))}');
+      //   print('English Length === ${arabic.length}');
+      // }
     } else {
       throw Exception("Document does not exist or has no data");
     }
@@ -198,3 +200,60 @@ final getTranslationProvider = FutureProvider.autoDispose<void>((ref) async {
 //     rethrow; // This will trigger the error state in your provider
 //   }
 // });
+
+//////////////////////////////////////////////////////////////////       Color  Provider    /////////////////////////////////////////////////////////////////
+// final getColorProvider = FutureProvider((ref) async {
+
+//   try {
+//     final doc = await FirebaseFirestore.instance
+//         .collection('color_palettes')
+//         .doc('color_palettes')
+//         .get();
+
+//     // log('document data ==== ${doc.data()}');
+//     if (doc.exists && doc.data() != null) {
+//       final data = doc.data()!;
+//      var colorPalletee =  (data['color_palettes'] as List) 
+//           .map((translation) => TranslationModel.fromMap(translation))
+//           .toList();
+   
+//       // log('Colors has data === $data ');
+//       // log('List of english data === ${translations.length}');
+//     } else {
+//       throw Exception("Document does not exist or has no data");
+//     }
+//   } catch (e) {
+//     if (kDebugMode) {
+//       print('Error fetching Colors: $e');
+//     }
+//     rethrow;
+//   }
+// });
+
+final colorPaletteListProvider = StateProvider<List<ColorPalette>>((ref) => []);
+
+final getColorProvider = FutureProvider<List<ColorPalette>>((ref) async {
+  try {
+    final doc = await FirebaseFirestore.instance
+        .collection('color_palettes')
+        .doc('color_palettes')
+        .get();
+
+    if (doc.exists && doc.data() != null) {
+      final data = doc.data()!;
+      final colorList = (data['color_palettes'] as List)
+          .map((color) => ColorPalette.fromJson(color))
+          .toList();
+          log('Colors List === ${colorList.length}');
+      ref.read(colorPaletteListProvider.notifier).state = colorList;
+      return colorList;
+    } else {
+      throw Exception("Document does not exist or has no data");
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error fetching Colors: $e');
+    }
+    rethrow;
+  }
+});
