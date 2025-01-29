@@ -1,13 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:golden_doctor/models/home_model/home_model.dart';
+import 'package:golden_doctor/models/home_model/product_section_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/product_widget.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 
 // ignore: must_be_immutable
 class ProductCaruselWidget extends StatelessWidget {
-  Section section;
+  ProductsCarouselSection section;
   ProductCaruselWidget({
     super.key,
     required this.section,
@@ -15,6 +17,14 @@ class ProductCaruselWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> productIdList = [];
+//  productIdList =
+
+    for (var element in section.body) {
+      productIdList.add(element.objId); // Modify and add to the target list
+    }
+
+    log('productIdList length = ${productIdList.length.toString()}');
     return Padding(
       padding: EdgeInsets.only(bottom: 36.h),
       child: Column(
@@ -27,7 +37,7 @@ class ProductCaruselWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  section.title!,
+                  section.title,
                   style: AppTextStyles.headline2,
                 ),
                 Text(
@@ -43,10 +53,13 @@ class ProductCaruselWidget extends StatelessWidget {
               // shrinkWrap: true,
               // physics: NeverScrollableScrollPhysics(),
               // itemCount: AppConstant.brandList.length,
-              itemCount: section.body!.length,
+              itemCount:productIdList.length,
+              //  section.body!.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-                return ProductWidget();
+                return 
+                Text('data');
+                // ProductWidget();
               },
             ),
           ),

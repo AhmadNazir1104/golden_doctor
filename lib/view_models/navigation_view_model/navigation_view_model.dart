@@ -24,7 +24,7 @@ class NavigationViewModel extends StateNotifier<AsyncValue<NavigationModel?>> {
 
       if (doc.exists && doc.data() != null) {
         final data = doc.data()!;
-        log('data ===== $data');
+        // log('data ===== $data');
         final sectionsModel = NavigationModel.fromJson(data);
         // log('sectionsModel  ===== ${sectionsModel.sections[0].title}');
         state = AsyncValue.data(sectionsModel);

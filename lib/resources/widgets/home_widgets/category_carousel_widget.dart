@@ -1,16 +1,19 @@
 // import 'dart:developer';
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:golden_doctor/models/home_model/home_model.dart';
+import 'package:golden_doctor/models/home_model/category_section_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 // import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 
 // ignore: must_be_immutable
 class CategoryCarouselWidget extends StatelessWidget {
-  Section section;
+  // dynamic section;
+  CategoriesCarouselSection section;
   // final String categoryName;
   // final VoidCallback voidCallback;
   CategoryCarouselWidget({
@@ -59,14 +62,29 @@ class CategoryCarouselWidget extends StatelessWidget {
                   mainAxisSpacing: 0.h,
                   childAspectRatio: 0.77,
                 ),
-                itemCount: section.body!.length,
+                itemCount: section.body.length,
                 // scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  Body singleCategory = section.body![index];
+                  Category singleCategory = section.body[index];
                   return InkWell(
                     onTap: () {
-                      // log('singleCategory.objType ====== ${singleCategory.objType!.name}');
-                      context.push('/collectionScreen');
+                      // context.push('/collectionScreen');
+
+                      if (singleCategory.objType == 'collections') {
+                        log('collections========');
+                        log('singleCategory.objId ====== ${singleCategory.objId}');
+                        context.push(
+                          "/collection_product_screen",
+                          extra: {
+                            "collectionID": singleCategory.objId,
+                            "collectionName": singleCategory.objName,
+                          },
+                        );
+                      } else if (singleCategory.objType == 'product') {
+                        log('product========');
+                      } else {
+                        log('product========');
+                      }
                       // if (singleCategory.objType!.name == 'COLLECTIONS') {
                       //   log('collections========');
                       //   context.push('/collectionScreen');
@@ -105,7 +123,7 @@ class CategoryCarouselWidget extends StatelessWidget {
                           SizedBox(
                             // height: 10,
                             child: Text(
-                              singleCategory.objName!.substring(0, 15),
+                              singleCategory.objName.substring(0, 15),
                               overflow: TextOverflow.ellipsis,
                               // singleCategory.objName.toString(),
                               maxLines: 2,

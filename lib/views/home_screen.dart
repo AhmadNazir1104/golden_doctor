@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:golden_doctor/models/home_model/home_model.dart';
+import 'package:golden_doctor/models/home_model/brand_section_model.dart';
+import 'package:golden_doctor/models/home_model/category_section_model.dart';
+import 'package:golden_doctor/models/home_model/maching_pair_model.dart';
+import 'package:golden_doctor/models/home_model/product_section_model.dart';
+import 'package:golden_doctor/models/home_model/single_banner_section.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/brand_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/maching_pair_widget.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
@@ -47,14 +50,21 @@ class HomeScreen extends ConsumerWidget {
                 CupertinoIcons.barcode_viewfinder,
               ),
               onPressed: () {
-                context.push('/embroidery_screen');
+                // context.push('/embroidery_screen');
+                context.push(
+                  "/collection_product_screen",
+                  extra: {
+                    "collectionID": 'gid://shopify/Collection/444727984361',
+                    "collectionName": 'Best Seller Women (TEST)',
+                  },
+                );
               },
             ),
           ],
         ),
         body: sectionsState.when(
           data: (sectionsModel) {
-            if (sectionsModel == null || sectionsModel.sections!.isEmpty) {
+            if (sectionsModel == null || sectionsModel.sections.isEmpty) {
               return Center(
                   child: Text(
                 "No sections available",
@@ -62,9 +72,18 @@ class HomeScreen extends ConsumerWidget {
               ));
             }
             return ListView.builder(
-              itemCount: sectionsModel.sections!.length,
+              itemCount: sectionsModel.sections.length,
               itemBuilder: (context, index) {
-                final section = sectionsModel.sections![index];
+                final section = sectionsModel.sections[index];
+
+                // if (section is MatchingPairsSection) {
+                //   return MachingPairWidgetWidget(
+                //     section: section,
+                //   );
+
+                // } else {
+
+                // }
                 return _buildSectionBody(section);
               },
             );
@@ -132,58 +151,89 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionBody(Section section) {
-    switch (section.type) {
-      case 'categories_carousel':
-        return CategoryCarouselWidget(
-          // categoryName: 'Popular Category',
-          // voidCallback: () {
-          //   // context.push('/collectionScreen');
-          // },
-          section: section,
-        );
-      //  _buildCategoriesCarousel(section.body);
-      // case 'banner_slider':
-      //   return Padding(
-      //     padding: EdgeInsets.only(bottom: 36.h),
-      //     child: SingleBannerWidget(
-      //       image: AppImages.promotionBanner,
-      //       height: 155.h,
-      //       width: 375.w,
-      //     ),
-      //   );
-      // _buildBannerSlider(section.body);
-      case 'matching_pairs':
-        return MachingPairWidgetWidget(
-          section: section,
-          // image: AppImages.singleBanner,
-          // height: double.parse(section.height.toString()),
-          // voidCallback: () {},
-        );
-      // case 'two_banners':
-      //   return Text('two_banners');
-      // case 'four_banners_section':
-      //   return Text('four_banners_section');
-      case 'single_banner':
-        return Padding(
-          padding: EdgeInsets.only(bottom: 36.h),
-          child: SingleBannerWidget(
-            section: section,
-          ),
-        );
-      case 'products_carousel':
-        return ProductCaruselWidget(
-          section: section,
-        );
-      case 'brand_section':
-        return BrandWidget(section: section);
-      default:
-        return Center(
-          child: Text(
-            "No sections available",
-            style: AppTextStyles.body1,
-          ),
-        );
+  Widget _buildSectionBody(section) {
+    // print(section.runtimeType);
+
+    if (section is MatchingPairsSection) {
+      return MachingPairWidgetWidget(
+        section: section,
+      );
     }
+    //  else if (section is BannerSliderSection) {
+    //   return Text('No Section for this ');
+    // }
+    else if (section is CategoriesCarouselSection) {
+      return CategoryCarouselWidget(
+        section: section,
+      );
+    } else if (section is BrandSection) {
+      return BrandWidget(
+        section: section,
+      );
+    } else if (section is ProductsCarouselSection) {
+      return ProductCaruselWidget(
+        section: section,
+      );
+    } else if (section is SingleBannerSection) {
+      return SingleBannerWidget(
+        section: section,
+      );
+    }
+    {
+      return SizedBox.shrink();
+    }
+    // switch (section.type) {
+    //   case    'categories_carousel':
+    //     return CategoryCarouselWidget(
+    //       // categoryName: 'Popular Category',
+    //       // voidCallback: () {
+    //       //   // context.push('/collectionScreen');
+    //       // },
+    //       section: section,
+    //     );
+    //   //  _buildCategoriesCarousel(section.body);
+    //   // case 'banner_slider':
+    //   //   return Padding(
+    //   //     padding: EdgeInsets.only(bottom: 36.h),
+    //   //     child: SingleBannerWidget(
+    //   //       image: AppImages.promotionBanner,
+    //   //       height: 155.h,
+    //   //       width: 375.w,
+    //   //     ),
+    //   //   );
+    //   // _buildBannerSlider(section.body);
+    //   case 'matching_pairs':
+    //     return MachingPairWidgetWidget(
+    //       section: section,
+    //       // image: AppImages.singleBanner,
+    //       // height: double.parse(section.height.toString()),
+    //       // voidCallback: () {},
+    //     );
+    //   // case 'two_banners':
+    //   //   return Text('two_banners');
+    //   // case 'four_banners_section':
+    //   //   return Text('four_banners_section');
+    //   case 'single_banner':
+    //     return Padding(
+    //       padding: EdgeInsets.only(bottom: 36.h),
+    //       child: SingleBannerWidget(
+    //         section: section,
+    //       ),
+    //     );
+    //   case 'products_carousel':
+    //     return ProductCaruselWidget(
+    //       section: section,
+    //     );
+
+    //   case 'brand_section':
+    //     return BrandWidget(section: section);
+    //   default:
+    //     return Center(
+    //       child: Text(
+    //         "No sections available",
+    //         style: AppTextStyles.body1,
+    //       ),
+    //     );
+    // }
   }
 }

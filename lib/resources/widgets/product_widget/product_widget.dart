@@ -2,13 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/product_bottom_sheet_widget.dart';
 
 class ProductWidget extends StatelessWidget {
-  const ProductWidget({super.key});
+  final ProductNode singleProduct;
+  const ProductWidget({
+    super.key,
+    required this.singleProduct,
+  });
 
   @override
   Widget build(BuildContext context) {

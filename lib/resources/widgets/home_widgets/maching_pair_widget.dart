@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:golden_doctor/models/home_model/home_model.dart';
+import 'package:golden_doctor/models/home_model/maching_pair_model.dart';
 
 // ignore: must_be_immutable
 class MachingPairWidgetWidget extends StatelessWidget {
-  Section section;
-  // final String image;
-  // final double height;
-  // final VoidCallback voidCallback;
+  MatchingPairsSection section;
 
   MachingPairWidgetWidget({
     super.key,
     required this.section,
-    // required this.image,
-    // required this.height,
-    // required this.voidCallback,
   });
 
   @override
@@ -26,6 +20,7 @@ class MachingPairWidgetWidget extends StatelessWidget {
       },
       child: Container(
         height: double.parse(section.height.toString()),
+        // height: 500,
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.only(bottom: 36.h),
         decoration: BoxDecoration(
@@ -33,7 +28,7 @@ class MachingPairWidgetWidget extends StatelessWidget {
               fit: BoxFit.cover,
               image: NetworkImage(section.desktopImg.toString())
               // AssetImage(
-              //   image,
+              //   AppImages.createSetImage,
               // ),
               ),
         ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/graph_ql/query/mutation_query.dart';
 import 'package:golden_doctor/models/products/product_model.dart';
-import 'package:golden_doctor/resources/widgets/product_widget/product_widget.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
@@ -11,7 +10,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class SearchProducts extends StatefulWidget {
   const SearchProducts({super.key});
-  // final bool canPop;
+  
   @override
   // ignore: library_private_types_in_public_api
   _SearchProductsState createState() => _SearchProductsState();
@@ -301,9 +300,9 @@ class _SearchProductsState extends State<SearchProducts> {
                                 // log("1111111111111 s${resData}");
                                 // log("-------1-------");
 
-                                List<ProductsEdge> productsEdges =
-                                    List<ProductsEdge>.from(responseList
-                                        .map((x) => ProductsEdge.fromJson(x)));
+                                List<ProductEdge> productsEdges =
+                                    List<ProductEdge>.from(responseList
+                                        .map((x) => ProductEdge.fromJson(x)));
                                 // ProductsEdge.fromJson(resData['products']['edges'] as Map<String, dynamic>));
 
                                 // as List<ProductsEdge>;
@@ -351,7 +350,8 @@ class _SearchProductsState extends State<SearchProducts> {
                                                         //     productsEdges[index]
                                                         //         .node;
                                                         // single
-                                                        return ProductWidget();
+                                                        return  Text('data');
+                                                        // ProductWidget(singleProduct: null,);
                                                         //  ProductCard(
                                                         //   purpleNode:
                                                         //       singleProductNode,

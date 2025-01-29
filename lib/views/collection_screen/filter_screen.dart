@@ -6,7 +6,7 @@ import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
-import 'package:golden_doctor/view_models/collection_view_model.dart';
+import 'package:golden_doctor/view_models/collection_product_view_model/collection_view_model.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 
 List filterdata = [
