@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -199,8 +198,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        // context.go('/wellcomeScreen');
-                        context.go('/nav_barScreen');
+                        context.go('/wellcomeScreen');
+                        // context.go('/nav_barScreen');
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(

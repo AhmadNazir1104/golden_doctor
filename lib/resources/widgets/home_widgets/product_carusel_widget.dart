@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/models/home_model/product_section_model.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
-import 'package:golden_doctor/resources/widgets/product_widget/product_widget.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 
 // ignore: must_be_immutable

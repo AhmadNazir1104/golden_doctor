@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,7 @@ import 'package:golden_doctor/models/home_model/category_section_model.dart';
 import 'package:golden_doctor/models/home_model/maching_pair_model.dart';
 import 'package:golden_doctor/models/home_model/product_section_model.dart';
 import 'package:golden_doctor/models/home_model/single_banner_section.dart';
+import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/brand_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/maching_pair_widget.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
@@ -15,7 +18,9 @@ import 'package:golden_doctor/utils/app_images.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/category_carousel_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/product_carusel_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/single_banner_widget.dart';
+import 'package:golden_doctor/view_models/authentication_view_model.dart';
 import 'package:golden_doctor/view_models/home_view_model/home_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -23,6 +28,8 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sectionsState = ref.watch(sectionsProvider);
+    final authenticationrepository = ref.watch(apiServiceProvider);
+    final authenticationrepositoryRead = ref.read(apiServiceProvider.notifier);
     // final selectedLanguage = ref.watch(languageProvider);
 
     // Check if the selected language is right-to-left
@@ -49,15 +56,8 @@ class HomeScreen extends ConsumerWidget {
               icon: Icon(
                 CupertinoIcons.barcode_viewfinder,
               ),
-              onPressed: () {
-                // context.push('/embroidery_screen');
-                context.push(
-                  "/collection_product_screen",
-                  extra: {
-                    "collectionID": 'gid://shopify/Collection/444727984361',
-                    "collectionName": 'Best Seller Women (TEST)',
-                  },
-                );
+              onPressed: () async {
+                authenticationrepositoryRead.logOut(context);
               },
             ),
           ],

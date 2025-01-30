@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/color_palette_widget.dart';
@@ -10,6 +11,8 @@ import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 
+import '../../../view_models/collection_product_view_model/product_details_view_model.dart';
+
 var list = [
   {
     "title": "black",
@@ -17,29 +20,52 @@ var list = [
   },
 ];
 
-class ProductBottomSheetWidget extends StatelessWidget {
+class ProductBottomSheetWidget extends ConsumerStatefulWidget {
   final ProductNode singleProduct;
   const ProductBottomSheetWidget({super.key, required this.singleProduct});
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ProductBottomSheetWidgetState();
+}
+
+class _ProductBottomSheetWidgetState
+    extends ConsumerState<ProductBottomSheetWidget> {
+  @override
+  void initState() {
+    ref
+        .read(productDetailsProvider.notifier)
+        .productQuentity(context, widget.singleProduct.id);
+
+    Future.delayed(Duration(seconds: 0)).then((value) {
+      ref.read(productDetailsProvider.notifier).selectOption(
+          widget.singleProduct.variants.edges[0].node.selectedOptions);
+    });
+    super.initState();
+  }
+
+// class ProductBottomSheetWidget extends StatelessWidget {
+//   final ProductNode singleProduct;
+//   const ProductBottomSheetWidget({super.key, required this.singleProduct});
 
   @override
   Widget build(BuildContext context) {
-    List col = [
-      "black",
-      "red",
-      "green",
-      "orange",
-      "yello",
-      "black",
-      "red",
-      "green",
-      "orange",
-      "yello",
-    ];
+    // List col = [
+    //   "black",
+    //   "red",
+    //   "green",
+    //   "orange",
+    //   "yello",
+    //   "black",
+    //   "red",
+    //   "green",
+    //   "orange",
+    //   "yello",
+    // ];
 
-    List fittype = [
-      "Regular",
-      "Petite",
-    ];
+    // List fittype = [
+    //   "Regular",
+    //   "Petite",
+    // ];
     // var color = "black";
     // var code = list.firstWhereOrNull((e){
     //   return e["title"] == color;
@@ -93,7 +119,8 @@ class ProductBottomSheetWidget extends StatelessWidget {
                     ),
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
-                      imageUrl: singleProduct.variants.edges[0].node.image.url,
+                      imageUrl:
+                          widget.singleProduct.variants.edges[0].node.image.url,
                       // 'https://pixlr.com/images/generator/photo-generator.webp',
                       // height: 200.h,
                       placeholder: (context, url) => SizedBox(
@@ -122,7 +149,7 @@ class ProductBottomSheetWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          singleProduct.vendor!,
+                          widget.singleProduct.vendor!,
                           style: AppTextStyles.body1.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -134,7 +161,7 @@ class ProductBottomSheetWidget extends StatelessWidget {
                             width: 200.w,
                             child: Text(
                               // "Infinity Women's Split Neck Top W/Princess Seam",
-                              singleProduct.title,
+                              widget.singleProduct.title,
                               style: AppTextStyles.body1.copyWith(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -148,7 +175,7 @@ class ProductBottomSheetWidget extends StatelessWidget {
                             width: 200.w,
                             child: Text(
                               // "\$33.00"
-                              "\$${singleProduct.variants.edges[0].node.price.amount}",
+                              "\$${widget.singleProduct.variants.edges[0].node.price.amount}",
                               style: AppTextStyles.body1.copyWith(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w700,
@@ -167,12 +194,12 @@ class ProductBottomSheetWidget extends StatelessWidget {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: singleProduct.options.length,
+                  itemCount: widget.singleProduct.options.length,
                   padding: EdgeInsets.symmetric(
                     horizontal: 15,
                   ),
                   itemBuilder: (context, index) {
-                    Options singlePro = singleProduct.options[index];
+                    Options singlePro = widget.singleProduct.options[index];
 
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -210,13 +237,13 @@ class ProductBottomSheetWidget extends StatelessWidget {
                                           children: [
                                             Text(
                                               // "SIZE TYPE  ",
-                                              singlePro.name,
+                                              singlePro.name.toUpperCase(),
                                               style: AppTextStyles.headline3
                                                   .copyWith(
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            SizedBox(width:15.w),
+                                            SizedBox(width: 15.w),
                                             Text("Regular",
                                                 style: AppTextStyles.lable3),
                                           ],
@@ -226,11 +253,15 @@ class ProductBottomSheetWidget extends StatelessWidget {
                                           child: SizedBox(
                                             height: 29,
                                             child: ListView.builder(
-                                              itemCount: fittype.length,
+                                              itemCount:
+                                                  singlePro.optionValues.length,
                                               scrollDirection: Axis.horizontal,
                                               itemBuilder: (context, index) {
+                                                OptionValuesModel singleOp =
+                                                    singlePro
+                                                        .optionValues[index];
                                                 return SelectableTextBox(
-                                                  text: fittype[index],
+                                                  text: singleOp.name,
                                                   isSelected:
                                                       index == 0 ? true : false,
                                                 );
@@ -279,12 +310,18 @@ class ProductBottomSheetWidget extends StatelessWidget {
                                                   EdgeInsets.only(top: 10.h),
                                               child: Wrap(
                                                 children: [
-                                                  ...AppConstant.sizesList.map(
+                                                  ...
+                                                  // AppConstant.sizesList
+
+                                                  singlePro.optionValues.map(
                                                     (e) => SelectableTextBox(
-                                                      text: e,
-                                                      isSelected: e == "XXL"
-                                                          ? true
-                                                          : false,
+                                                      text: e.name,
+                                                      isSelected:
+                                                          // e.name
+                                                          //  == "XXL"
+                                                          //     ? true
+                                                          // :
+                                                          false,
                                                       maxWidth: 50.w,
                                                     ),
                                                   ),

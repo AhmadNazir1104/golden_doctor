@@ -518,12 +518,13 @@ const String finalsearchProducts =
 
 """;
 
-String signUpQuery(
-    {required String email,
-    required String password,
-    required String firstName,
-    required String lastName}) {
-  return '''{"query":"mutation RegisterAccount(\\n    \$email: String!, \\n    \$password: String!,  \\n    \$firstName: String!, \\n    \$lastName: String!, \\n    \$acceptsMarketing: Boolean = false,\\n) {\\n    customerCreate(input: {\\n        email: \$email, \\n        password: \$password, \\n        firstName: \$firstName, \\n        lastName: \$lastName,\\n        acceptsMarketing: \$acceptsMarketing, \\n    }) {\\n        customer {\\n            id\\n        }\\n        customerUserErrors {\\n            code\\n            message\\n        }\\n    }\\n}\\n","variables":{"email":"${email.toString()}","password":"${password.toString()}","firstName":"${firstName.toString()}","lastName":"${lastName.toString()}","acceptsMarketing":true}}''';
+String signUpQuery({
+  required String email,
+  required String password,
+  required String firstName,
+  required String lastName,
+}) {
+  return '''{"query":"mutation customerCreate(\$input: CustomerCreateInput!) {\\n  customerCreate(input: \$input) {\\n    customer {\\n      id\\n      email\\n      firstName\\n      lastName\\n    }\\n    customerUserErrors {\\n      code\\n      field\\n      message\\n    }\\n  }\\n}\\n\\n\\n\\n\\n# mutation SignInWithEmailAndPassword(\\n#     \$email: String!, \\n#     \$password: String!,\\n# ) {\\n#     customerAccessTokenCreate(input: { \\n#         email: \$email, \\n#         password: \$password,\\n#     }) {\\n#         customerAccessToken {\\n#             accessToken\\n#             expiresAt\\n#         }\\n#         customerUserErrors {\\n#             code\\n#             message\\n#         }\\n#     }\\n# }","variables":{"input":{"email":"$email","password":"$password","firstName":"test","lastName":"test"}}}''';
 }
 
 String signInQuery({
