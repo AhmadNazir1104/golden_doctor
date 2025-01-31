@@ -28,7 +28,7 @@ class ProductNotifier extends ChangeNotifier {
     } else if (type == "Fetch More") {
       if (collectionProducts!.collection.products.pageInfo.hasNextPage) {
         // setIsLoading();
-        GraphQlHelper graphQlHelper = new GraphQlHelper();
+        GraphQlHelper graphQlHelper = GraphQlHelper();
         QueryResult result = await graphQlHelper.client.value.query(
           QueryOptions(
             document: gql(fetchProductwithCollectionIdfn(collectionId,
@@ -59,7 +59,7 @@ class ProductNotifier extends ChangeNotifier {
       }
     } else {
       setIsLoading();
-      GraphQlHelper graphQlHelper = new GraphQlHelper();
+      GraphQlHelper graphQlHelper = GraphQlHelper();
       QueryResult result = await graphQlHelper.client.value.query(
         QueryOptions(
           document:

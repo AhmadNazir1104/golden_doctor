@@ -169,7 +169,8 @@ class SetBuilderScreen extends StatelessWidget {
                                     itemCount: col.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      return ColorPaletteWidget(
+                                      return 
+                                      ColorPalateWidget(
                                         colorName: col[index],
                                       );
                                     }),
@@ -285,7 +286,7 @@ class SetBuilderScreen extends StatelessWidget {
                                     itemCount: col.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      return ColorPaletteWidget(
+                                      return ColorPalateWidget(
                                         colorName: col[index],
                                       );
                                     }),

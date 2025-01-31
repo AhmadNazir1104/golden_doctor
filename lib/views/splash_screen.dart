@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,7 +51,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     // ref.read(getTranslationProvider.notifier).fetchNavigation();
-    // ref.watch(sectionsProvider);
+   ref.watch(getColorProvider);
+
+    // final colorList = ref.watch(colorPaletteListProvider);
+    // log('colorList ==== ${colorList.length}');
+
     // print('fontSettingsAsync');
     // final fontSettingsAsync =
     ref.watch(fontSettingsProvider);
@@ -140,7 +145,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                           onChanged: (LanguageModel? newLanguage) {
                             setState(() {
                               if (kDebugMode) {
-                                print('Selected Language: ${newLanguage?.title}');
+                                print(
+                                    'Selected Language: ${newLanguage?.title}');
                               }
                               selectedLanguage = newLanguage;
                               ShearedprefService.setLanguage(
@@ -192,8 +198,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        // context.go('/wellcomeScreen');
-                        context.go('/nav_barScreen');
+                        context.go('/wellcomeScreen');
+                        // context.go('/nav_barScreen');
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(

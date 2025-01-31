@@ -141,7 +141,7 @@ class ApiClass extends ChangeNotifier {
     });
     setUserLoginStatus(false);
     Fluttertoast.showToast(msg: " Logout Successfully ");
-    context.go("/nav_barScreen");
+    context.go("/wellcomeScreen");
   }
 
 // Profile

@@ -38,117 +38,103 @@ class ProductWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   // borderRadius: BorderRadius.circular(5),
                   ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // ----Image---
-                  Container(
+              child: AspectRatio(
+                aspectRatio: 6 / 7,
+                child: CachedNetworkImage(
+                  fit: BoxFit.fill,
+                  imageUrl: singleProduct.variants.edges[0].node.image.url,
+                  // 'https://pixlr.com/images/generator/photo-generator.webp',
+                  // height: 200.h,
+                  placeholder: (context, url) => SizedBox(
                     width: double.infinity,
-                    // height: 202.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.greyCA,
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 6 / 7,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.fill,
-                        imageUrl:
-                            'https://pixlr.com/images/generator/photo-generator.webp',
-                        // height: 200.h,
-                        placeholder: (context, url) => SizedBox(
-                          width: double.infinity,
-                          height: 202.h,
-                          child: Center(
-                            child: Image(
-                              image: AssetImage(
-                                AppImages.doctorImage,
-                              ),
-                              width: double.infinity,
-                              height: 202.h,
-                              opacity: AlwaysStoppedAnimation(0.3),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
-
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    ),
-                  ),
-                  // ----button----
-                  Positioned(
-                    bottom: 10,
-                    child: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Center(
-                        child: FloatingActionButton(
-                          heroTag: "pl",
-                          backgroundColor: AppColors.myScaffold,
-                          elevation: 0,
-                          isExtended: false,
-                          mini: true,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100)),
-                          child: Icon(
-                            Icons.add,
-                            color: AppColors.myPrimary,
-                            size: 12.h,
-                            weight: 700,
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              clipBehavior: Clip.antiAlias,
-                              builder: (context) => ProductBottomSheetWidget(),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    // BorderRadius.only(
-                                    //   topLeft: Radius.circular(0),
-                                    //   topRight: Radius.circular(20),
-                                    // ),
-
-                                    BorderRadius.vertical(
-                                        top: Radius.circular(16)),
-                              ),
-                            );
-                          },
+                    height: 202.h,
+                    child: Center(
+                      child: Image(
+                        image: AssetImage(
+                          AppImages.logoImage,
                         ),
                       ),
                     ),
                   ),
-                  // ---- sales tag----
-                  // Visibility(
-                  //   visible: true,
-                  //   child: Positioned(
-                  //     top: 0,
-                  //     right: 0,
-                  //     child: Container(
-                  //       color: AppColors.grey,
-                  //       padding:
-                  //           EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                  //       child: Text('%',
-                  //           style: AppTextStyles.body1
-                  //               ),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  // ----- On tap ------
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        context.push("/productDetailScreen");
-                      },
-                    ),
-                  ),
-                ],
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
               ),
             ),
+            // ----button----
+            Positioned(
+              bottom: 10,
+              child: SizedBox(
+                height: 24,
+                width: 24,
+                child: Center(
+                  child: FloatingActionButton(
+                    heroTag: "pl",
+                    backgroundColor: AppColors.myScaffold,
+                    elevation: 0,
+                    isExtended: false,
+                    mini: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Icon(
+                      Icons.add,
+                      color: AppColors.myPrimary,
+                      size: 12.h,
+                      weight: 700,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        clipBehavior: Clip.antiAlias,
+                        builder: (context) => ProductBottomSheetWidget(
+                          singleProduct: singleProduct,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              // BorderRadius.only(
+                              //   topLeft: Radius.circular(0),
+                              //   topRight: Radius.circular(20),
+                              // ),
+
+                              BorderRadius.vertical(top: Radius.circular(16)),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            // ---- sales tag----
+            // Visibility(
+            //   visible: true,
+            //   child: Positioned(
+            //     top: 0,
+            //     right: 0,
+            //     child: Container(
+            //       color: AppColors.grey,
+            //       padding:
+            //           EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+            //       child: Text('%',
+            //           style: AppTextStyles.body1
+            //               ),
+            //     ),
+            //   ),
+            // ),
+
+            // ----- On tap ------
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: InkWell(
+                onTap: () {
+                  context.push("/productDetailScreen");
+                },
+              ),
+            ),
+            // ],
+            // ),
+            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
