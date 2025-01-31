@@ -146,7 +146,8 @@ class _CollectionProductsScreenState
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  mainAxisExtent: 378.h,
+                                  // childAspectRatio: 6/9,
+                                  mainAxisExtent: 382.h,
                                   // childAspectRatio: 9 / 18, //170 / 350,
                                   crossAxisSpacing: 10.w,
                                   mainAxisSpacing: 10.h,
