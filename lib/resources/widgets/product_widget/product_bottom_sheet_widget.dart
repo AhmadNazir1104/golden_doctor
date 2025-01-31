@@ -7,7 +7,6 @@ import 'package:golden_doctor/resources/widgets/product_widget/color_palette_wid
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/selectable_textbox.dart';
 import 'package:golden_doctor/utils/app_colors.dart';
-import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 

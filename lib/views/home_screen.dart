@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:golden_doctor/models/home_model/category_section_model.dart';
 import 'package:golden_doctor/models/home_model/maching_pair_model.dart';
 import 'package:golden_doctor/models/home_model/product_section_model.dart';
 import 'package:golden_doctor/models/home_model/single_banner_section.dart';
-import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/brand_widget.dart';
 import 'package:golden_doctor/resources/widgets/home_widgets/maching_pair_widget.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
@@ -20,7 +18,6 @@ import 'package:golden_doctor/resources/widgets/home_widgets/product_carusel_wid
 import 'package:golden_doctor/resources/widgets/home_widgets/single_banner_widget.dart';
 import 'package:golden_doctor/view_models/authentication_view_model.dart';
 import 'package:golden_doctor/view_models/home_view_model/home_view_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
