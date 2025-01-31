@@ -6,6 +6,7 @@ import 'package:golden_doctor/views/authentication/signup_screen.dart';
 import 'package:golden_doctor/views/home_screen.dart';
 import 'package:golden_doctor/views/navigation_screen/navigation_screen.dart';
 import 'package:golden_doctor/views/product_detail_pages/embroidery_screen.dart';
+import 'package:golden_doctor/views/product_detail_pages/product_detail_screen.dart';
 import 'package:golden_doctor/views/search_screen/search_screen.dart';
 import 'package:golden_doctor/views/splash_screen.dart';
 import 'package:golden_doctor/views/collection_screen/collection_screen.dart';
@@ -67,6 +68,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/forgetPasswordScreen',
       builder: (context, state) => const ForgetPasswordScreen(),
+    ),
+    GoRoute(
+      path: '/productDetailScreen',
+      builder: (context, state) => const ProductDetailScreen(),
     ),
 
     /////////////////////////////////////// For Testing Purpose ///////////////////////////////////////
