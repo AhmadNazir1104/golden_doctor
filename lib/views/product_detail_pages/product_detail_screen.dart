@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/color_palette_Widget.dart';
@@ -30,10 +32,36 @@ class ProductDetailScreen extends ConsumerWidget {
               centerTitle: true,
               titlePadding: EdgeInsets.zero,
               collapseMode: CollapseMode.pin,
-              background: Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: Colors.blue,
+              background: CarouselSlider.builder(
+                itemCount: 5,
+                itemBuilder: (contaxt, index, _) {
+                  return CachedNetworkImage(
+                    imageUrl:
+                        "https://scrubser-shop.com/wp-content/uploads/2024/02/CK131A_A.jpg",
+                    fit: BoxFit.fill,
+                    height: double.infinity,
+                    width: double.infinity,
+                    placeholder: (context, url) => SizedBox(
+                      height: 70.h,
+                      width: 70.w,
+                      child: Center(
+                        child: Image(
+                          image: AssetImage(
+                            AppImages.horizantelLogo,
+                          ),
+                          fit: BoxFit.contain,
+                          height: 70.h,
+                          width: 120.w,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  );
+                },
+                options: CarouselOptions(
+                  aspectRatio: 3 / 6,
+                  viewportFraction: 1,
+                ),
               ),
 
               // title: Text("title"),
@@ -161,6 +189,92 @@ class ProductDetailScreen extends ConsumerWidget {
                     ],
                   ),
                   SizedBox(height: 10),
+                  AppButtons.myTextButton(
+                    text: "Size Chart",
+                    textStyle: AppTextStyles.lable3.copyWith(
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                      // color: appcolor
+                    ),
+                    onPressed: () {},
+                    context: context,
+                  ),
+                  Text(
+                    "PERSONALIZE",
+                    style: AppTextStyles.headline3.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 17.w),
+                    // margin: EdgeInsets.symmetric(horizontal: 20.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Add Embroidery"),
+                        Text("From 14 SAR"),
+                      ],
+                    ),
+                  ),
+                  ExpansionTile(
+                    shape: Border(),
+                    minTileHeight: 5.h,
+                    tilePadding: EdgeInsets.all(0),
+                    title: Text(
+                      "DESCRIPTION",
+                      style: AppTextStyles.headline3.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down_rounded,
+                      color: AppColors.buttonColor,
+                      size: 25,
+                    ),
+                    children: [
+                      Html(
+                        data: "",
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    shape: Border(),
+                    minTileHeight: 5.h,
+                    tilePadding: EdgeInsets.all(0),
+                    title: Text(
+                      "DELIVERY & RETURNS",
+                      style: AppTextStyles.headline3.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down_rounded,
+                      color: AppColors.buttonColor,
+                      size: 25,
+                    ),
+                    children: [
+                      Html(
+                        data: "",
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "Popular Product",
+                    style: AppTextStyles.headline3.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    "Recomanded Product",
+                    style: AppTextStyles.headline3.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ],
               ),
             ),
