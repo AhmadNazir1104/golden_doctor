@@ -13,6 +13,31 @@ import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
 
+
+
+var list = [
+  {
+    "title": "black",
+    "code": "0xff2345f",
+  },
+];
+List col = [
+      "black",
+      "red",
+      "green",
+      "orange",
+      "yello",
+      "black",
+      "red",
+      "green",
+      "orange",
+      "yello",
+    ];
+
+    List fittype = [
+      "Regular",
+      "Petite",
+    ];
 class ProductDetailScreen extends ConsumerWidget {
   const ProductDetailScreen({super.key});
 
@@ -114,7 +139,7 @@ class ProductDetailScreen extends ConsumerWidget {
                   Wrap(
                     children: [
                       ...col.map(
-                        (e) => ColorPaletteWidget(
+                        (e) => ColorPalateWidget(
                           colorName: e,
                         ),
                       ),
