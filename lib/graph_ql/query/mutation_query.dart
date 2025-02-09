@@ -83,80 +83,80 @@
 
 String fetchProductwithCollectionIdfn(String id, {String? cursor}) {
   return '''query FetchProducts(\$numProducts: Int!, \$cursor: String) {
-      collection(id: "$id") {
-        products(first: \$numProducts, after: \$cursor) {
-          edges {
-            cursor
-            node {
-              title
-              vendor
-              tags
-              description
-              descriptionHtml
-              productType
-              publishedAt
-              onlineStoreUrl
-              options{
-              name
-              optionValues{
-                name
-                        }
-                    }
-              variants(first: 30) {
-                edges {
-                  node {
-                    id
+        collection(id: "$id") {
+            products(first: \$numProducts, after: \$cursor) {
+            edges {
+                cursor
+                node {
                     title
-                    image {
-                      url
+                    vendor
+                    tags
+                    description
+                    descriptionHtml
+                    productType
+                    publishedAt
+                    onlineStoreUrl
+                    options{
+                        name
+                        optionValues{
+                            name
+                        }
+                    }
+                    variants(first: 30) {
+                        edges {
+                            node {
+                                id
+                                title
+                                image {
+                                    url
                                 }
-                    price {
-                      amount
+                                price {
+                                    amount
                                 }
-                    sku
-                    compareAtPrice{
-                      amount
+                                sku
+                                compareAtPrice{
+                                    amount
                                 }
-                    availableForSale
-
-                    selectedOptions {
-                      name
-                      value
+                                availableForSale
+                                selectedOptions {
+                                    name
+                                    value
                                 }
                             }
                         }
                     }
-              images(first: 30) {
-                edges {
-                  node {
-                    url
-                    altText
+                    images(first: 30) {
+                        edges {
+                            node {
+                                url
+                                altText
                             }
                         }
                     }
-               metafields(identifiers: [
-                        {namespace: "custom",key: "product_recomandation"
-                        },
-                        {namespace: "custom", key: "embroidery_product"
-                        }
-                {namespace: "custom", key: "you_may_also_like"
-                        }
-                    ]) {
-                key
-                value
+                    metafields(identifiers: [
+                                {namespace: "custom",key: "product_recomandation"
+                                },
+                                {namespace: "custom", key: "embroidery_product"
+                                }
+                                {namespace: "custom", key: "you_may_also_like"
+                                }
+                            ]) {
+                        key
+                        value
                     }
-              id
+                    id
                 }
             }
-          pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
+            pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
             }
         }
     }
-}''';
+}
+''';
 }
 // metafield(namespace:"custom",key:"fit"){
 //                 key
@@ -168,67 +168,65 @@ String fetchProductListByIDs(List<String> productIDs) {
   	nodes(ids: [${productIDs.iterator}
     ]){ 
     	... on 
-      Product
-           {
-              title
-              vendor
-              tags
-              description
-              descriptionHtml
-              productType
-              publishedAt
-              onlineStoreUrl
-              options{
-              name
-              optionValues{
+      Product {
+        title
+        vendor
+        tags
+        description
+        descriptionHtml
+        productType
+        publishedAt
+        onlineStoreUrl
+        options{
+            name
+            optionValues{
                 name
-                }
             }
-              variants(first: 30) {
-                edges {
-                  node {
+        }
+        variants(first: 30) {
+            edges {
+                node {
                     id
                     title
                     image {
-                      url
-                        }
+                        url
+                    }
                     price {
-                      amount
-                        }
+                        amount
+                    }
                     sku
                     compareAtPrice{
-                      amount
-                        }
+                        amount
+                    }
                     availableForSale
-
                     selectedOptions {
-                      name
-                      value
-                        }
+                        name
+                        value
                     }
                 }
             }
-              images(first: 30) {
-                edges {
-                  node {
+        }
+        images(first: 30) {
+            edges {
+                node {
                     url
                     altText
-                    }
                 }
             }
-               metafields(identifiers: [
-                {namespace: "custom",key: "product_recomandation"
-                },
-                {namespace: "custom", key: "embroidery_product"
-                }
-                {namespace: "custom", key: "you_may_also_like"
-                }
-            ]) {
-                key
-                value
-            }
-              id
         }
+        metafields(identifiers: [
+                    {namespace: "custom",key: "product_recomandation"
+                    },
+                    {namespace: "custom", key: "embroidery_product"
+                    }
+                    {namespace: "custom", key: "you_may_also_like"
+                    }
+                ]) {
+            key
+            value
+        }
+        id
+      }
     }
 }
 ''';
@@ -237,54 +235,63 @@ String fetchProductListByIDs(List<String> productIDs) {
 String fetchSignleProduct(String productID) {
   return '''query{
       product(id: "$productID") {
-            title
-              tags
-              description
-              descriptionHtml
-              productType
-              publishedAt
-              onlineStoreUrl
-              options{
-              name
-              values
+        title
+        vendor
+        tags
+        description
+        descriptionHtml
+        productType
+        publishedAt
+        onlineStoreUrl
+        options{
+            name
+            optionValues{
+                name
             }
-              variants(first: 30) {
-                edges {
-                  node {
+        }
+        variants(first: 30) {
+            edges {
+                node {
                     id
                     title
                     image {
-                      src
+                        url
                     }
                     price {
-                      amount
+                        amount
                     }
                     sku
                     compareAtPrice{
-                      amount
+                        amount
                     }
                     availableForSale
-
                     selectedOptions {
-                      name
-                      value
+                        name
+                        value
                     }
-                  }
                 }
-              }
-              images(first: 30) {
-                edges {
-                  node {
+            }
+        }
+        images(first: 30) {
+            edges {
+                node {
                     url
                     altText
-                  }
                 }
-              }
-               metafields(identifiers:[{namespace:"custom",key:"fit"},{namespace: "custom", key: "product_description"}]) {
-                key
-                value
-              }
-              id
+            }
+        }
+        metafields(identifiers: [
+                    {namespace: "custom",key: "product_recomandation"
+                    },
+                    {namespace: "custom", key: "embroidery_product"
+                    }
+                    {namespace: "custom", key: "you_may_also_like"
+                    }
+                ]) {
+            key
+            value
+        }
+        id
       }
     }''';
 }
@@ -451,13 +458,13 @@ String fetchAllOrders(String userToken) {
 // """;
 
 const String finalsearchProducts =
-    """  query ReadProductsByTag(\$Search: String!) {
-
+"""  query ReadProductsByTag(\$Search: String!) {
   products(first: 39, query: \$Search) {
-          edges {
-            cursor
-            node {
+      edges {
+          cursor
+          node {
               title
+              vendor
               tags
               description
               descriptionHtml
@@ -465,55 +472,63 @@ const String finalsearchProducts =
               publishedAt
               onlineStoreUrl
               options{
-              name
-              values
-            }
-              variants(first: 30) {
-                edges {
-                  node {
-                    id
-                    title
-                    image {
-                      src
-                    }
-                    price {
-                      amount
-                    }
-                    sku
-                    compareAtPrice{
-                      amount
-                    }
-                    availableForSale
-
-                    selectedOptions {
+                  name
+                  optionValues{
                       name
-                      value
-                    }
                   }
-                }
+              }
+              variants(first: 30) {
+                  edges {
+                      node {
+                          id
+                          title
+                          image {
+                              url
+                          }
+                          price {
+                              amount
+                          }
+                          sku
+                          compareAtPrice{
+                              amount
+                          }
+                          availableForSale
+                          selectedOptions {
+                              name
+                              value
+                          }
+                      }
+                  }
               }
               images(first: 30) {
-                edges {
-                  node {
-                    url
-                    altText
+                  edges {
+                      node {
+                          url
+                          altText
+                      }
                   }
-                }
               }
-               metafields(identifiers:[{namespace:"custom",key:"fit"},{namespace: "custom", key: "product_description"}]) {
-                key
-                value
+              metafields(identifiers: [
+                          {namespace: "custom",key: "product_recomandation"
+                          },
+                          {namespace: "custom", key: "embroidery_product"
+                          }
+                          {namespace: "custom", key: "you_may_also_like"
+                          }
+                      ]) {
+                  key
+                  value
               }
               id
-            }
           }
-          pageInfo {
+      }
+      pageInfo {
           hasNextPage
           hasPreviousPage
           startCursor
           endCursor
-          }
-        }
+      }
+  }
 }
 
 """;

@@ -9,15 +9,14 @@ import 'package:golden_doctor/resources/widgets/universal_widget/selectable_text
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
+import 'package:golden_doctor/view_models/product_details_view_model.dart';
 
-import '../../../view_models/collection_product_view_model/product_details_view_model.dart';
-
-var list = [
-  {
-    "title": "black",
-    "code": "0xff2345f",
-  },
-];
+// var list = [
+//   {
+//     "title": "black",
+//     "code": "0xff2345f",
+//   },
+// ];
 
 class ProductBottomSheetWidget extends ConsumerStatefulWidget {
   final ProductNode singleProduct;
@@ -29,14 +28,15 @@ class ProductBottomSheetWidget extends ConsumerStatefulWidget {
 
 class _ProductBottomSheetWidgetState
     extends ConsumerState<ProductBottomSheetWidget> {
+  final uniquePageKey = DateTime.now().toUtc().toString();
   @override
   void initState() {
     ref
-        .read(productDetailsProvider.notifier)
+        .read(productDetailsProvider(uniquePageKey).notifier)
         .productQuentity(context, widget.singleProduct.id);
 
     Future.delayed(Duration(seconds: 0)).then((value) {
-      ref.read(productDetailsProvider.notifier).selectOption(
+      ref.read(productDetailsProvider(uniquePageKey).notifier).selectOption(
           widget.singleProduct.variants.edges[0].node.selectedOptions);
     });
     super.initState();
@@ -69,6 +69,9 @@ class _ProductBottomSheetWidgetState
     // var code = list.firstWhereOrNull((e){
     //   return e["title"] == color;
     // });
+    final optionsWatch = ref.watch(productDetailsProvider(uniquePageKey));
+    final optionsRead = ref.read(productDetailsProvider(uniquePageKey).notifier);
+
     return
         // code== null?
         // Text(color):
@@ -204,7 +207,7 @@ class _ProductBottomSheetWidgetState
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        singlePro.name == 'color'
+                        singlePro.name == 'Color'
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,14 +223,16 @@ class _ProductBottomSheetWidgetState
                                     children: [
                                       ...singlePro.optionValues.map(
                                         (e) => ColorPalateWidget(
-                                          colorName: e.name,
+                                          optionKey: singlePro.name,
+                                          optionValue: e.name,
+                                          uniquePageKey: uniquePageKey,
                                         ),
                                       ),
                                     ],
                                   ),
                                 ],
                               )
-                            : singlePro.name == 'fit'
+                            : singlePro.name == 'Fit'
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 29.h),
                                     child: Column(
@@ -259,10 +264,32 @@ class _ProductBottomSheetWidgetState
                                                 OptionValuesModel singleOp =
                                                     singlePro
                                                         .optionValues[index];
-                                                return SelectableTextBox(
-                                                  text: singleOp.name,
-                                                  isSelected:
-                                                      index == 0 ? true : false,
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    var temp = optionsWatch;
+                                                    temp[temp.indexWhere((e) =>
+                                                            e.name ==
+                                                            singlePro.name)] =
+                                                        SelectedOption(
+                                                      name: singlePro.name,
+                                                      value: singleOp.name,
+                                                    );
+
+                                                    optionsRead
+                                                        .selectOption(temp);
+                                                  },
+                                                  child: SelectableTextBox(
+                                                    text: singleOp.name,
+                                                    isSelected: singleOp.name ==
+                                                            optionsWatch
+                                                                .firstWhere((x) =>
+                                                                    x.name ==
+                                                                    singlePro
+                                                                        .name)
+                                                                .value
+                                                        ? true
+                                                        : false,
+                                                  ),
                                                 );
                                               },
                                             ),
@@ -271,7 +298,7 @@ class _ProductBottomSheetWidgetState
                                       ],
                                     ),
                                   )
-                                : singlePro.name == 'size'
+                                : singlePro.name == 'Size'
                                     ? Padding(
                                         padding: EdgeInsets.only(top: 29.h),
                                         child: Column(
@@ -313,15 +340,40 @@ class _ProductBottomSheetWidgetState
                                                   // AppConstant.sizesList
 
                                                   singlePro.optionValues.map(
-                                                    (e) => SelectableTextBox(
-                                                      text: e.name,
-                                                      isSelected:
-                                                          // e.name
-                                                          //  == "XXL"
-                                                          //     ? true
-                                                          // :
-                                                          false,
-                                                      maxWidth: 50.w,
+                                                    (e) => GestureDetector(
+                                                      onTap: () {
+                                                        var temp = optionsWatch;
+                                                        temp[temp.indexWhere(
+                                                                (e) =>
+                                                                    e.name ==
+                                                                    singlePro
+                                                                        .name)] =
+                                                            SelectedOption(
+                                                          name: singlePro.name,
+                                                          value: e.name,
+                                                        );
+
+                                                        optionsRead
+                                                            .selectOption(temp);
+                                                      },
+                                                      child: SelectableTextBox(
+                                                        text: e.name,
+                                                        isSelected: e.name ==
+                                                                optionsWatch
+                                                                    .firstWhere((x) =>
+                                                                        x.name ==
+                                                                        singlePro
+                                                                            .name)
+                                                                    .value
+                                                            ? true
+                                                            : false,
+                                                        // e.name
+                                                        //  == "XXL"
+                                                        //     ? true
+                                                        // :
+                                                        // false,
+                                                        maxWidth: 50.w,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
