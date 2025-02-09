@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:golden_doctor/models/cart/cart_model.dart';
 import 'package:golden_doctor/models/product_quantity_model.dart/product_quantity_model.dart';
 import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/color_palette_widget.dart';
@@ -15,6 +21,7 @@ import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_constant.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
+import 'package:golden_doctor/view_models/cart_view_model.dart';
 import 'package:golden_doctor/view_models/language_provider.dart';
 import 'package:golden_doctor/view_models/product_details_view_model.dart';
 
@@ -66,10 +73,13 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   late final Future<List<ProductEdge>?> popularProducts;
   late final Future<List<ProductEdge>?> recomandedProducts;
+  late InAppWebViewController webViewController;
   final uniquePageKey = DateTime.now().toUtc().toString();
   @override
   void initState() {
-    print("product page init");
+    if (kDebugMode) {
+      print("product page init");
+    }
     ref
         .read(productDetailsProvider(uniquePageKey).notifier)
         .productQuentity(context, widget.singleProduct.id);
@@ -89,22 +99,24 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             collectionId: widget.singleProduct.youMayAlsoLikeMetafield,
           );
     });
-    print("11111111");
-    print(widget.singleProduct.productRecomandationMetafield);
+    if (kDebugMode) {
+      print("11111111");
+      print(widget.singleProduct.productRecomandationMetafield);
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final currentImgIndex = ref.watch(carouselIndex);
-    // final cartRead = ref.read(cartProvider.notifier);
-    // final List<CartModel> cartList = ref.watch(cartProvider);
+    final cartRead = ref.read(cartProvider.notifier);
+    final List<CartModel> cartList = ref.watch(cartProvider);
 
     final optionsWatch = ref.watch(productDetailsProvider(uniquePageKey));
     final optionsRead =
         ref.read(productDetailsProvider(uniquePageKey).notifier);
-    VariantsEdge selectedVariant = optionsRead.selectVariant(
-        purpleNode: widget.singleProduct, selectedOptionsList: []);
+    VariantsEdge selectedVariant =
+        optionsRead.selectVariant(purpleNode: widget.singleProduct);
     ProductQuantityModel? productQuantityModel;
     List<ImagesEdge> imageEdges;
     // ------ create image list if specific color variant------
@@ -126,6 +138,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     final Options? colorOption = widget.singleProduct.options
         .firstWhereOrNull((element) => element.name == "Color");
 
+        print("selected varient");
+        print(json.encode(selectedVariant.node.selectedOptions));
     return Directionality(
       textDirection: AppConstant.selectedLanguage == 'EN'
           ? TextDirection.ltr
@@ -138,7 +152,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             : CustomScrollView(
                 slivers: <Widget>[
                   // -------- image carousel. -----------
-
                   SliverAppBar(
                     toolbarHeight: 33,
                     expandedHeight: 409.h,
@@ -329,8 +342,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                           return GestureDetector(
                                             onTap: () {
                                               var temp = optionsWatch;
-                                              temp[temp.indexWhere((e) =>
-                                                      e.name ==
+                                              temp[temp.indexWhere((x) =>
+                                                      x.name ==
                                                       fitOption.name)] =
                                                   SelectedOption(
                                                 name: fitOption.name,
@@ -378,12 +391,62 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
-                                        Text(
-                                          "What's my size?".tr,
-                                          style: AppTextStyles.lable3.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            decoration:
-                                                TextDecoration.underline,
+                                        InkWell(
+                                          onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    // title: Text("Size Chart"),
+                                                    content: SizedBox(
+                                                      height: 400.h,
+                                                      child: InAppWebView(
+                                                        initialUrlRequest:
+                                                            URLRequest(
+                                                          url: WebUri(
+                                                              // parameter required
+                                                              // Custumer Id
+                                                              // retailerid
+                                                              // product Handle Id
+                                                              'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/size_recommendation_native.php?retailerid=scrubsershop&customerid=7853285146857&productid=womens-zip-front-warm-up-solid-scrub&lang=${AppConstant.selectedLanguage}'),
+                                                          // 'https://www.primeai2.org/aop/aop_get_cidfromret.php?par0=c2NydWJzZXJzaG9w&par1=Nzg1MzI4NTE0Njg1Nw=='),
+                                                          // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/pai_retailer_min.js'),
+                                                          // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/pai_retailer_min.js'),
+                                                          // ' https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/002-use-widget.js',)
+                                                          // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/size_recommendation_native.php?retailerid=scrubsershop&customerid=7853285146857&productid=8810259284201'),
+                                                        ),
+                                                        onWebViewCreated:
+                                                            (controller) {
+                                                          webViewController =
+                                                              controller;
+                                                        },
+                                                        onLoadStart:
+                                                            (controller, url) {
+                                                          if (kDebugMode) {
+                                                            print(
+                                                                "Started loading: $url");
+                                                          }
+                                                        },
+                                                        onLoadStop: (controller,
+                                                            url) async {
+                                                          if (kDebugMode) {
+                                                            print(
+                                                                "Finished loading: $url");
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          child: Text(
+                                            "What's my size?".tr,
+                                            style:
+                                                AppTextStyles.lable3.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -394,8 +457,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                           (e) => GestureDetector(
                                             onTap: () {
                                               var temp = optionsWatch;
-                                              temp[temp.indexWhere((e) =>
-                                                      e.name ==
+                                              temp[temp.indexWhere((x) =>
+                                                      x.name ==
                                                       sizeOption.name)] =
                                                   SelectedOption(
                                                 name: sizeOption.name,
@@ -427,7 +490,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           Divider(
                             color: AppColors.greyDE,
                           ),
-                          // ------- Price -------
+                          // ------- Price & Add To Cart-------
                           Row(
                             children: [
                               Text(
@@ -437,14 +500,82 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               SizedBox(width: 20),
                               Flexible(
                                 child: AppButtons.myprimaryButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    int variantIndex = widget
+                                        .singleProduct.variants.edges
+                                        .indexOf(selectedVariant);
+                                    if (kDebugMode) {
+                                      print("Variant index = $variantIndex");
+                                      print(
+                                          "Variant  = ${selectedVariant.node.title}");
+                                    }
+                                    productQuantityModel = ref
+                                        .read(productDetailsProvider(
+                                                uniquePageKey)
+                                            .notifier)
+                                        .productQuantityModel;
+                                        print(productQuantityModel!.variants!.edges!.length);
+                                        print(jsonEncode(productQuantityModel));
+                                    // check If item is already in cart or not
+                                    if (cartList.any((element) {
+                                          if (element.varientID ==
+                                              selectedVariant.node.id) {
+                                            return true;
+                                          } else {
+                                            return false;
+                                          }
+                                        }) ==
+                                        false) {
+                                      if (kDebugMode) {
+                                        print("new item");
+                                        print(
+                                            "${productQuantityModel!.variants!.edges![variantIndex].node!.quantityAvailable}");
+                                      }
+                                      if (productQuantityModel!
+                                              .variants!
+                                              .edges![variantIndex]
+                                              .node!
+                                              .quantityAvailable! >
+                                          0) {
+                                        cartRead.addCart(
+                                          CartModel(
+                                            available: true,
+                                            productGraphID:
+                                                widget.singleProduct.gid,
+                                            productID: widget.singleProduct.id,
+                                            varientID: selectedVariant.node.id,
+                                            productPrice: selectedVariant
+                                                .node.price.amount,
+                                            productName:
+                                                "${widget.singleProduct.title}\n${selectedVariant.node.title}",
+                                            productImage:
+                                                selectedVariant.node.image.url,
+                                            quantity: "1",
+                                            comparePrice: selectedVariant
+                                                .node.compareAtPrice?.amount,
+                                            sku: selectedVariant.node.sku,
+                                          ),
+                                        );
+                                        Fluttertoast.showToast(
+                                            msg: "Added In Cart");
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: "Out Of Stock");
+                                      }
+                                    } else {
+                                      if (kDebugMode) {
+                                        print("old item");
+                                      }
+                                      Fluttertoast.showToast(
+                                          msg: "Already in Cart");
+                                    }
+                                  },
                                   text: 'ADD TO BAG'.tr,
                                 ),
                               ),
                             ],
                           ),
-                          // SizedBox(height: 10),
-                          // ------- Add to cart -------
+                          // ------- Size Chart -------
                           AppButtons.myTextButton(
                             text: "Size Chart",
                             textStyle: AppTextStyles.lable3.copyWith(
@@ -455,7 +586,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             onPressed: () {},
                             context: context,
                           ),
-                          // ------- Size Chart-------
+                          // ------- Embroidery -------
                           Text(
                             "PERSONALIZE",
                             style: AppTextStyles.headline3.copyWith(

@@ -114,7 +114,7 @@ String fetchProductwithCollectionIdfn(String id, {String? cursor}) {
                                     amount
                                 }
                                 sku
-                                compareAtPrice{
+                                compareAtPrice {
                                     amount
                                 }
                                 availableForSale
@@ -489,7 +489,7 @@ const String finalsearchProducts =
                               amount
                           }
                           sku
-                          compareAtPrice{
+                          compareAtPrice {
                               amount
                           }
                           availableForSale
@@ -558,7 +558,7 @@ String reSetPasswordQuery({required String email}) {
 }
 
 String productQuantityQuery({required String productId}) {
-  return '''{"query":"\\n\\n\\nquery MyQuery {\\n  product(id: \\"$productId\\") {\\n    totalInventory\\n    variants(first: 15) {\\n      edges {\\n        node {\\n          quantityAvailable\\n          id\\n        }\\n      }\\n    }\\n  }\\n}","variables":{"id":"$productId"}}''';
+  return '''{"query":"\\n\\n\\nquery MyQuery {\\n  product(id: \\"$productId\\") {\\n    totalInventory\\n    variants(first: 100) {\\n      edges {\\n        node {\\n          quantityAvailable\\n          id\\n        }\\n      }\\n    }\\n  }\\n}","variables":{"id":"$productId"}}''';
 }
 
 String addToCartQuery({required String productListString}) {

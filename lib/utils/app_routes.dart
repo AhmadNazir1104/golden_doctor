@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/views/authentication/forget_password.dart';
 import 'package:golden_doctor/views/authentication/login_screen.dart';
 import 'package:golden_doctor/views/authentication/signup_screen.dart';
+import 'package:golden_doctor/views/checkout/checkout_screen.dart';
 import 'package:golden_doctor/views/home_screen.dart';
 import 'package:golden_doctor/views/navigation_screen/navigation_screen.dart';
 import 'package:golden_doctor/views/product_detail_pages/embroidery_screen.dart';
@@ -112,6 +113,15 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/search_screen',
       builder: (context, state) => SearchProducts(),
+    ),
+    GoRoute(
+      path: '/checkout_webview_screen',
+      builder: (context, state) {
+        Map<String, dynamic> checkoutURL = state.extra as Map<String, dynamic>;
+        return WebViewCheckout(
+          weburl: checkoutURL["checkouturl"],
+        );
+      },
     ),
     // GoRoute(
     //   path: '/cart_screen',
