@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:golden_doctor/models/cart/cart_model.dart';
+import 'package:golden_doctor/models/product_quantity_model.dart/product_quantity_model.dart';
 import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/resources/widgets/product_widget/color_palette_widget.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
@@ -9,6 +13,7 @@ import 'package:golden_doctor/resources/widgets/universal_widget/selectable_text
 import 'package:golden_doctor/utils/app_colors.dart';
 import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/utils/app_images.dart';
+import 'package:golden_doctor/view_models/cart_view_model.dart';
 import 'package:golden_doctor/view_models/product_details_view_model.dart';
 
 // var list = [
@@ -69,8 +74,15 @@ class _ProductBottomSheetWidgetState
     // var code = list.firstWhereOrNull((e){
     //   return e["title"] == color;
     // });
+    final cartRead = ref.read(cartProvider.notifier);
+    final List<CartModel> cartList = ref.watch(cartProvider);
+
     final optionsWatch = ref.watch(productDetailsProvider(uniquePageKey));
-    final optionsRead = ref.read(productDetailsProvider(uniquePageKey).notifier);
+    final optionsRead =
+        ref.read(productDetailsProvider(uniquePageKey).notifier);
+    VariantsEdge selectedVariant =
+        optionsRead.selectVariant(purpleNode: widget.singleProduct);
+    ProductQuantityModel? productQuantityModel;
 
     return
         // code== null?
@@ -505,7 +517,62 @@ class _ProductBottomSheetWidgetState
               // ),
 
               AppButtons.myprimaryButton(
-                onPressed: () {},
+                onPressed: () {
+                  int variantIndex = widget.singleProduct.variants.edges
+                      .indexOf(selectedVariant);
+                  if (kDebugMode) {
+                    print("Variant index = $variantIndex");
+                    print("Variant  = ${selectedVariant.node.title}");
+                  }
+                  productQuantityModel = ref
+                      .read(productDetailsProvider(uniquePageKey).notifier)
+                      .productQuantityModel;
+                  // print(productQuantityModel!.variants!.edges!.length);
+                  // print(jsonEncode(productQuantityModel));
+                  // check If item is already in cart or not
+                  if (cartList.any((element) {
+                        if (element.varientID == selectedVariant.node.id) {
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      }) ==
+                      false) {
+                    if (kDebugMode) {
+                      print("new item");
+                      print(
+                          "${productQuantityModel!.variants!.edges![variantIndex].node!.quantityAvailable}");
+                    }
+                    if (productQuantityModel!.variants!.edges![variantIndex]
+                            .node!.quantityAvailable! >
+                        0) {
+                      cartRead.addCart(
+                        CartModel(
+                          available: true,
+                          productGraphID: widget.singleProduct.gid,
+                          productID: widget.singleProduct.id,
+                          varientID: selectedVariant.node.id,
+                          productPrice: selectedVariant.node.price.amount,
+                          productName:
+                              "${widget.singleProduct.title}\n${selectedVariant.node.title}",
+                          productImage: selectedVariant.node.image.url,
+                          quantity: "1",
+                          comparePrice:
+                              selectedVariant.node.compareAtPrice?.amount,
+                          sku: selectedVariant.node.sku,
+                        ),
+                      );
+                      Fluttertoast.showToast(msg: "Added In Cart");
+                    } else {
+                      Fluttertoast.showToast(msg: "Out Of Stock");
+                    }
+                  } else {
+                    if (kDebugMode) {
+                      print("old item");
+                    }
+                    Fluttertoast.showToast(msg: "Already in Cart");
+                  }
+                },
                 text: 'ADD TO BAG',
               ),
               SizedBox(height: 10),

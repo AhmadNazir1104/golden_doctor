@@ -75,9 +75,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   final uniquePageKey = DateTime.now().toUtc().toString();
   @override
   void initState() {
-    if (kDebugMode) {
-      print("product page init");
-    }
     ref
         .read(productDetailsProvider(uniquePageKey).notifier)
         .productQuentity(context, widget.singleProduct.id);
@@ -97,10 +94,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             collectionId: widget.singleProduct.youMayAlsoLikeMetafield,
           );
     });
-    if (kDebugMode) {
-      print("11111111");
-      print(widget.singleProduct.productRecomandationMetafield);
-    }
     super.initState();
   }
 
@@ -136,8 +129,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     final Options? colorOption = widget.singleProduct.options
         .firstWhereOrNull((element) => element.name == "Color");
 
-        // print("selected varient");
-        // print(json.encode(selectedVariant.node.selectedOptions));
+    // print("selected varient");
+    // print(json.encode(selectedVariant.node.selectedOptions));
     return Directionality(
       textDirection: AppConstant.selectedLanguage == 'EN'
           ? TextDirection.ltr
@@ -492,7 +485,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           Row(
                             children: [
                               Text(
-                                "SAR ${selectedVariant.node.price.amount}",
+                                "${"SAR".tr} ${selectedVariant.node.price.amount}",
                                 style: AppTextStyles.headline3,
                               ),
                               SizedBox(width: 20),
@@ -512,8 +505,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                                 uniquePageKey)
                                             .notifier)
                                         .productQuantityModel;
-                                        // print(productQuantityModel!.variants!.edges!.length);
-                                        // print(jsonEncode(productQuantityModel));
+                                    // print(productQuantityModel!.variants!.edges!.length);
+                                    // print(jsonEncode(productQuantityModel));
                                     // check If item is already in cart or not
                                     if (cartList.any((element) {
                                           if (element.varientID ==
@@ -575,7 +568,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           ),
                           // ------- Size Chart -------
                           AppButtons.myTextButton(
-                            text: "Size Chart",
+                            text: "Size Chart".tr,
                             textStyle: AppTextStyles.lable3.copyWith(
                               fontWeight: FontWeight.w600,
                               decoration: TextDecoration.underline,
@@ -585,25 +578,36 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             context: context,
                           ),
                           // ------- Embroidery -------
-                          Text(
-                            "PERSONALIZE",
-                            style: AppTextStyles.headline3.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.h, horizontal: 17.w),
-                            // margin: EdgeInsets.symmetric(horizontal: 20.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                          Visibility(
+                            visible: widget.singleProduct.emborideryMetafield !=
+                                    null &&
+                                widget.singleProduct.emborideryMetafield != "",
+                            child: Column(
                               children: [
-                                Text("Add Embroidery"),
-                                Text("From 14 SAR"),
+                                Text(
+                                  "PERSONALIZE".tr,
+                                  style: AppTextStyles.headline3.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10.h, horizontal: 17.w),
+                                  // margin: EdgeInsets.symmetric(horizontal: 20.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Add Embroidery".tr),
+                                      Text("From 14 SAR".tr),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -677,7 +681,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             }
                             return PdpProductCarousel(
                               products: snap.data ?? [],
-                              sectionTitle: "Recomanded Product",
+                              sectionTitle: "Recomanded Product".tr,
                             );
                           }),
                       FutureBuilder(
@@ -696,7 +700,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             }
                             return PdpProductCarousel(
                               products: snap.data ?? [],
-                              sectionTitle: "Popular Product",
+                              sectionTitle: "Popular Product".tr,
                             );
                           }),
                     ],
