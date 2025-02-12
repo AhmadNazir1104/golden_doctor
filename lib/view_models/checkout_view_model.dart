@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:golden_doctor/graph_ql/config.dart';
 import 'package:golden_doctor/graph_ql/query/mutation_query.dart';
 import 'package:golden_doctor/models/authentication/profile_model.dart';
 import 'package:golden_doctor/utils/handles.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../models/cart/cart_model.dart';
 
@@ -42,24 +44,63 @@ class CheckoutApiClass extends ChangeNotifier {
 
     productList.map((data) {
       listOfMaps.add({
-        '"merchandiseId"': '"${data.varientID}"',
-        '"quantity"': data.quantity
+        'merchandiseId': '"${data.varientID}"',
+        'quantity': data.quantity,
+        'attributes': [
+                {
+                    'key': '"your-key1"',
+                    'value': '"your-value1"'
+                },
+                {
+                    'key': '"your-key2"',
+                    'value': '"your-value2"'
+                }
+            ],
       });
     }).toList();
     log('listOfMaps === ${listOfMaps.length}');
 
-    ApiBaseHelper apiBaseHelper = ApiBaseHelper();
-    String body = addToCartQuery(productListString: listOfMaps.toString());
-    Map<String, dynamic> response =
-        await apiBaseHelper.post(url: '', data: body);
-    if (response['data']['cartCreate']['cart']['id'] == null) {
-      print("Error cart can not created");
-      Fluttertoast.showToast(msg: "Your Cart not created.");
-      // addboleanValue(false);
+// ----------------------------------------------------------------------
+// String p = jsonEncode(productList);
+// String query = ;
+
+// print("mmmmmmmmmmmmmmmmm");
+// print(query);
+    GraphQlHelper graphQlHelper = GraphQlHelper();
+    QueryResult result = await graphQlHelper.client.value.query(
+      QueryOptions(
+        document: gql(newCartQuery(listOfMaps)),
+      ),
+    );
+    if (result.hasException) {
+      print("GraphQL has Exception");
+      print(result.exception!.graphqlErrors);
     } else {
-      checkout(context, response['data']['cartCreate']['cart']['id']);
+      print("GraphQL has no Exception");
+      print(result.data);
+      if (result.data!['cartCreate']['cart']['id'] == null) {
+        print("Error cart can not created");
+        Fluttertoast.showToast(msg: "Your Cart is not created.");
+        // addboleanValue(false);
+      } else {
+        checkout(context, result.data!['cartCreate']['cart']['id']);
+      }
+      addboleanValue(false);
     }
-    addboleanValue(false);
+
+// ----------------------------------------------------------------------
+    // ApiBaseHelper apiBaseHelper = ApiBaseHelper();
+    // String body = addToCartQuery(productListString: listOfMaps.toString());
+    // Map<String, dynamic> response =
+    //     await apiBaseHelper.post(url: '', data: body);
+    // if (response['data']['cartCreate']['cart']['id'] == null) {
+    //   print("Error cart can not created");
+    //   Fluttertoast.showToast(msg: "Your Cart not created.");
+    //   // addboleanValue(false);
+    // } else {
+    //   checkout(context, response['data']['cartCreate']['cart']['id']);
+    // }
+    // addboleanValue(false);
   }
 
 // Checkout

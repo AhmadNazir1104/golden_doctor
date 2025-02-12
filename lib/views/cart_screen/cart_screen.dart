@@ -15,7 +15,7 @@ class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // bool boleaNVal = ref.watch(checkoutApiServiceProvider).boleanValue;
+    bool boleaNVal = ref.watch(checkoutApiServiceProvider).boleanValue;
     List<CartModel> cartList = ref.watch(cartProvider);
     final cartRead = ref.read(cartProvider.notifier);
 
@@ -113,7 +113,8 @@ class CartScreen extends ConsumerWidget {
                     padding: EdgeInsets.only(bottom: 21.h),
                     child: Divider(),
                   ),
-                  AppButtons.myprimaryButton(
+                  !boleaNVal
+                  ? AppButtons.myprimaryButton(
                     onPressed: () {
                       ref
                           .read(checkoutApiServiceProvider.notifier)
@@ -125,6 +126,9 @@ class CartScreen extends ConsumerWidget {
                     },
                     text: 'Checkout',
                   )
+                  : Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ],
               )
             ],

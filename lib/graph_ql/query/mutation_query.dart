@@ -458,7 +458,7 @@ String fetchAllOrders(String userToken) {
 // """;
 
 const String finalsearchProducts =
-"""  query ReadProductsByTag(\$Search: String!) {
+    """  query ReadProductsByTag(\$Search: String!) {
   products(first: 39, query: \$Search) {
       edges {
           cursor
@@ -561,8 +561,97 @@ String productQuantityQuery({required String productId}) {
   return '''{"query":"\\n\\n\\nquery MyQuery {\\n  product(id: \\"$productId\\") {\\n    totalInventory\\n    variants(first: 100) {\\n      edges {\\n        node {\\n          quantityAvailable\\n          id\\n        }\\n      }\\n    }\\n  }\\n}","variables":{"id":"$productId"}}''';
 }
 
-String addToCartQuery({required String productListString}) {
-  return '''{"query":"mutation createCart(\$cartInput: CartInput, ) {\\n  cartCreate(input: \$cartInput,) {\\n    cart {\\n      id\\n      createdAt\\n      updatedAt\\n      lines(first:10) {\\n        edges {\\n          node {\\n            id\\n            merchandise {\\n              ... on ProductVariant {\\n                id\\n              }\\n            }\\n          }\\n        }\\n\\n      }\\n      attributes {\\n        key\\n        value\\n      }\\n      estimatedCost {\\n        totalAmount {\\n          amount\\n          currencyCode\\n        }\\n        subtotalAmount {\\n          amount\\n          currencyCode\\n        }\\n        totalTaxAmount {\\n          amount\\n          currencyCode\\n        }\\n        totalDutyAmount {\\n          amount\\n          currencyCode\\n        }\\n      }\\n    }\\n  }\\n}\\n","variables":{"cartInput":{"lines":$productListString}}}''';
+String newCartQuery(dynamic listofItems) {
+  return '''mutation {
+  cartCreate(input: {
+    lines: $listofItems
+    }
+) {
+    cart {
+      id
+      createdAt
+      updatedAt
+      lines(first: 5) {
+        edges {
+          node {
+            id
+            quantity
+            attribute(key: "your-key"){
+                key
+                value
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                title
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  
+}
+''';
+}
+
+String addToCartQuery({required List productListString}) {
+  return ''' {
+    mutation createCart( "$productListString": String) {  
+        cartCreate(input: "$productListString") {    
+            cart {      
+                id      
+                createdAt      
+                updatedAt      
+                lines(first: 10) {        
+                    edges {          
+                        node {            
+                            id            
+                            merchandise {              
+                                ... on ProductVariant {                id              
+                                }            
+                            }            
+                            properties {              
+                                    key       
+                                    value            
+                            }          
+                        }        
+                    }      
+                }      
+                attributes {        
+                    key        
+                    value      
+                }      
+                estimatedCost {        
+                    totalAmount {          
+                        amount          
+                        currencyCode        
+                    }        
+                    subtotalAmount {          
+                        amount          
+                        currencyCode
+                    }        
+                    totalTaxAmount {          
+                        amount          
+                        currencyCode        
+                    }        
+                    totalDutyAmount {          
+                        amount          
+                        currencyCode
+                    }      
+                }    
+            }  
+        }
+    },
+}
+''';
+  // return '''{"query":"mutation createCart(\$cartInput: CartInput) {\n  cartCreate(input: \$cartInput) {\n    cart {\n      id\n      createdAt\n      updatedAt\n      lines(first: 10) {\n        edges {\n          node {\n            id\n            merchandise {\n              ... on ProductVariant {\n                id\n              }\n            }\n            properties {\n              key\n              value\n            }\n          }\n        }\n      }\n      attributes {\n        key\n        value\n      }\n      estimatedCost {\n        totalAmount {\n          amount\n          currencyCode\n        }\n        subtotalAmount {\n          amount\n          currencyCode\n        }\n        totalTaxAmount {\n          amount\n          currencyCode\n        }\n        totalDutyAmount {\n          amount\n          currencyCode\n        }\n      }\n    }\n  }\n}','variables':{"cartInput":{"lines":$productListString}}}''';
+  // return '''{"query":"mutation createCart(\$cartInput: CartInput, ) {\\n  cartCreate(input: \$cartInput,) {\\n    cart {\\n      id\\n      createdAt\\n      updatedAt\\n      lines(first:10) {\\n        edges {\\n          node {\\n            id\\n            merchandise {\\n              ... on ProductVariant {\\n                id\\n              }\\n            }\\n          }\\n        }\\n\\n      }\\n      attributes {\\n        key\\n        value\\n      }\\n      estimatedCost {\\n        totalAmount {\\n          amount\\n          currencyCode\\n        }\\n        subtotalAmount {\\n          amount\\n          currencyCode\\n        }\\n        totalTaxAmount {\\n          amount\\n          currencyCode\\n        }\\n        totalDutyAmount {\\n          amount\\n          currencyCode\\n        }\\n      }\\n    }\\n  }\\n}\\n","variables":{"cartInput":{"lines":$productListString}}}''';
 }
 
 String checkOutQuery({required String cartId}) {
