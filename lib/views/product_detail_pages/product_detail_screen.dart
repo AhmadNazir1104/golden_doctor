@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
@@ -138,8 +136,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     final Options? colorOption = widget.singleProduct.options
         .firstWhereOrNull((element) => element.name == "Color");
 
-        print("selected varient");
-        print(json.encode(selectedVariant.node.selectedOptions));
+        // print("selected varient");
+        // print(json.encode(selectedVariant.node.selectedOptions));
     return Directionality(
       textDirection: AppConstant.selectedLanguage == 'EN'
           ? TextDirection.ltr
@@ -514,8 +512,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                                 uniquePageKey)
                                             .notifier)
                                         .productQuantityModel;
-                                        print(productQuantityModel!.variants!.edges!.length);
-                                        print(jsonEncode(productQuantityModel));
+                                        // print(productQuantityModel!.variants!.edges!.length);
+                                        // print(jsonEncode(productQuantityModel));
                                     // check If item is already in cart or not
                                     if (cartList.any((element) {
                                           if (element.varientID ==

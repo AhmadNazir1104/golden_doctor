@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,8 +20,8 @@ class ProductDetailViewModel
   List<SelectedOption> build(String arg) => [];
 
   void selectOption(List<SelectedOption> newOption) {
-    print("New opetions");
-    print(jsonEncode(newOption));
+    // print("New opetions");
+    // print(jsonEncode(newOption));
     state = [...newOption];
   }
 
@@ -38,9 +36,9 @@ class ProductDetailViewModel
       .toList()
       .toString();
       var b = state.map((e) => e.toJson()).toList().toString();
-      print("Selected Options--------------");
-      print(jsonEncode(a));
-      print(jsonEncode(b));
+      // print("Selected Options--------------");
+      // print(jsonEncode(a));
+      // print(jsonEncode(b));
       if (a == b) {
         variantsEdge = purpleNode.variants.edges[i];
         break;

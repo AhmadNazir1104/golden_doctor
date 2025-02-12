@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -73,13 +74,21 @@ class CheckoutApiClass extends ChangeNotifier {
       ),
     );
     if (result.hasException) {
-      print("GraphQL has Exception");
-      print(result.exception!.graphqlErrors);
+      if (kDebugMode) {
+        print("GraphQL has Exception");
+      }
+      if (kDebugMode) {
+        print(result.exception!.graphqlErrors);
+      }
     } else {
-      print("GraphQL has no Exception");
-      print(result.data);
+      if (kDebugMode) {
+        print("GraphQL has no Exception");
+      }
+      // print(result.data);
       if (result.data!['cartCreate']['cart']['id'] == null) {
-        print("Error cart can not created");
+        if (kDebugMode) {
+          print("Error cart can not created");
+        }
         Fluttertoast.showToast(msg: "Your Cart is not created.");
         // addboleanValue(false);
       } else {
@@ -121,7 +130,9 @@ class CheckoutApiClass extends ChangeNotifier {
     Map<String, dynamic> response =
         await apiBaseHelper.post(url: '', data: body);
     if (response['data']['cart']['checkoutUrl'] == null) {
-      print("----- Error Checkout URL is Empty");
+      if (kDebugMode) {
+        print("----- Error Checkout URL is Empty");
+      }
       Fluttertoast.showToast(
         msg: "Try Again",
       );

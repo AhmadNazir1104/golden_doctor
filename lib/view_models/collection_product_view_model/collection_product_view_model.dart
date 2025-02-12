@@ -21,8 +21,12 @@ class ProductNotifier extends ChangeNotifier {
   }
 
   void getData({var collectionId, required String type}) async {
-    print("Fetch Function");
-    print("Old pro ${productList.length}");
+    if (kDebugMode) {
+      print("Fetch Function");
+    }
+    if (kDebugMode) {
+      print("Old pro ${productList.length}");
+    }
     if (type == "Initial Fetch" && productList.isNotEmpty) {
       return;
     } else if (type == "Fetch More") {
@@ -43,15 +47,17 @@ class ProductNotifier extends ChangeNotifier {
         );
         if (result.hasException) {
           // setIsLoading();
-          print("GraphQL has Exception");
+          if (kDebugMode) {
+            print("GraphQL has Exception");
           print(result.exception!.graphqlErrors);
+          }
         } else {
           collectionProducts = Data.fromJson(result.data!);
           List<ProductEdge> allProducts =
               collectionProducts!.collection.products.edges;
-          print("new pro ${allProducts.length}");
+          // print("new pro ${allProducts.length}");
           addProducts(allProducts);
-          print("total pro ${productList.length}");
+          // print("total pro ${productList.length}");
           // Future.delayed(Duration(seconds: 5), ()=>setIsLoading());
           // setIsLoading();
           notifyListeners();
@@ -72,17 +78,19 @@ class ProductNotifier extends ChangeNotifier {
       );
       if (result.hasException) {
         setIsLoading();
-        print("GraphQL has Exception");
+        if (kDebugMode) {
+          print("GraphQL has Exception");
         print(result.exception!.graphqlErrors);
+        }
       } else {
-        print(result.data!["collection"]["products"]["edges"][0]["node"]
-            ["metafields"]);
+        // print(result.data!["collection"]["products"]["edges"][0]["node"]
+        //     ["metafields"]);
         collectionProducts = Data.fromJson(result.data!);
         List<ProductEdge> allProducts =
             collectionProducts!.collection.products.edges;
-        print("new pro ${allProducts.length}");
+        // print("new pro ${allProducts.length}");
         addProducts(allProducts);
-        print("total pro ${productList.length}");
+        // print("total pro ${productList.length}");
         setIsLoading();
       }
     }
