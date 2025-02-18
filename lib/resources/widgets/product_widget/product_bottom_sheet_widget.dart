@@ -134,7 +134,7 @@ class _ProductBottomSheetWidgetState
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
                       imageUrl:
-                          widget.singleProduct.variants.edges[0].node.image.url,
+                          widget.singleProduct.images.edges[0].node.url,
                       // 'https://pixlr.com/images/generator/photo-generator.webp',
                       // height: 200.h,
                       placeholder: (context, url) => SizedBox(
@@ -565,7 +565,7 @@ class _ProductBottomSheetWidgetState
                           productPrice: selectedVariant.node.price.amount,
                           productName:
                               "${widget.singleProduct.title}\n${selectedVariant.node.title}",
-                          productImage: selectedVariant.node.image.url,
+                          productImage: selectedVariant.node.image!.url,
                           quantity: "1",
                           comparePrice:
                               selectedVariant.node.compareAtPrice?.amount,

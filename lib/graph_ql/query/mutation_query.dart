@@ -163,69 +163,69 @@ String fetchProductwithCollectionIdfn(String id, {String? cursor}) {
 //                 value
 //               }
 
-String fetchProductListByIDs(List<String> productIDs) {
+String fetchProductListByIDs(String productIDs) {
   return '''query getProductsByIds {
-  	nodes(ids: [${productIDs.iterator}
+  	nodes(ids: [$productIDs
     ]){ 
     	... on 
       Product {
         title
-        vendor
-        tags
-        description
-        descriptionHtml
-        productType
-        publishedAt
-        onlineStoreUrl
-        options{
-            name
-            optionValues{
-                name
-            }
-        }
-        variants(first: 30) {
-            edges {
-                node {
-                    id
-                    title
-                    image {
-                        url
-                    }
-                    price {
-                        amount
-                    }
-                    sku
-                    compareAtPrice{
-                        amount
-                    }
-                    availableForSale
-                    selectedOptions {
+                    vendor
+                    tags
+                    description
+                    descriptionHtml
+                    productType
+                    publishedAt
+                    onlineStoreUrl
+                    options{
                         name
+                        optionValues{
+                            name
+                        }
+                    }
+                    variants(first: 30) {
+                        edges {
+                            node {
+                                id
+                                title
+                                image {
+                                    url
+                                }
+                                price {
+                                    amount
+                                }
+                                sku
+                                compareAtPrice {
+                                    amount
+                                }
+                                availableForSale
+                                selectedOptions {
+                                    name
+                                    value
+                                }
+                            }
+                        }
+                    }
+                    images(first: 30) {
+                        edges {
+                            node {
+                                url
+                                altText
+                            }
+                        }
+                    }
+                    metafields(identifiers: [
+                                {namespace: "custom",key: "product_recomandation"
+                                },
+                                {namespace: "custom", key: "embroidery_product"
+                                }
+                                {namespace: "custom", key: "you_may_also_like"
+                                }
+                            ]) {
+                        key
                         value
                     }
-                }
-            }
-        }
-        images(first: 30) {
-            edges {
-                node {
-                    url
-                    altText
-                }
-            }
-        }
-        metafields(identifiers: [
-                    {namespace: "custom",key: "product_recomandation"
-                    },
-                    {namespace: "custom", key: "embroidery_product"
-                    }
-                    {namespace: "custom", key: "you_may_also_like"
-                    }
-                ]) {
-            key
-            value
-        }
-        id
+                    id
       }
     }
 }

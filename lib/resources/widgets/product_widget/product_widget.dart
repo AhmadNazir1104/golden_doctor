@@ -43,7 +43,8 @@ class ProductWidget extends StatelessWidget {
                     // bottom: 0,
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
-                      imageUrl: singleProduct.variants.edges[0].node.image.url,
+                      imageUrl: singleProduct.images.edges[0].node.url,
+                      // imageUrl: singleProduct.variants.edges[0].node.image.url,
                       // 'https://pixlr.com/images/generator/photo-generator.webp',
                       // height: 200.h,
                       placeholder: (context, url) => SizedBox(

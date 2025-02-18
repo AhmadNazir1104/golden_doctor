@@ -537,7 +537,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                             productName:
                                                 "${widget.singleProduct.title}\n${selectedVariant.node.title}",
                                             productImage:
-                                                selectedVariant.node.image.url,
+                                                selectedVariant.node.image!.url,
                                             quantity: "1",
                                             comparePrice: selectedVariant
                                                 .node.compareAtPrice?.amount,
