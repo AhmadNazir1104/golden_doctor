@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:golden_doctor/models/cart/cart_model.dart';
 import 'package:golden_doctor/resources/services/shearedpreference_service.dart';
 import 'package:golden_doctor/resources/widgets/cart_widgets/cart_card_widget.dart';
 import 'package:golden_doctor/resources/widgets/universal_widget/app_button.dart';
@@ -11,17 +10,37 @@ import 'package:golden_doctor/utils/app_fonts.dart';
 import 'package:golden_doctor/view_models/cart_view_model.dart';
 import 'package:golden_doctor/view_models/checkout_view_model.dart';
 
-class CartScreen extends ConsumerWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    bool boleaNVal = ref.watch(checkoutApiServiceProvider).boleanValue;
-    List<CartModel> cartList = ref.watch(cartProvider);
-    final cartRead = ref.read(cartProvider.notifier);
 
-    if (cartList.isEmpty) {
-      cartRead.getCart();
+  @override
+  ConsumerState<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends ConsumerState<CartScreen> {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (ref.watch(cartProvider).isEmpty) {
+      Future.delayed(
+        Duration(seconds: 3),
+        () => ref.read(cartProvider.notifier).getCart(),
+      );
     }
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool boleaNVal = ref.watch(checkoutApiServiceProvider).boleanValue;
+    final cartList = ref.watch(cartProvider);
+    final cartRead = ref.read(cartProvider.notifier);
+    // cartRead.getCart();
+
     return Directionality(
       textDirection: AppConstant.selectedLanguage == 'EN'
           ? TextDirection.ltr
@@ -92,7 +111,8 @@ class CartScreen extends ConsumerWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: cartRead.totalItemCount > 1
+                                text: cartRead.totalItemCount > 1 &&
+                                        cartList.isNotEmpty
                                     ? '(${cartRead.totalItemCount} Items)'
                                     : '(${cartRead.totalItemCount} Item)',
                                 style: AppTextStyles.body3.copyWith(
@@ -103,7 +123,9 @@ class CartScreen extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          'SAR ${cartRead.totalItemPrice}',
+                          cartList.isNotEmpty
+                              ? 'SAR ${cartRead.totalItemPrice}'
+                              : 'SAR 0.0',
                           style: AppTextStyles.body2,
                         ),
                       ],
@@ -114,21 +136,21 @@ class CartScreen extends ConsumerWidget {
                     child: Divider(),
                   ),
                   !boleaNVal
-                  ? AppButtons.myprimaryButton(
-                    onPressed: () {
-                      ref
-                          .read(checkoutApiServiceProvider.notifier)
-                          .addToCartShopify(
-                            context,
-                            ShearedprefService.getUserGmail() ?? "",
-                            cartList,
-                          );
-                    },
-                    text: 'Checkout',
-                  )
-                  : Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                      ? AppButtons.myprimaryButton(
+                          onPressed: () {
+                            ref
+                                .read(checkoutApiServiceProvider.notifier)
+                                .addToCartShopify(
+                                  context,
+                                  ShearedprefService.getUserGmail() ?? "",
+                                  cartList,
+                                );
+                          },
+                          text: 'Checkout',
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        ),
                 ],
               )
             ],

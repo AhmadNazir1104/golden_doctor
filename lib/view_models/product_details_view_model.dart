@@ -3,42 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_doctor/graph_ql/config.dart';
 import 'package:golden_doctor/graph_ql/query/mutation_query.dart';
+import 'package:golden_doctor/models/cart/cart_model.dart';
 import 'package:golden_doctor/models/product_quantity_model.dart/product_quantity_model.dart';
 import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/utils/handles.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-// import 'package:http/http.dart' as http;
 
-final productDetailsProvider = NotifierProvider.autoDispose
-    .family<ProductDetailViewModel, List<SelectedOption>, String>(() {
-  return ProductDetailViewModel();
+// ✅ AutoDisposeChangeNotifierProvider.family Implementation
+final productDetailsProvider = ChangeNotifierProvider.autoDispose
+    .family<ProductDetailViewModel, String>((ref, uniquePageId) {
+  return ProductDetailViewModel(uniquePageId);
 });
 
-class ProductDetailViewModel
-    extends AutoDisposeFamilyNotifier<List<SelectedOption>, String> {
-  @override
-  List<SelectedOption> build(String arg) => [];
+class ProductDetailViewModel extends ChangeNotifier {
+  final String uniquePageId; // unique page id
+  List<SelectedOption> selectedOptions = [];
+  ProductQuantityModel? productQuantityModel;
+  CartModel? embroideryOptions;
 
+  ProductDetailViewModel(this.uniquePageId);
+
+  // ✅ Function to update selected options
   void selectOption(List<SelectedOption> newOption) {
-    // print("New opetions");
-    // print(jsonEncode(newOption));
-    state = [...newOption];
+    selectedOptions = [...newOption];
+    notifyListeners();
   }
 
-  ProductQuantityModel? productQuantityModel;
-// This Function will return the Selected variant on Detals page
-// Selected variant will be added to cart.
+  // ✅ Function to select a variant based on selected options
   VariantsEdge selectVariant({required ProductNode purpleNode}) {
     VariantsEdge variantsEdge = purpleNode.variants.edges[0];
+
     for (int i = 0; i < purpleNode.variants.edges.length; i++) {
       var a = purpleNode.variants.edges[i].node.selectedOptions
-      .map((e) => e.toJson())
-      .toList()
-      .toString();
-      var b = state.map((e) => e.toJson()).toList().toString();
-      // print("Selected Options--------------");
-      // print(jsonEncode(a));
-      // print(jsonEncode(b));
+          .map((e) => e.toJson())
+          .toList()
+          .toString();
+      var b = selectedOptions.map((e) => e.toJson()).toList().toString();
+
       if (a == b) {
         variantsEdge = purpleNode.variants.edges[i];
         break;
@@ -47,58 +48,68 @@ class ProductDetailViewModel
     return variantsEdge;
   }
 
-// This function will fetch product Quantity
-  Future<void> productQuentity(
-    BuildContext context,
-    String productId,
-  ) async {
+  // ✅ Fetch product quantity
+  Future<void> productQuentity(BuildContext context, productId) async {
     ApiBaseHelper apiBaseHelper = ApiBaseHelper();
     String body = productQuantityQuery(productId: productId);
     var response = await apiBaseHelper.post(url: '', data: body);
     productQuantityModel =
         ProductQuantityModel.fromJson(response['data']['product']);
+    notifyListeners();
   }
 
-  // fetch products by collection
-  Future<List<ProductEdge>?> fetchProducts({var collectionId}) async {
-    if (kDebugMode) {
-      print("Fetch Function");
-    }
-    List<ProductEdge> allProducts;
-    if (collectionId == null) {
-      return null;
-    }
+  // ✅ Fetch products by collection
+  Future<List<ProductEdge>?> fetchProducts({String? collectionId}) async {
+    if (collectionId == null) return null;
+
     GraphQlHelper graphQlHelper = GraphQlHelper();
     QueryResult result = await graphQlHelper.client.value.query(
       QueryOptions(
         document:
             gql(fetchProductwithCollectionIdfn(collectionId, cursor: null)),
-        variables: {
-          'numProducts': 40,
-          'cursor': null,
-        },
+        variables: {'numProducts': 40, 'cursor': null},
       ),
     );
+
     if (result.hasException) {
       if (kDebugMode) {
-        print("GraphQL has Exception");
-        print(result.exception!.graphqlErrors);
+        print("GraphQL Error: ${result.exception!.graphqlErrors}");
       }
       return null;
-    } else {
-      if (kDebugMode) {
-        print(result.data!["collection"]["products"]["edges"][0]["node"]
-            ["metafields"]);
-      }
-      Data collectionProducts = Data.fromJson(result.data!);
-      allProducts = collectionProducts.collection.products.edges;
-      if (kDebugMode) {
-        print("new pro ${allProducts.length}");
-      }
-      return allProducts;
-      // addProducts(allProducts);
-      // print("total pro ${productList.length}");
-      // setIsLoading();
     }
+
+    Data collectionProducts = Data.fromJson(result.data!);
+    return collectionProducts.collection.products.edges;
+  }
+
+  // ✅ Add Embroidery options in state
+  void addEmbroidery({required CartModel embroideryOptionsArg}) {
+    embroideryOptions = CartModel(
+      isEmbroidery: true,
+      embroideryOptions: EmbroideryOptions(
+        line1: embroideryOptionsArg.embroideryOptions!.line1,
+        line2: embroideryOptionsArg.embroideryOptions!.line2,
+        parentId: embroideryOptionsArg.embroideryOptions!.parentId,
+        tags: embroideryOptionsArg.embroideryOptions!.tags,
+        color: embroideryOptionsArg.embroideryOptions!.color,
+        font: embroideryOptionsArg.embroideryOptions!.font,
+        position: embroideryOptionsArg.embroideryOptions!.position,
+      ),
+      available: true,
+      comparePrice: embroideryOptionsArg.comparePrice,
+      productPrice: embroideryOptionsArg.productPrice,
+      productId: embroideryOptionsArg.productId,
+      varientId: embroideryOptionsArg.varientId,
+      productName: embroideryOptionsArg.productName,
+      productImage: embroideryOptionsArg.productImage,
+      quantity: embroideryOptionsArg.quantity,
+    );
+    notifyListeners();
+  }
+
+  // ✅ Clear Embroidery
+  void clearEmbroidery() {
+    embroideryOptions = null;
+    notifyListeners();
   }
 }

@@ -103,7 +103,15 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/embroidery_screen',
-      builder: (context, state) => const EmbroideryScreen(),
+      builder: (context, state) {
+        final Map<String, dynamic> params = state.extra as Map<String, dynamic>;
+        return EmbroideryScreen(
+          embroideryProductID: params["productID"],
+          tags: params["tags"],
+          parentId: params["parentId"],
+          uniquePageKey: params["uniquePageKey"],
+        );
+      },
     ),
     GoRoute(
       path: '/navigation_screen',

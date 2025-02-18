@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class HiveService {
   // static String localWishList = 'WsihListBox';
+  static Box<CartListModel>? localCartBox;
   static String localCart = 'CartBox';
 
   static Future hiveinitialize() async {
@@ -13,8 +14,11 @@ class HiveService {
     Hive
       ..init(directory.path)
       // ..registerAdapter(WishListAdapter())
-      ..registerAdapter(CartModelAdapter());
+      ..registerAdapter(CartListModelAdapter())
+      ..registerAdapter(CartModelAdapter())
+      ..registerAdapter(EmbroideryOptionsAdapter());
     // locaWishListBox = await Hive.openBox<WishlistModel>(localWishList);
+    localCartBox = await Hive.openBox<CartListModel>(localCart);
   }
 
   static getFromHive({required String table, required String key}) async {

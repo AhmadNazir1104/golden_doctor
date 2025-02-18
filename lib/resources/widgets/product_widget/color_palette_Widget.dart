@@ -67,7 +67,7 @@ class _ColorPalateWidgetState extends ConsumerState<ColorPalateWidget> {
         ? GestureDetector(
             onTap: () {
               // AppConstant.selectedColor = widget.colorName;
-              var temp = optionsWatch;
+              var temp = optionsWatch.selectedOptions;
               // temp.add(SelectedOption(
               //   name: widget.optionKey,
               //   value: widget.optionValue,
@@ -84,13 +84,13 @@ class _ColorPalateWidgetState extends ConsumerState<ColorPalateWidget> {
               width: 70.w, // Ensure consistent width
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: optionsWatch
+                  color: optionsWatch.selectedOptions
                               .firstWhere((x) => x.name == widget.optionKey)
                               .value ==
                           widget.optionValue
                       ? AppColors.black1C
                       : Colors.grey,
-                  width: optionsWatch
+                  width: optionsWatch.selectedOptions
                               .firstWhere((x) => x.name == widget.optionKey)
                               .value ==
                           widget.optionValue
@@ -111,7 +111,7 @@ class _ColorPalateWidgetState extends ConsumerState<ColorPalateWidget> {
           )
         : GestureDetector(
             onTap: () {
-              List<SelectedOption> temp = optionsWatch;
+              List<SelectedOption> temp = optionsWatch.selectedOptions;
               // temp.add(SelectedOption(
               //   name: widget.optionKey,
               //   value: widget.optionValue,
@@ -132,7 +132,7 @@ class _ColorPalateWidgetState extends ConsumerState<ColorPalateWidget> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: optionsWatch
+                    color: optionsWatch.selectedOptions
                                 .firstWhere((x) => x.name == widget.optionKey)
                                 .value ==
                             widget.optionValue
@@ -148,7 +148,7 @@ class _ColorPalateWidgetState extends ConsumerState<ColorPalateWidget> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: optionsWatch
+                      color: optionsWatch.selectedOptions
                                   .firstWhere((x) => x.name == widget.optionKey)
                                   .value ==
                               widget.optionValue
@@ -159,7 +159,7 @@ class _ColorPalateWidgetState extends ConsumerState<ColorPalateWidget> {
                     color: Color(int.parse((code.hexCode).toString())),
                   ),
                   child: Center(
-                    child: optionsWatch
+                    child: optionsWatch.selectedOptions
                                 .firstWhere((x) => x.name == widget.optionKey)
                                 .value ==
                             widget.optionValue

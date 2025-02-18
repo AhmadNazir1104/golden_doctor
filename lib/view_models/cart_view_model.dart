@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_doctor/models/cart/cart_model.dart';
 import 'package:golden_doctor/resources/services/hive.dart';
@@ -32,37 +33,47 @@ class CartViewModel extends Notifier<List<CartModel>> {
   void getCart() async {
     try {
       // fetch from hive
-      Box<CartModel> box = await Hive.openBox<CartModel>(HiveService.localCart);
-      List<CartModel>? data = box.values.toList();
-      if (kDebugMode) {
-        print("data-----------: $data");
-      }
+      // Box box = await Hive.openBox<List<dynamic>>(HiveService.localCart);
+      Box<CartListModel> box = HiveService.localCartBox ??
+          await Hive.openBox<CartListModel>(HiveService.localCart);
+      print("box-----------: ${box.values.first}");
+      List<CartModel> data = box.values.first.cartList ?? [];
+      print("data-----------: $data");
+      print(box.keys.toList());
       // add in provider state
       if (data.isNotEmpty) {
+        // jsonEncode(data);
         data.map((e) {
-          // add valuse in provider variables
-          totalItemCount = totalItemCount + int.parse(e.quantity!);
+          // add v
+          //aluse in provider variables
+          print("11111");
+          CartModel cartModel = CartModel.fromJson(json.decode(json.encode(e)));
+          print("------------");
+          print(e.toJson());
+          print("------------");
+          totalItemCount = totalItemCount + int.parse(cartModel.quantity!);
           totalItemPrice = totalItemPrice +
-              (double.parse(e.productPrice!)) * int.parse(e.quantity!);
+              (double.parse(cartModel.productPrice!)) *
+                  int.parse(cartModel.quantity!);
+          state.add(cartModel);
         }).toList();
-        state = data;
+        // state = data.map((e) => CartModel.fromJson(e)).toList();
+        state = [...state];
       }
     } catch (error) {
-      if (kDebugMode) {
-        print("Error-log :$error");
-      }
+      print("Error-log :$error");
     }
   }
 
   void addCart(CartModel cartData) async {
     try {
       // add new data in hive
-      Box<CartModel> box = await Hive.openBox<CartModel>(HiveService.localCart);
-      box.add(cartData);
+      // Box box = await Hive.openBox<List<dynamic>>(HiveService.localCart);
+      Box<CartListModel> box = HiveService.localCartBox ??
+          await Hive.openBox<CartListModel>(HiveService.localCart);
+      // box.add(cartData);
 
-      if (kDebugMode) {
-        print("added Successfully");
-      }
+      print("added Successfully");
       // add valuse in provider variables
       totalItemCount = totalItemCount + int.parse(cartData.quantity!);
       totalItemPrice = totalItemPrice +
@@ -70,18 +81,20 @@ class CartViewModel extends Notifier<List<CartModel>> {
               int.parse(cartData.quantity!);
       // add in provider state
       state = [...state, cartData];
+      box.put(0, CartListModel(cartList: state));
     } catch (error) {
-      if (kDebugMode) {
-        print("Error-log :$error");
-      }
+      print("Error-log :$error");
     }
   }
 
   void updateCart(CartModel cartData, int index) async {
     try {
       // update in hive
-      Box<CartModel> box = await Hive.openBox<CartModel>(HiveService.localCart);
-      box.put(index, cartData);
+
+      // Box box = await Hive.openBox<List<dynamic>>(HiveService.localCart);
+      Box<CartListModel> box = HiveService.localCartBox ??
+          await Hive.openBox<CartListModel>(HiveService.localCart);
+      // box.put(index, cartData);
       List<CartModel> tempCartList = state;
       // Subtract previous value
       totalItemPrice = totalItemPrice -
@@ -95,22 +108,20 @@ class CartViewModel extends Notifier<List<CartModel>> {
       totalItemCount = totalItemCount + int.parse(cartData.quantity!);
       // update in porvider state
       tempCartList[index] = cartData;
-      if (kDebugMode) {
-        print("Wishlist Updated Successfully");
-      }
+      print("Wishlist Updated Successfully");
       state = [...state];
+      box.put(0, CartListModel(cartList: state));
     } catch (error) {
-      if (kDebugMode) {
-        print("Error-log :$error");
-      }
+      print("Error-log :$error");
     }
   }
 
   void deleteCart(int index) async {
     try {
       // remove from hive
-      Box<CartModel> box = await Hive.openBox<CartModel>(HiveService.localCart);
-      box.deleteAt(index);
+      Box<CartListModel> box = HiveService.localCartBox ??
+          await Hive.openBox<CartListModel>(HiveService.localCart);
+      // box.deleteAt(index);
       List<CartModel> tempCartList = state;
       // Subtract previous value
       totalItemPrice = totalItemPrice -
@@ -119,14 +130,12 @@ class CartViewModel extends Notifier<List<CartModel>> {
       totalItemCount = totalItemCount - int.parse(state[index].quantity!);
       // remove from provider state
       tempCartList.removeAt(index);
-      if (kDebugMode) {
-        print("Wishlist Deleted Successfully");
-      }
+      print("Wishlist Deleted Successfully");
       state = [...state];
+      box.put(0, CartListModel(cartList: state));
+      // box.put(0, state);
     } catch (error) {
-      if (kDebugMode) {
-        print("Error-log :$error");
-      }
+      print("Error-log :$error");
     }
   }
 }

@@ -21,7 +21,7 @@ class CartCardWidget extends ConsumerWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 20.h),
       child: SizedBox(
-        height: 165.h,
+        height: 175.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,14 +44,6 @@ class CartCardWidget extends ConsumerWidget {
               ),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-            // Image(
-            //   image: AssetImage(
-            //     AppImages.doctorImage,
-            //   ),
-            //   height: 160.h,
-            //   width: 113.w,
-            //   fit: BoxFit.cover,
-            // ),
             Expanded(
               child: Padding(
                 padding: AppConstant.selectedLanguage == 'EN'
@@ -82,15 +74,19 @@ class CartCardWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.h),
-                      child: Text(
-                        cartModel.vendor ?? "Unknown",
-                        style: AppTextStyles.body1
-                            .copyWith(fontSize: 16.sp, color: AppColors.grey70),
+                    Visibility(
+                      visible: cartModel.isEmbroidery == false,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 2.h),
+                        child: Text(
+                          cartModel.vendor ?? "Unknown",
+                          style: AppTextStyles.body1.copyWith(
+                              fontSize: 16.sp, color: AppColors.grey70),
+                        ),
                       ),
                     ),
                     Row(
+                      
                       children: [
                         Text(
                           'SAR ${cartModel.productPrice}',
@@ -127,102 +123,232 @@ class CartCardWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    Expanded(child: SizedBox()),
-                    Row(
-                      children: [
-                        Container(
-                          // width: 100.w,
-                          decoration: BoxDecoration(
-                            color: AppColors.greyDE,
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Visibility(
+                      visible: cartModel.isEmbroidery == false,
+                      child: Expanded(
+                        child: SizedBox(),
+                      ),
+                    ),
+                    cartModel.isEmbroidery == false
+                        ? Row(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  if (int.parse(cartModel.quantity!) > 1) {
-                                    cartRead.updateCart(
-                                        CartModel(
-                                          productID: cartModel.productID,
-                                          varientID: cartModel.varientID,
-                                          productPrice: cartModel.productPrice,
-                                          productName: cartModel.productName,
-                                          productImage: cartModel.productImage,
-                                          quantity:
-                                              (int.parse(cartModel.quantity!) -
+                              Container(
+                                // width: 100.w,
+                                decoration: BoxDecoration(
+                                  color: AppColors.greyDE,
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (int.parse(cartModel.quantity!) >
+                                            1) {
+                                          // CartModel tempCartModel = new CartModel();
+                                          // tempCartModel = cartList[cartIndex];
+                                          // tempCartModel.quantity =
+                                          // (int.parse(tempCartModel.quantity!) - 1)
+                                          //     .toString();
+                                          cartRead.updateCart(
+                                              CartModel(
+                                                available: cartModel.available,
+                                                comparePrice:
+                                                    cartModel.comparePrice,
+                                                productImage:
+                                                    cartModel.productImage,
+                                                productId: cartModel.productId,
+                                                productName:
+                                                    cartModel.productName,
+                                                productPrice:
+                                                    cartModel.productPrice,
+                                                quantity: (int.parse(cartModel
+                                                            .quantity!) -
+                                                        1)
+                                                    .toString(),
+                                                sku: cartModel.sku,
+                                                varientId: cartModel.varientId,
+                                                vendor: cartModel.vendor,
+                                                embroideryOptions:
+                                                    cartModel.embroideryOptions,
+                                                isEmbroidery:
+                                                    cartModel.isEmbroidery,
+                                                productColor:
+                                                    cartModel.productColor,
+                                                productSize:
+                                                    cartModel.productSize,
+                                                userId: cartModel.userId,
+                                              ),
+                                              // CartModel(
+                                              //   productColor: cartModel.productId,
+                                              //   varientId: cartModel.varientId,
+                                              //   productPrice: cartModel.productPrice,
+                                              //   productName: cartModel.productName,
+                                              //   productImage: cartModel.productImage,
+                                              //   quantity:
+                                              //       (int.parse(cartModel.quantity!) -
+                                              //               1)
+                                              //           .toString(),
+                                              //   comparePrice: cartModel.comparePrice,
+                                              //   sku: cartModel.sku,
+                                              // ),
+                                              cartIndex);
+                                        }
+                                      },
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: AppColors.grey70,
+                                      ),
+                                    ),
+                                    // IconButton(
+                                    //   onPressed: () {},
+                                    //   icon: Icon(
+                                    //     Icons.remove,
+                                    //     color: AppColors.grey70,
+                                    //   ),
+                                    // ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w),
+                                      child: Text(cartModel.quantity ?? "0"),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // CartModel tempCartModel = new CartModel();
+                                        // tempCartModel = cartList[cartIndex];
+
+                                        // tempCartModel.quantity =
+                                        //     (int.parse(tempCartModel.quantity!) + 1)
+                                        //         .toString();
+                                        // print("===============");
+                                        // print(tempCartModel.toJson());
+                                        // print("===============");
+                                        // print(cartList[cartIndex].toJson());
+                                        // print("===============");
+                                        cartRead.updateCart(
+                                            CartModel(
+                                              available: cartModel.available,
+                                              comparePrice:
+                                                  cartModel.comparePrice,
+                                              productImage:
+                                                  cartModel.productImage,
+                                              productId: cartModel.productId,
+                                              productName:
+                                                  cartModel.productName,
+                                              productPrice:
+                                                  cartModel.productPrice,
+                                              quantity: (int.parse(
+                                                          cartModel.quantity!) +
                                                       1)
                                                   .toString(),
-                                          comparePrice: cartModel.comparePrice,
-                                          sku: cartModel.sku,
-                                        ),
-                                        cartIndex);
-                                  }
-                                },
-                                child: Icon(
-                                  Icons.remove,
-                                  color: AppColors.grey70,
+                                              sku: cartModel.sku,
+                                              varientId: cartModel.varientId,
+                                              vendor: cartModel.vendor,
+                                              embroideryOptions:
+                                                  cartModel.embroideryOptions,
+                                              isEmbroidery:
+                                                  cartModel.isEmbroidery,
+                                              productColor:
+                                                  cartModel.productColor,
+                                              productSize:
+                                                  cartModel.productSize,
+                                              userId: cartModel.userId,
+                                            ),
+
+                                            // CartModel(
+                                            //   productId: cartModel.productId,
+                                            //   varientId: cartModel.varientId,
+                                            //   productPrice: cartModel.productPrice,
+                                            //   productName: cartModel.productName,
+                                            //   productImage: cartModel.productImage,
+                                            //   quantity:
+                                            //       (int.parse(cartModel.quantity!) + 1)
+                                            //           .toString(),
+                                            //   comparePrice: cartModel.comparePrice,
+                                            //   sku: cartModel.sku,
+                                            // ),
+                                            cartIndex);
+                                        // if (count > 1) {
+                                        // ref.read(countProvider.notifier).state =
+                                        //     count + 1;
+                                        // }
+                                      },
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppColors.grey70,
+                                      ),
+                                    )
+                                    // IconButton(
+                                    //   onPressed: () {},
+                                    //   icon: Icon(
+                                    //     Icons.add,
+                                    //     color: AppColors.grey70,
+                                    //   ),
+                                    // )
+                                  ],
                                 ),
                               ),
-                              // IconButton(
-                              //   onPressed: () {},
-                              //   icon: Icon(
-                              //     Icons.remove,
-                              //     color: AppColors.grey70,
+                              // Padding(
+                              //   padding: EdgeInsets.only(left: 18.w),
+                              //   child: Text(
+                              //     'Size: L',
+                              //     style: AppTextStyles.body1.copyWith(
+                              //       fontSize: 16.sp,
+                              //     ),
                               //   ),
                               // ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Text(cartModel.quantity ?? "0"),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  cartRead.updateCart(
-                                      CartModel(
-                                        productID: cartModel.productID,
-                                        varientID: cartModel.varientID,
-                                        productPrice: cartModel.productPrice,
-                                        productName: cartModel.productName,
-                                        productImage: cartModel.productImage,
-                                        quantity:
-                                            (int.parse(cartModel.quantity!) + 1)
-                                                .toString(),
-                                        comparePrice: cartModel.comparePrice,
-                                        sku: cartModel.sku,
-                                      ),
-                                      cartIndex);
-                                  // if (count > 1) {
-                                  // ref.read(countProvider.notifier).state =
-                                  //     count + 1;
-                                  // }
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  color: AppColors.grey70,
-                                ),
-                              )
-                              // IconButton(
-                              //   onPressed: () {},
-                              //   icon: Icon(
-                              //     Icons.add,
-                              //     color: AppColors.grey70,
-                              //   ),
-                              // )
                             ],
-                          ),
-                        ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(left: 18.w),
-                        //   child: Text(
-                        //     'Size: L',
-                        //     style: AppTextStyles.body1.copyWith(
-                        //       fontSize: 16.sp,
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    )
+                          )
+                        : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Text(
+                                "Line 1: ${cartModel.embroideryOptions!.line1}",
+                                style: AppTextStyles.lable3,
+                              ),
+                              Text(
+                                "parentID: ${cartModel.embroideryOptions!.parentId!.split("/").last}",
+                                style: AppTextStyles.lable3,
+                              ),
+                              Visibility(
+                                visible: true,
+                                // cartModel
+                                //     .embroideryOptions!.line2!.isNotEmpty,
+                                child: Text(
+                                  "Line 2: ${cartModel.quantity}",
+                                  // "Line 2: ${cartModel.embroideryOptions!.line2}",
+                                  style: AppTextStyles.lable3,
+                                ),
+                              ),
+                              Visibility(
+                                visible: cartModel.embroideryOptions!.tags!
+                                    .contains("SelectColor"),
+                                child: Text(
+                                  "Color: ${cartModel.embroideryOptions!.color}",
+                                  style: AppTextStyles.lable3,
+                                ),
+                              ),
+                              Visibility(
+                                visible: cartModel.embroideryOptions!.tags!
+                                    .contains("SelectFont"),
+                                child: Text(
+                                  "Font: ${cartModel.embroideryOptions!.font}",
+                                  style: AppTextStyles.lable3,
+                                ),
+                              ),
+                              Visibility(
+                                visible: cartModel.embroideryOptions!.tags!
+                                    .contains("SelectPosition"),
+                                child: Text(
+                                  "Position: ${cartModel.embroideryOptions!.position}",
+                                  style: AppTextStyles.lable3,
+                                ),
+                              ),
+                            ],
+                          )
                   ],
                 ),
               ),

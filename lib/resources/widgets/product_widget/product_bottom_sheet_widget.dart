@@ -213,29 +213,30 @@ class _ProductBottomSheetWidgetState
                     horizontal: 15,
                   ),
                   itemBuilder: (context, index) {
-                    Options singlePro = widget.singleProduct.options[index];
+                    Options singleProOption =
+                        widget.singleProduct.options[index];
 
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        singlePro.name == 'Color'
+                        singleProOption.name == 'Color'
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     // "SELECT COLOR ",
-                                    singlePro.name,
+                                    singleProOption.name,
                                     style: AppTextStyles.headline3.copyWith(
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                   Wrap(
                                     children: [
-                                      ...singlePro.optionValues.map(
+                                      ...singleProOption.optionValues.map(
                                         (e) => ColorPalateWidget(
-                                          optionKey: singlePro.name,
+                                          optionKey: singleProOption.name,
                                           optionValue: e.name,
                                           uniquePageKey: uniquePageKey,
                                         ),
@@ -244,7 +245,7 @@ class _ProductBottomSheetWidgetState
                                   ),
                                 ],
                               )
-                            : singlePro.name == 'Fit'
+                            : singleProOption.name == 'Length'
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 29.h),
                                     child: Column(
@@ -253,7 +254,8 @@ class _ProductBottomSheetWidgetState
                                           children: [
                                             Text(
                                               // "SIZE TYPE  ",
-                                              singlePro.name.toUpperCase(),
+                                              singleProOption.name
+                                                  .toUpperCase(),
                                               style: AppTextStyles.headline3
                                                   .copyWith(
                                                 fontWeight: FontWeight.w700,
@@ -269,21 +271,24 @@ class _ProductBottomSheetWidgetState
                                           child: SizedBox(
                                             height: 29,
                                             child: ListView.builder(
-                                              itemCount:
-                                                  singlePro.optionValues.length,
+                                              itemCount: singleProOption
+                                                  .optionValues.length,
                                               scrollDirection: Axis.horizontal,
                                               itemBuilder: (context, index) {
                                                 OptionValuesModel singleOp =
-                                                    singlePro
+                                                    singleProOption
                                                         .optionValues[index];
                                                 return GestureDetector(
                                                   onTap: () {
-                                                    var temp = optionsWatch;
+                                                    var temp = optionsWatch
+                                                        .selectedOptions;
                                                     temp[temp.indexWhere((e) =>
                                                             e.name ==
-                                                            singlePro.name)] =
+                                                            singleProOption
+                                                                .name)] =
                                                         SelectedOption(
-                                                      name: singlePro.name,
+                                                      name:
+                                                          singleProOption.name,
                                                       value: singleOp.name,
                                                     );
 
@@ -294,9 +299,10 @@ class _ProductBottomSheetWidgetState
                                                     text: singleOp.name,
                                                     isSelected: singleOp.name ==
                                                             optionsWatch
+                                                                .selectedOptions
                                                                 .firstWhere((x) =>
                                                                     x.name ==
-                                                                    singlePro
+                                                                    singleProOption
                                                                         .name)
                                                                 .value
                                                         ? true
@@ -310,7 +316,7 @@ class _ProductBottomSheetWidgetState
                                       ],
                                     ),
                                   )
-                                : singlePro.name == 'Size'
+                                : singleProOption.name == 'Size'
                                     ? Padding(
                                         padding: EdgeInsets.only(top: 29.h),
                                         child: Column(
@@ -326,7 +332,7 @@ class _ProductBottomSheetWidgetState
                                               children: [
                                                 Text(
                                                   // "SIZE",
-                                                  singlePro.name,
+                                                  singleProOption.name,
                                                   style: AppTextStyles.headline3
                                                       .copyWith(
                                                     fontWeight: FontWeight.w700,
@@ -351,17 +357,19 @@ class _ProductBottomSheetWidgetState
                                                   ...
                                                   // AppConstant.sizesList
 
-                                                  singlePro.optionValues.map(
+                                                  singleProOption.optionValues
+                                                      .map(
                                                     (e) => GestureDetector(
                                                       onTap: () {
-                                                        var temp = optionsWatch;
-                                                        temp[temp.indexWhere(
-                                                                (e) =>
-                                                                    e.name ==
-                                                                    singlePro
-                                                                        .name)] =
+                                                        var temp = optionsWatch
+                                                            .selectedOptions;
+                                                        temp[temp.indexWhere((e) =>
+                                                                e.name ==
+                                                                singleProOption
+                                                                    .name)] =
                                                             SelectedOption(
-                                                          name: singlePro.name,
+                                                          name: singleProOption
+                                                              .name,
                                                           value: e.name,
                                                         );
 
@@ -372,9 +380,10 @@ class _ProductBottomSheetWidgetState
                                                         text: e.name,
                                                         isSelected: e.name ==
                                                                 optionsWatch
+                                                                    .selectedOptions
                                                                     .firstWhere((x) =>
                                                                         x.name ==
-                                                                        singlePro
+                                                                        singleProOption
                                                                             .name)
                                                                     .value
                                                             ? true
@@ -531,7 +540,7 @@ class _ProductBottomSheetWidgetState
                   // print(jsonEncode(productQuantityModel));
                   // check If item is already in cart or not
                   if (cartList.any((element) {
-                        if (element.varientID == selectedVariant.node.id) {
+                        if (element.varientId == selectedVariant.node.id) {
                           return true;
                         } else {
                           return false;
@@ -548,10 +557,11 @@ class _ProductBottomSheetWidgetState
                         0) {
                       cartRead.addCart(
                         CartModel(
+                          isEmbroidery: false,
                           available: true,
-                          productGraphID: widget.singleProduct.gid,
-                          productID: widget.singleProduct.id,
-                          varientID: selectedVariant.node.id,
+                          // productGraphID: widget.singleProduct.gid,
+                          productColor: widget.singleProduct.id,
+                          varientId: selectedVariant.node.id,
                           productPrice: selectedVariant.node.price.amount,
                           productName:
                               "${widget.singleProduct.title}\n${selectedVariant.node.title}",
@@ -560,6 +570,8 @@ class _ProductBottomSheetWidgetState
                           comparePrice:
                               selectedVariant.node.compareAtPrice?.amount,
                           sku: selectedVariant.node.sku,
+                          productId: widget.singleProduct.id,
+                          vendor: widget.singleProduct.vendor,
                         ),
                       );
                       Fluttertoast.showToast(msg: "Added In Cart");

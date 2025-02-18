@@ -45,18 +45,23 @@ class CheckoutApiClass extends ChangeNotifier {
 
     productList.map((data) {
       listOfMaps.add({
-        'merchandiseId': '"${data.varientID}"',
+        'merchandiseId': '"${data.varientId}"',
         'quantity': data.quantity,
-        'attributes': [
-                {
-                    'key': '"your-key1"',
-                    'value': '"your-value1"'
-                },
-                {
-                    'key': '"your-key2"',
-                    'value': '"your-value2"'
-                }
-            ],
+        'attributes': data.isEmbroidery == false
+            ? []
+            : [
+                {'key': '"parent_id"', 'value': '"${data.embroideryOptions!.parentId}"'},
+                {'key': '"parent_title"', 'value': '"${data.embroideryOptions!.parentTitle}"'},
+                {'key': '"first_line"', 'value': '"${data.embroideryOptions!.line1}"'},
+                if(data.embroideryOptions!.line2 != null && data.embroideryOptions!.line2 != "")
+                {'key': '"second_line"', 'value': '"${data.embroideryOptions!.line2}"'},
+                if(data.embroideryOptions!.color != null && data.embroideryOptions!.color != "" && data.embroideryOptions!.tags!.any((e)=>e == "SelectColor"))
+                {'key': '"selected_color"', 'value': '"${data.embroideryOptions!.color}"'},
+                if(data.embroideryOptions!.font != null && data.embroideryOptions!.font != "" && data.embroideryOptions!.tags!.any((e)=>e == "SelectFont"))
+                {'key': '"selected_font"', 'value': '"${data.embroideryOptions!.font}"'},
+                if(data.embroideryOptions!.position != null && data.embroideryOptions!.line2 != "" && data.embroideryOptions!.tags!.any((e)=>e == "SelectPosition"))
+                {'key': '"selected_position"', 'value': '"${data.embroideryOptions!.position}"'},
+              ],
       });
     }).toList();
     log('listOfMaps === ${listOfMaps.length}');

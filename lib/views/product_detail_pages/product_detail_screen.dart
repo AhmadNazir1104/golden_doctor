@@ -8,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:golden_doctor/models/cart/cart_model.dart';
 import 'package:golden_doctor/models/product_quantity_model.dart/product_quantity_model.dart';
 import 'package:golden_doctor/models/products/product_model.dart';
@@ -112,10 +113,10 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     List<ImagesEdge> imageEdges;
     // ------ create image list if specific color variant------
     imageEdges = widget.singleProduct.images.edges;
-    if (optionsWatch.isNotEmpty) {
+    if (optionsWatch.selectedOptions.isNotEmpty) {
       imageEdges = [
-        ...widget.singleProduct.images.edges
-            .where((e) => e.node.altText == optionsWatch[0].value),
+        ...widget.singleProduct.images.edges.where(
+            (e) => e.node.altText == optionsWatch.selectedOptions[0].value),
         // e.node.altText == selectedVariant.node.selectedOptions[0].value),
       ];
     }
@@ -136,7 +137,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           ? TextDirection.ltr
           : TextDirection.rtl,
       child: Scaffold(
-        body: optionsWatch.isEmpty
+        body: optionsWatch.selectedOptions.isEmpty
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -248,7 +249,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 10,
-                        children: [
+                        children: <Widget>[
                           Text(
                             widget.singleProduct.title,
                             style: AppTextStyles.headline2.copyWith(
@@ -263,224 +264,219 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           ),
                           SizedBox(height: 10.h),
                           // ------- Color Options -------
-
-                          colorOption != null
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          if (colorOption != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "COLOR    ".tr,
-                                          style:
-                                              AppTextStyles.headline3.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        Text(
-                                          optionsWatch[0].value,
-                                          // selectedVariant.node.selectedOptions[0].value,
-                                          style: AppTextStyles.lable3,
-                                        ),
-                                      ],
-                                    ),
-                                    Wrap(
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.center,
-                                      alignment: WrapAlignment.start,
-                                      children: [
-                                        ...colorOption.optionValues.map(
-                                          (e) => ColorPalateWidget(
-                                            optionKey: colorOption.name,
-                                            optionValue: e.name,
-                                            uniquePageKey: uniquePageKey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10.h),
-                                  ],
-                                )
-                              : SizedBox(),
-
-                          // ------- Size Type -------
-                          // widget.singleProduct.options.length > 2
-                          // widget.singleProduct.options.any((e) => e.name == "Fit")
-                          fitOption != null
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "SIZE TYPE    ".tr,
-                                          style:
-                                              AppTextStyles.headline3.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        Text(optionsWatch[1].value,
-                                            style: AppTextStyles.lable3),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 29,
-                                      child: ListView.builder(
-                                        itemCount:
-                                            fitOption.optionValues.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              var temp = optionsWatch;
-                                              temp[temp.indexWhere((x) =>
-                                                      x.name ==
-                                                      fitOption.name)] =
-                                                  SelectedOption(
-                                                name: fitOption.name,
-                                                value: fitOption
-                                                    .optionValues[index].name,
-                                              );
-
-                                              optionsRead.selectOption(temp);
-                                            },
-                                            child: SelectableTextBox(
-                                              text: fitOption.name,
-                                              isSelected: fitOption
-                                                          .optionValues[index]
-                                                          .name ==
-                                                      optionsWatch
-                                                          .firstWhere((x) =>
-                                                              x.name ==
-                                                              fitOption.name)
-                                                          .value
-                                                  ? true
-                                                  : false,
-                                            ),
-                                          );
-                                        },
+                                    Text(
+                                      "COLOR    ".tr,
+                                      style: AppTextStyles.headline3.copyWith(
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    SizedBox(height: 10.h),
+                                    Text(
+                                      optionsWatch.selectedOptions[0].value,
+                                      // selectedVariant.node.selectedOptions[0].value,
+                                      style: AppTextStyles.lable3,
+                                    ),
                                   ],
-                                )
-                              : SizedBox(),
-                          // ------- Size -------
-                          // widget.singleProduct.options.any((e) => e.name == "Size")
-                          sizeOption != null
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "SIZE".tr,
-                                          style:
-                                              AppTextStyles.headline3.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    // title: Text("Size Chart"),
-                                                    content: SizedBox(
-                                                      height: 400.h,
-                                                      child: InAppWebView(
-                                                        initialUrlRequest:
-                                                            URLRequest(
-                                                          url: WebUri(
-                                                              // parameter required
-                                                              // Custumer Id
-                                                              // retailerid
-                                                              // product Handle Id
-                                                              'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/size_recommendation_native.php?retailerid=scrubsershop&customerid=7853285146857&productid=womens-zip-front-warm-up-solid-scrub&lang=${AppConstant.selectedLanguage}'),
-                                                          // 'https://www.primeai2.org/aop/aop_get_cidfromret.php?par0=c2NydWJzZXJzaG9w&par1=Nzg1MzI4NTE0Njg1Nw=='),
-                                                          // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/pai_retailer_min.js'),
-                                                          // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/pai_retailer_min.js'),
-                                                          // ' https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/002-use-widget.js',)
-                                                          // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/size_recommendation_native.php?retailerid=scrubsershop&customerid=7853285146857&productid=8810259284201'),
-                                                        ),
-                                                        onWebViewCreated:
-                                                            (controller) {
-                                                          webViewController =
-                                                              controller;
-                                                        },
-                                                        onLoadStart:
-                                                            (controller, url) {
-                                                          if (kDebugMode) {
-                                                            print(
-                                                                "Started loading: $url");
-                                                          }
-                                                        },
-                                                        onLoadStop: (controller,
-                                                            url) async {
-                                                          if (kDebugMode) {
-                                                            print(
-                                                                "Finished loading: $url");
-                                                          }
-                                                        },
-                                                      ),
-                                                    ),
-                                                  );
-                                                });
-                                          },
-                                          child: Text(
-                                            "What's my size?".tr,
-                                            style:
-                                                AppTextStyles.lable3.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Wrap(
-                                      children: [
-                                        ...sizeOption.optionValues.map(
-                                          (e) => GestureDetector(
-                                            onTap: () {
-                                              var temp = optionsWatch;
-                                              temp[temp.indexWhere((x) =>
-                                                      x.name ==
-                                                      sizeOption.name)] =
-                                                  SelectedOption(
-                                                name: sizeOption.name,
-                                                value: e.name,
-                                              );
-                                              optionsRead.selectOption(temp);
-                                            },
-                                            child: SelectableTextBox(
-                                              text: e.name,
-                                              isSelected: e.name ==
-                                                      optionsWatch
-                                                          .firstWhere((x) =>
-                                                              x.name ==
-                                                              sizeOption.name)
-                                                          .value
-                                                  ? true
-                                                  : false,
-                                              maxWidth: 50.w,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    ...colorOption.optionValues.map(
+                                      (e) => ColorPalateWidget(
+                                        optionKey: colorOption.name,
+                                        optionValue: e.name,
+                                        uniquePageKey: uniquePageKey,
+                                      ),
                                     ),
                                   ],
-                                )
-                              : SizedBox(),
+                                ),
+                                SizedBox(height: 10.h),
+                              ],
+                            )
+                          else
+                            SizedBox(),
+
+                          // ------- Size Type -------
+                          if (fitOption != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${'Length'.tr}    ",
+                                      style: AppTextStyles.headline3.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Text(
+                                        optionsWatch.selectedOptions
+                                            .firstWhere(
+                                                (e) => e.name == "Length")
+                                            .value,
+                                        style: AppTextStyles.lable3),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 29,
+                                  child: ListView.builder(
+                                    itemCount: fitOption.optionValues.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          var temp =
+                                              optionsWatch.selectedOptions;
+                                          temp[temp.indexWhere((x) =>
+                                                  x.name == fitOption.name)] =
+                                              SelectedOption(
+                                            name: fitOption.name,
+                                            value: fitOption
+                                                .optionValues[index].name,
+                                          );
+
+                                          optionsRead.selectOption(temp);
+                                        },
+                                        child: SelectableTextBox(
+                                          text: fitOption
+                                              .optionValues[index].name,
+                                          isSelected: fitOption
+                                                      .optionValues[index]
+                                                      .name ==
+                                                  optionsWatch.selectedOptions
+                                                      .firstWhere((x) =>
+                                                          x.name ==
+                                                          fitOption.name)
+                                                      .value
+                                              ? true
+                                              : false,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 10.h),
+                              ],
+                            )
+                          else
+                            SizedBox(),
+                          // ------- Size -------
+                          if (sizeOption != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "SIZE".tr,
+                                      style: AppTextStyles.headline3.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                // title: Text("Size Chart"),
+                                                content: SizedBox(
+                                                  height: 400.h,
+                                                  child: InAppWebView(
+                                                    initialUrlRequest:
+                                                        URLRequest(
+                                                      url: WebUri(
+                                                          // parameter required
+                                                          // Custumer Id
+                                                          // retailerid
+                                                          // product Handle Id
+                                                          'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/size_recommendation_native.php?retailerid=scrubsershop&customerid=7853285146857&productid=womens-zip-front-warm-up-solid-scrub&lang=${AppConstant.selectedLanguage}'),
+                                                      // 'https://www.primeai2.org/aop/aop_get_cidfromret.php?par0=c2NydWJzZXJzaG9w&par1=Nzg1MzI4NTE0Njg1Nw=='),
+                                                      // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/pai_retailer_min.js'),
+                                                      // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/pai_retailer_min.js'),
+                                                      // ' https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/002-use-widget.js',)
+                                                      // 'https://www.primeai2.org/CUSTOMERS/scrubsershop/mobilewidget/size_recommendation_native.php?retailerid=scrubsershop&customerid=7853285146857&productid=8810259284201'),
+                                                    ),
+                                                    onWebViewCreated:
+                                                        (controller) {
+                                                      webViewController =
+                                                          controller;
+                                                    },
+                                                    onLoadStart:
+                                                        (controller, url) {
+                                                      if (kDebugMode) {
+                                                        print(
+                                                            "Started loading: $url");
+                                                      }
+                                                    },
+                                                    onLoadStop: (controller,
+                                                        url) async {
+                                                      if (kDebugMode) {
+                                                        print(
+                                                            "Finished loading: $url");
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      },
+                                      child: Text(
+                                        "What's my size?".tr,
+                                        style: AppTextStyles.lable3.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Wrap(
+                                  children: [
+                                    ...sizeOption.optionValues.map(
+                                      (e) => GestureDetector(
+                                        onTap: () {
+                                          var temp =
+                                              optionsWatch.selectedOptions;
+                                          temp[temp.indexWhere((x) =>
+                                                  x.name == sizeOption.name)] =
+                                              SelectedOption(
+                                            name: sizeOption.name,
+                                            value: e.name,
+                                          );
+                                          optionsRead.selectOption(temp);
+                                        },
+                                        child: SelectableTextBox(
+                                          text: e.name,
+                                          isSelected: e.name ==
+                                                  optionsWatch.selectedOptions
+                                                      .firstWhere((x) =>
+                                                          x.name ==
+                                                          sizeOption.name)
+                                                      .value
+                                              ? true
+                                              : false,
+                                          maxWidth: 50.w,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          else
+                            SizedBox(),
 
                           // SizedBox(height: 10.h),
-                          Divider(
-                            color: AppColors.greyDE,
-                          ),
+                          Divider(color: AppColors.greyDE),
                           // ------- Price & Add To Cart-------
                           Row(
                             children: [
@@ -508,8 +504,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                     // print(productQuantityModel!.variants!.edges!.length);
                                     // print(jsonEncode(productQuantityModel));
                                     // check If item is already in cart or not
+
                                     if (cartList.any((element) {
-                                          if (element.varientID ==
+                                          if (element.varientId ==
                                               selectedVariant.node.id) {
                                             return true;
                                           } else {
@@ -519,8 +516,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                         false) {
                                       if (kDebugMode) {
                                         print("new item");
-                                        print(
-                                            "${productQuantityModel!.variants!.edges![variantIndex].node!.quantityAvailable}");
                                       }
                                       if (productQuantityModel!
                                               .variants!
@@ -530,11 +525,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                           0) {
                                         cartRead.addCart(
                                           CartModel(
+                                            isEmbroidery: false,
+                                            vendor: widget.singleProduct.vendor,
                                             available: true,
-                                            productGraphID:
-                                                widget.singleProduct.gid,
-                                            productID: widget.singleProduct.id,
-                                            varientID: selectedVariant.node.id,
+                                            // productGraphID:
+                                            //     widget.singleProduct.gid,
+                                            productId: widget.singleProduct.id,
+                                            varientId: selectedVariant.node.id,
                                             productPrice: selectedVariant
                                                 .node.price.amount,
                                             productName:
@@ -547,18 +544,298 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                             sku: selectedVariant.node.sku,
                                           ),
                                         );
+                                        if (optionsWatch.embroideryOptions !=
+                                            null) {
+                                          cartRead.addCart(
+                                              optionsWatch.embroideryOptions!);
+                                        }
                                         Fluttertoast.showToast(
                                             msg: "Added In Cart");
                                       } else {
                                         Fluttertoast.showToast(
-                                            msg: "Out Of Stock");
+                                          msg: "Out Of Stock",
+                                        );
                                       }
                                     } else {
                                       if (kDebugMode) {
                                         print("old item");
                                       }
-                                      Fluttertoast.showToast(
-                                          msg: "Already in Cart");
+                                      // find index of item in cart
+                                      int itemIndexInCart = cartList.indexWhere(
+                                        (element) =>
+                                            element.varientId ==
+                                            selectedVariant.node.id,
+                                      );
+                                      // update quantity of item in cart
+                                      // CartModel tempCartModel = new CartModel();
+                                      // tempCartModel = cartList[itemIndexInCart];
+                                      // tempCartModel.quantity =
+                                      //     (int.parse(tempCartModel.quantity!) +
+                                      //             1)
+                                      //         .toString();
+                                      if ((int.parse(cartList[itemIndexInCart]
+                                                  .quantity!) +
+                                              1) <=
+                                          productQuantityModel!
+                                              .variants!
+                                              .edges![variantIndex]
+                                              .node!
+                                              .quantityAvailable!) {
+                                        cartRead.updateCart(
+                                          CartModel(
+                                            available: cartList[itemIndexInCart]
+                                                .available,
+                                            comparePrice:
+                                                cartList[itemIndexInCart]
+                                                    .comparePrice,
+                                            productImage:
+                                                cartList[itemIndexInCart]
+                                                    .productImage,
+                                            productId: cartList[itemIndexInCart]
+                                                .productId,
+                                            productName:
+                                                cartList[itemIndexInCart]
+                                                    .productName,
+                                            productPrice:
+                                                cartList[itemIndexInCart]
+                                                    .productPrice,
+                                            quantity: (int.parse(cartList[
+                                                            itemIndexInCart]
+                                                        .quantity!) +
+                                                    1)
+                                                .toString(),
+                                            sku: cartList[itemIndexInCart].sku,
+                                            varientId: cartList[itemIndexInCart]
+                                                .varientId,
+                                            vendor: cartList[itemIndexInCart]
+                                                .vendor,
+                                            embroideryOptions:
+                                                cartList[itemIndexInCart]
+                                                    .embroideryOptions,
+                                            isEmbroidery:
+                                                cartList[itemIndexInCart]
+                                                    .isEmbroidery,
+                                            productColor:
+                                                cartList[itemIndexInCart]
+                                                    .productColor,
+                                            productSize:
+                                                cartList[itemIndexInCart]
+                                                    .productSize,
+                                            userId: cartList[itemIndexInCart]
+                                                .userId,
+                                          ),
+                                          itemIndexInCart,
+                                        );
+                                        if (optionsWatch.embroideryOptions !=
+                                            null) {
+                                          // finding index of embroideer in cart list if already  added.
+                                          // if already added then value of embroideryItemIndexInCart will be index of item in cart
+                                          // else value of embroideryItemIndexInCart will be -1
+                                          int embroideryItemIndexInCart = cartList.indexWhere(
+                                              (element) => (element.isEmbroidery == true &&
+                                                  element.varientId ==
+                                                      optionsWatch
+                                                          .embroideryOptions!
+                                                          .varientId &&
+                                                  element.embroideryOptions!.parentId ==
+                                                      selectedVariant.node.id &&
+                                                  element.embroideryOptions!.line1 ==
+                                                      optionsWatch
+                                                          .embroideryOptions!
+                                                          .embroideryOptions!
+                                                          .line1 &&
+                                                  element.embroideryOptions!.line2 ==
+                                                      optionsWatch
+                                                          .embroideryOptions!
+                                                          .embroideryOptions!
+                                                          .line2 &&
+                                                  element.embroideryOptions!.color ==
+                                                      optionsWatch
+                                                          .embroideryOptions!
+                                                          .embroideryOptions!
+                                                          .color &&
+                                                  element.embroideryOptions!.font ==
+                                                      optionsWatch.embroideryOptions!.embroideryOptions!.font &&
+                                                  element.embroideryOptions!.position == optionsWatch.embroideryOptions!.embroideryOptions!.position));
+                                          print(embroideryItemIndexInCart);
+                                          if (embroideryItemIndexInCart != -1) {
+                                            // CartModel tempEmbroideryCartModel =
+                                            //     cartList[
+                                            //         embroideryItemIndexInCart];
+                                            // tempEmbroideryCartModel
+                                            //     .quantity = (int.parse(
+                                            //             tempEmbroideryCartModel
+                                            //                 .quantity!) +
+                                            //         1)
+                                            //     .toString();
+                                            print("old embroidery");
+                                            cartRead.updateCart(
+                                              CartModel(
+                                                available: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .available,
+                                                comparePrice: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .comparePrice,
+                                                productImage: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .productImage,
+                                                productId: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .productId,
+                                                productName: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .productName,
+                                                productPrice: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .productPrice,
+                                                quantity: (int.parse(cartList[
+                                                                embroideryItemIndexInCart]
+                                                            .quantity!) +
+                                                        1)
+                                                    .toString(),
+                                                sku: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .sku,
+                                                varientId: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .varientId,
+                                                vendor: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .vendor,
+                                                embroideryOptions:
+                                                    EmbroideryOptions(
+                                                  line1: cartList[
+                                                          embroideryItemIndexInCart]
+                                                      .embroideryOptions!
+                                                      .line1,
+                                                  line2: cartList[
+                                                          embroideryItemIndexInCart]
+                                                      .embroideryOptions!
+                                                      .line2,
+                                                  color: cartList[
+                                                          embroideryItemIndexInCart]
+                                                      .embroideryOptions!
+                                                      .color,
+                                                  font: cartList[
+                                                          embroideryItemIndexInCart]
+                                                      .embroideryOptions!
+                                                      .font,
+                                                  position: cartList[
+                                                          embroideryItemIndexInCart]
+                                                      .embroideryOptions!
+                                                      .position,
+                                                  parentId:
+                                                      selectedVariant.node.id,
+                                                  tags: cartList[
+                                                          embroideryItemIndexInCart]
+                                                      .embroideryOptions!
+                                                      .tags,
+                                                  parentTitle: selectedVariant
+                                                      .node.title,
+                                                ),
+                                                isEmbroidery: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .isEmbroidery,
+                                                productColor: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .productColor,
+                                                productSize: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .productSize,
+                                                userId: cartList[
+                                                        embroideryItemIndexInCart]
+                                                    .userId,
+                                              ),
+                                              embroideryItemIndexInCart,
+                                            );
+                                          } else {
+                                            print("new embroidery");
+                                            cartRead.addCart(
+                                              CartModel(
+                                                available: true,
+                                                comparePrice: optionsWatch
+                                                    .embroideryOptions!
+                                                    .comparePrice,
+                                                productImage: optionsWatch
+                                                    .embroideryOptions!
+                                                    .productImage,
+                                                productId: optionsWatch
+                                                    .embroideryOptions!
+                                                    .productId,
+                                                productName: optionsWatch
+                                                    .embroideryOptions!
+                                                    .productName,
+                                                productPrice: optionsWatch
+                                                    .embroideryOptions!
+                                                    .productPrice,
+                                                quantity: optionsWatch
+                                                    .embroideryOptions!
+                                                    .quantity,
+                                                sku: optionsWatch
+                                                    .embroideryOptions!.sku,
+                                                varientId: optionsWatch
+                                                    .embroideryOptions!
+                                                    .varientId,
+                                                vendor: optionsWatch
+                                                    .embroideryOptions!.vendor,
+                                                embroideryOptions:
+                                                    EmbroideryOptions(
+                                                  line1: optionsWatch
+                                                      .embroideryOptions!
+                                                      .embroideryOptions!
+                                                      .line1,
+                                                  line2: optionsWatch
+                                                      .embroideryOptions!
+                                                      .embroideryOptions!
+                                                      .line2,
+                                                  color: optionsWatch
+                                                      .embroideryOptions!
+                                                      .embroideryOptions!
+                                                      .color,
+                                                  font: optionsWatch
+                                                      .embroideryOptions!
+                                                      .embroideryOptions!
+                                                      .font,
+                                                  position: optionsWatch
+                                                      .embroideryOptions!
+                                                      .embroideryOptions!
+                                                      .position,
+                                                  parentId:
+                                                      selectedVariant.node.id,
+                                                  tags: optionsWatch
+                                                      .embroideryOptions!
+                                                      .embroideryOptions!
+                                                      .tags,
+                                                  parentTitle: selectedVariant
+                                                      .node.title,
+                                                ),
+                                                isEmbroidery: optionsWatch
+                                                    .embroideryOptions!
+                                                    .isEmbroidery,
+                                                productColor: optionsWatch
+                                                    .embroideryOptions!
+                                                    .productColor,
+                                                productSize: optionsWatch
+                                                    .embroideryOptions!
+                                                    .productSize,
+                                                userId: optionsWatch
+                                                    .embroideryOptions!.userId,
+                                              ),
+                                            );
+                                          }
+                                        }
+                                        Fluttertoast.showToast(
+                                          msg: "Added in cart",
+                                        );
+                                      } else {
+                                        Fluttertoast.showToast(
+                                          msg: "No more Item in Stock",
+                                        );
+                                      }
+                                      // Fluttertoast.showToast(
+                                      //   msg: "Already in Cart",
+                                      // );
                                     }
                                   },
                                   text: 'ADD TO BAG'.tr,
@@ -579,11 +856,58 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           ),
                           // ------- Embroidery -------
 
-                          Visibility(
-                            visible: widget.singleProduct.emborideryMetafield !=
-                                    null &&
-                                widget.singleProduct.emborideryMetafield != "",
-                            child: Column(
+                          if (optionsRead.embroideryOptions == null)
+                            Visibility(
+                              visible: widget
+                                          .singleProduct.emborideryMetafield !=
+                                      null &&
+                                  widget.singleProduct.emborideryMetafield !=
+                                      "",
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "PERSONALIZE".tr,
+                                    style: AppTextStyles.headline3.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      context
+                                          .push("/embroidery_screen", extra: {
+                                        "productID": widget
+                                            .singleProduct.emborideryMetafield,
+                                        "tags": widget.singleProduct.tags,
+                                        "parentId": selectedVariant.node.id,
+                                        "uniquePageKey": uniquePageKey,
+                                      });
+                                    },
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10.h, horizontal: 17.w),
+                                      // margin: EdgeInsets.symmetric(horizontal: 20.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Add Embroidery".tr),
+                                          Text("From 14 SAR".tr),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          else
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "PERSONALIZE".tr,
@@ -591,26 +915,113 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10.h, horizontal: 17.w),
-                                  // margin: EdgeInsets.symmetric(horizontal: 20.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Add Embroidery".tr),
-                                      Text("From 14 SAR".tr),
-                                    ],
-                                  ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 92.w,
+                                      // height: 141.h,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.greyCA,
+                                      ),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fill,
+                                        imageUrl: optionsRead
+                                            .embroideryOptions!.productImage!,
+                                        placeholder: (context, url) => SizedBox(
+                                          width: 92.w,
+                                          height: 141.h,
+                                          child: Center(
+                                            child: Image(
+                                              image: AssetImage(
+                                                AppImages.embroderyImage,
+                                              ),
+                                              width: 92.w,
+                                              height: 141.h,
+                                              opacity:
+                                                  AlwaysStoppedAnimation(0.3),
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Embroidery",
+                                            style: AppTextStyles.body3.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Line 1: ${optionsRead.embroideryOptions!.embroideryOptions!.line1}",
+                                            style: AppTextStyles.lable3,
+                                          ),
+                                          Visibility(
+                                            visible: optionsRead
+                                                .embroideryOptions!
+                                                .embroideryOptions!
+                                                .line2!
+                                                .isNotEmpty,
+                                            child: Text(
+                                              "Line 2: ${optionsRead.embroideryOptions!.embroideryOptions!.line2}",
+                                              style: AppTextStyles.lable3,
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: optionsRead
+                                                .embroideryOptions!
+                                                .embroideryOptions!
+                                                .tags!
+                                                .contains("SelectColor"),
+                                            child: Text(
+                                              "Color: ${optionsRead.embroideryOptions!.embroideryOptions!.color}",
+                                              style: AppTextStyles.lable3,
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: optionsRead
+                                                .embroideryOptions!
+                                                .embroideryOptions!
+                                                .tags!
+                                                .contains("SelectFont"),
+                                            child: Text(
+                                              "Font: ${optionsRead.embroideryOptions!.embroideryOptions!.font}",
+                                              style: AppTextStyles.lable3,
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: optionsRead
+                                                .embroideryOptions!
+                                                .embroideryOptions!
+                                                .tags!
+                                                .contains("SelectPosition"),
+                                            child: Text(
+                                              "Position: ${optionsRead.embroideryOptions!.embroideryOptions!.position}",
+                                              style: AppTextStyles.lable3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        optionsRead.clearEmbroidery();
+                                        // ref.refresh(productDetailsProvider(uniquePageKey));
+                                      },
+                                      icon: Icon(Icons.delete_outline),
+                                    ),
+                                  ],
                                 ),
+                                Divider(color: AppColors.greyDE),
                               ],
                             ),
-                          ),
                           // ------- Expanded tiles -------
                           ExpansionTile(
                             shape: Border(),

@@ -1,69 +1,174 @@
-// import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
+// To parse this JSON data, do
+//
+//     final cartModel = cartModelFromJson(jsonString);
 
-// part 'cart_model.freezed.dart';
+import 'package:hive/hive.dart';
+import 'dart:convert';
+
 part 'cart_model.g.dart';
 
-@HiveType(typeId: 0)
-class CartModel {
-  @HiveField(0)
-  String? productName;
-  @HiveField(1)
-  String? productID;
-  @HiveField(2)
-  String? productGraphID;
-  @HiveField(3)
-  String? productColor;
-  @HiveField(4)
-  String? productSize;
-  @HiveField(5)
-  String? varientID;
-  @HiveField(6)
-  String? productImage;
-  @HiveField(7)
-  String? productPrice;
-  @HiveField(8)
-  String? quantity;
-  @HiveField(9)
-  String? comparePrice;
-  @HiveField(10)
-  String? sku;
-  @HiveField(11)
-  bool? available;
-  @HiveField(12)
-  String? userId;
-  @HiveField(13)
-  String? vendor;
-  CartModel({
-    this.productName,
-    this.productID,
-    this.productGraphID,
-    this.productColor,
-    this.productSize,
-    this.varientID,
-    this.productImage,
-    this.productPrice,
-    this.quantity,
-    this.comparePrice,
-    this.sku,
-    this.available,
-    this.userId,
-    this.vendor,
-  });
 
-  factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
+
+
+CartListModel cartListModelFromJson(String str) => CartListModel.fromJson(json.decode(str));
+
+String cartListModelToJson(CartListModel data) => json.encode(data.toJson());
+
+@HiveType(typeId: 0)
+class CartListModel {
+    @HiveField(0)
+    List<CartModel>? cartList;
+
+    CartListModel({
+        this.cartList,
+    });
+
+    factory CartListModel.fromJson(Map<String, dynamic> json) => CartListModel(
+        cartList: json["cartList"] == null ? [] : List<CartModel>.from(json["cartList"]!.map((x) => CartModel.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "cartList": cartList == null ? [] : List<dynamic>.from(cartList!.map((x) => x.toJson())),
+    };
+}
+
+@HiveType(typeId: 1)
+class CartModel {
+    @HiveField(0)
+    String? productName;
+    @HiveField(1)
+    String? productId;
+    @HiveField(2)
+    String? productColor;
+    @HiveField(3)
+    String? productSize;
+    @HiveField(4)
+    String? varientId;
+    @HiveField(5)
+    String? productImage;
+    @HiveField(6)
+    String? productPrice;
+    @HiveField(7)
+    String? quantity;
+    @HiveField(8)
+    String? comparePrice;
+    @HiveField(9)
+    String? sku;
+    @HiveField(10)
+    bool? available;
+    @HiveField(11)
+    String? userId;
+    @HiveField(12)
+    String? vendor;
+    @HiveField(13)
+    bool? isEmbroidery;
+    @HiveField(14)
+    EmbroideryOptions? embroideryOptions;
+
+    CartModel({
+        this.productName,
+        this.productId,
+        this.productColor,
+        this.productSize,
+        this.varientId,
+        this.productImage,
+        this.productPrice,
+        this.quantity,
+        this.comparePrice,
+        this.sku,
+        this.available,
+        this.userId,
+        this.vendor,
+        this.isEmbroidery,
+        this.embroideryOptions,
+    });
+
+    factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         productName: json["productName"],
-        productID: json["productID"],
+        productId: json["productId"],
         productColor: json["productColor"],
-        productSize: json['productSize'],
-        varientID: json["varientID"],
-        productImage: json['productImage'],
-        productPrice: json['productPrice'],
-        quantity: json['quantity'],
-        comparePrice: json['comparePrice'],
-        sku: json['sku'],
-        available: json['availabe'],
-        userId: json['userId'],
-        vendor: json['vendor'],
-      );
+        productSize: json["productSize"],
+        varientId: json["varientId"],
+        productImage: json["productImage"],
+        productPrice: json["productPrice"],
+        quantity: json["quantity"],
+        comparePrice: json["comparePrice"],
+        sku: json["sku"],
+        available: json["available"],
+        userId: json["userId"],
+        vendor: json["vendor"],
+        isEmbroidery: json["isEmbroidery"],
+        embroideryOptions: json["embroideryOptions"] == null ? null : EmbroideryOptions.fromJson(json["embroideryOptions"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "productName": productName,
+        "productId": productId,
+        "productColor": productColor,
+        "productSize": productSize,
+        "varientId": varientId,
+        "productImage": productImage,
+        "productPrice": productPrice,
+        "quantity": quantity,
+        "comparePrice": comparePrice,
+        "sku": sku,
+        "available": available,
+        "userId": userId,
+        "vendor": vendor,
+        "isEmbroidery": isEmbroidery,
+        "embroideryOptions": embroideryOptions?.toJson(),
+    };
+}
+
+@HiveType(typeId: 2)
+class EmbroideryOptions {
+    @HiveField(0)
+    List<String>? tags;
+    @HiveField(1)
+    String? line1;
+    @HiveField(2)
+    String? line2;
+    @HiveField(3)
+    String? position;
+    @HiveField(4)
+    String? color;
+    @HiveField(5)
+    String? font;
+    @HiveField(6)
+    String? parentId;
+    @HiveField(7)
+    String? parentTitle;
+
+    EmbroideryOptions({
+        this.tags,
+        this.line1,
+        this.line2,
+        this.position,
+        this.color,
+        this.font,
+        this.parentId,
+        this.parentTitle,
+    });
+
+    factory EmbroideryOptions.fromJson(Map<String, dynamic> json) => EmbroideryOptions(
+        tags: json["tags"] == null ? [] : List<String>.from(json["tags"]!.map((x) => x)),
+        line1: json["line1"],
+        line2: json["line2"],
+        position: json["position"],
+        color: json["color"],
+        font: json["font"],
+        parentId: json["parent_id"],
+        parentTitle: json["parent_title"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+        "line1": line1,
+        "line2": line2,
+        "position": position,
+        "color": color,
+        "font": font,
+        "parent_id": parentId,
+        "parent_title": parentTitle,
+    };
 }
