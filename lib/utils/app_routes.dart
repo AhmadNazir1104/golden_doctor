@@ -38,7 +38,13 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/setBuilderScreen',
-      builder: (context, state) => const SetBuilderScreen(),
+      builder: (context, state) {
+        Map<String, dynamic> params = state.extra as Map<String, dynamic>;
+        return SetBuilderScreen(
+          collection1: params["collection1"],
+          collection2: params["collection2"],
+        );
+      },
     ),
     // GoRoute(
     //   path: '/collectionScreen',

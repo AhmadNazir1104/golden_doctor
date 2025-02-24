@@ -9,7 +9,7 @@ import 'package:golden_doctor/models/products/product_model.dart';
 import 'package:golden_doctor/utils/handles.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-// ✅ AutoDisposeChangeNotifierProvider.family Implementation
+// AutoDisposeChangeNotifierProvider.family Implementation
 final productDetailsProvider = ChangeNotifierProvider.autoDispose
     .family<ProductDetailViewModel, String>((ref, uniquePageId) {
   return ProductDetailViewModel(uniquePageId);
@@ -23,13 +23,13 @@ class ProductDetailViewModel extends ChangeNotifier {
 
   ProductDetailViewModel(this.uniquePageId);
 
-  // ✅ Function to update selected options
+  // Function to update selected options
   void selectOption(List<SelectedOption> newOption) {
     selectedOptions = [...newOption];
     notifyListeners();
   }
 
-  // ✅ Function to select a variant based on selected options
+  // Function to select a variant based on selected options
   VariantsEdge selectVariant({required ProductNode purpleNode}) {
     VariantsEdge variantsEdge = purpleNode.variants.edges[0];
 
@@ -48,7 +48,7 @@ class ProductDetailViewModel extends ChangeNotifier {
     return variantsEdge;
   }
 
-  // ✅ Fetch product quantity
+  // Fetch product quantity
   Future<void> productQuentity(BuildContext context, productId) async {
     ApiBaseHelper apiBaseHelper = ApiBaseHelper();
     String body = productQuantityQuery(productId: productId);
@@ -58,7 +58,7 @@ class ProductDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ✅ Fetch products by collection
+  // Fetch products by collection
   Future<List<ProductEdge>?> fetchProducts({String? collectionId}) async {
     if (collectionId == null) return null;
 
@@ -82,7 +82,7 @@ class ProductDetailViewModel extends ChangeNotifier {
     return collectionProducts.collection.products.edges;
   }
 
-  // ✅ Add Embroidery options in state
+  // Add Embroidery options in state
   void addEmbroidery({required CartModel embroideryOptionsArg}) {
     embroideryOptions = CartModel(
       isEmbroidery: true,
@@ -107,7 +107,7 @@ class ProductDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ✅ Clear Embroidery
+  // Clear Embroidery
   void clearEmbroidery() {
     embroideryOptions = null;
     notifyListeners();

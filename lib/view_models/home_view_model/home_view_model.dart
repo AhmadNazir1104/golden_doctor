@@ -41,7 +41,7 @@ class SectionsNotifier extends StateNotifier<AsyncValue<MainResponse?>> {
     }
   }
 
-  // ✅ Fetch products by collection
+  // Fetch products by product ids
   Future<List<ProductNode>?> fetchProducts({String? productIDs}) async {
     if (productIDs == null) return null;
 
@@ -75,7 +75,8 @@ class SectionsNotifier extends StateNotifier<AsyncValue<MainResponse?>> {
     // print(productList.length);
     return productList;
   }
-}
+
+ }
 
 // Create a provider for the SectionsNotifier
 final sectionsProvider =
